@@ -37,7 +37,7 @@ git clone https://github.com/[your-username]/content-creation-system.git
 cd content-creation-system/meta-skills/content-carousel
 cp .env.example .env
 # edit .env: add MAGNIFIC_KEY (get one at magnific.ai) — see docs/quickstart.md
-../../setup-env.sh
+../../setup-env.sh .env MAGNIFIC_KEY
 ```
 
 Then, in Claude Code, open this folder and invoke the skill:
@@ -46,13 +46,15 @@ Then, in Claude Code, open this folder and invoke the skill:
 /content-carousel
 ```
 
+(Claude Code needs to discover the skill first — see docs/quickstart.md for the install step.)
+
 Full walkthrough: [docs/quickstart.md](docs/quickstart.md).
 
 ## How it's organized
 
 - **`meta-skills/`** — one folder per skill, each with its own `SKILL.md`
-  (the dispatch logic), `.env.example`, and `templates/`. Clone only the
-  ones you need.
+  (the dispatch logic), plus `.env.example` and `templates/` where the skill needs them.
+  Clone only the ones you need.
 - **`shared/`** — agents, memory system, wiki engine, and utility code
   every meta-skill imports.
 - **`docs/`** — architecture, how to build your own skill, how to

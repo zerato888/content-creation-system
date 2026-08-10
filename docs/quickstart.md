@@ -35,7 +35,15 @@ see `.env.example` for the alternate key.)
 You should see `✅ MAGNIFIC_KEY is set` and "All required keys present."
 If you see a `❌`, fix the named issue and re-run.
 
-## 4. Generate your first carousel (5-10 min)
+## 4. Make the skill discoverable (1 min)
+
+For Claude Code to find the `/content-carousel` command, either:
+- **Option A (recommended):** Open this folder directly in Claude Code: `File > Open` → select `content-carousel/`
+- **Option B:** Symlink to your project's `.claude/skills/` dir: `ln -s $(pwd) ~/your-project/.claude/skills/content-carousel`
+
+Then Claude Code will detect the local `SKILL.md` and register the skill.
+
+## 5. Generate your first carousel (5-10 min)
 
 Open this folder in Claude Code and run:
 
@@ -53,7 +61,7 @@ The skill picks a route (educational, news, or generic), drafts slide
 copy via the `copywriter` agent, audits it via `creative-director`, and
 generates the images.
 
-## 5. Find your output
+## 6. Find your output
 
 ```bash
 ls outputs/
