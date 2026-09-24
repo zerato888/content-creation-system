@@ -7,7 +7,9 @@
 #           update [--to TAG] | uninstall | status | rollback | service on|off|status | cache-clean | migrate-brands
 $ErrorActionPreference = 'Stop'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
-$candidates = @(@('py', '-3'), @('python'), @('python3'))
+# The python on PATH first (the one the user activated, same as install.sh and `python -m installer`);
+# `py -3` picks the newest installed version, which may be newer than the pinned wheels support.
+$candidates = @(@('python'), @('python3'), @('py', '-3'))
 $exe = $null; $pre = @()
 foreach ($c in $candidates) {
     if (Get-Command $c[0] -ErrorAction SilentlyContinue) {
