@@ -1,0 +1,49 @@
+{
+  "schema": "lut_library_v1",
+  "default_intensity": 0.5,
+  "application_order": [
+    "camera_input_transform",
+    "technical_correction",
+    "creative_lut"
+  ],
+  "luts": [
+    {
+      "id": "cinematic-gold-02",
+      "name": "Cinematic Gold 02",
+      "path": "creative/cinematic-gold-02.cube",
+      "sha256": "c169011b8d7d8a68cb0b6d4fa440090648d84aa2c3ab01386a019bc79d06c472",
+      "size": 16,
+      "default_intensity": 0.5
+    },
+    {
+      "id": "clean",
+      "name": "Clean",
+      "path": "creative/clean.cube",
+      "sha256": "bfe5bdad12efc6c3cddab5c9124401170a2e6fc0d1e9f560f687622fd99eaeec",
+      "size": 16,
+      "default_intensity": 0.5
+    },
+    {
+      "id": "creamy",
+      "name": "Creamy",
+      "path": "creative/creamy.cube",
+      "sha256": "4b4fb41a3e58f897bf8d34d1f94971435d01496396069550c7bd5abebe991fdb",
+      "size": 16,
+      "default_intensity": 0.5
+    },
+    {
+      "id": "film",
+      "name": "Film",
+      "path": "creative/film.cube",
+      "sha256": "1c1d223b9caeb764486194832b8ea68b7616f0276bec14f9dec2ffeecb98f75d",
+      "size": 16,
+      "default_intensity": 0.5
+    }
+  ],
+  "rules": [
+    "Aplicar un solo LUT creativo por video salvo pedido explícito.",
+    "Intensidad por defecto: 0.5.",
+    "Un LUT creativo nunca reemplaza la transformación de entrada de la cámara.",
+    "Elegir comparando el mismo frame y anotar id, hash e intensidad del LUT elegido."
+  ]
+}

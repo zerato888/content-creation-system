@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "brands": [],
+  "toggles": {
+    "vida": true,
+    "agentic": false,
+    "produccion_avanzada": false,
+    "biblioteca": false,
+    "metricas": false,
+    "marcas_extra": false,
+    "subtitulos": false
+  },
+  "vida": {
+    "currency": "USD",
+    "fx_rate": null,
+    "income_goal": null,
+    "habits": [],
+    "fixed_payments": [],
+    "recurring_income": [],
+    "milestones": []
+  },
+  "locale": {
+    "timezone": "UTC",
+    "language": "es",
+    "date_format": "DD/MM/YYYY"
+  },
+  "creator": {
+    "weekly_goal": 3,
+    "grace_days": 1
+  }
+}

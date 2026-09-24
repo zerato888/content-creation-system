@@ -1,0 +1,32 @@
+Copyright (c) 2026 Fabrizio Zerato
+
+This repository uses two licenses, split by kind of material.
+
+1. Code — PolyForm Noncommercial License 1.0.0 (see LICENSE-CODE).
+   Anything that is executed: scripts, installers, engines, hooks, the Content
+   Lab JavaScript/CSS/HTML, JSON schemas and machine-read configuration.
+   Paths: tools/**, engines/**, installer/**, cc/**, tests/**,
+   .github/**, install.sh, install.ps1, catalog.json, catalog.schema.json,
+   and any *.py, *.js, *.mjs, *.ts, *.sh, *.ps1, *.css, *.html file.
+   SPDX: LicenseRef-PolyForm-Noncommercial-1.0.0
+
+2. Content — Creative Commons Attribution-NonCommercial 4.0 International
+   (see LICENSE-CONTENT).
+   Anything read by a person or an AI agent as instructions or knowledge:
+   docs/**, knowledge/**, onboarding/** templates, agents/**, every SKILL.md
+   and other *.md file, presets written as text, prompts and examples.
+   SPDX: CC-BY-NC-4.0
+
+Rule for mixed files: anything executed is code; anything read as
+instructions is content.
+
+Third-party components keep their own licenses and are not covered by the
+licenses above (see NOTICE).
+
+Media you produce with this kit (videos, images, audio, text) are yours and
+are not covered by these licenses, subject to the terms of any third-party
+engine or service you use to make them.
+
+Commercial use of this kit or its content (selling, sublicensing,
+redistributing it as part of a paid product, or internal use by a company for
+commercial work) requires prior written permission from the copyright holder.

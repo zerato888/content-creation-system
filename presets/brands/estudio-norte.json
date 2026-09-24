@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "name": "Estudio Norte",
+  "handle": "@estudionorte",
+  "language": "es",
+  "voice": {
+    "tone": "claro, directo, curioso; explica sin exagerar",
+    "person": "second",
+    "avoid": ["promesas absolutas", "jerga sin explicar", "mayúsculas para gritar"]
+  },
+  "colors": {
+    "background": "#0F1B2D",
+    "surface": "#172A45",
+    "text": "#F2EFE9",
+    "muted": "#9AA8BC",
+    "accent": "#F2B134",
+    "accent_2": "#4FB3A9"
+  },
+  "fonts": {
+    "display": "Bebas Neue",
+    "body": "Inter",
+    "serif": "Instrument Serif",
+    "mono": "JetBrains Mono",
+    "condensed": "Anton"
+  },
+  "logo_text": "ESTUDIO NORTE",
+  "cta": "Seguinos para más",
+  "source_label": "Fuente:"
+}

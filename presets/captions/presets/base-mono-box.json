@@ -1,0 +1,37 @@
+{
+  "name": "base-mono-box",
+  "version": 1,
+  "kind": "base",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "mono",
+      "size_frac": 0.0189,
+      "weight": "regular",
+      "case": "upper"
+    },
+    "emphasized": {
+      "font_slot": "mono",
+      "size_frac": 0.0189,
+      "weight": "regular",
+      "case": "upper"
+    }
+  },
+  "layout": {
+    "max_lines": 1,
+    "max_words_per_line": 3,
+    "alignment": "center",
+    "margin_l_frac": 0.08,
+    "margin_v_frac": 0.12,
+    "safe_zone_frac": 0.12
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  },
+  "background_box": {
+    "color": "&H00000000",
+    "text_color": "&H00FFFFFF",
+    "padding": 14
+  }
+}

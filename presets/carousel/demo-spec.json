@@ -1,0 +1,13 @@
+{
+  "title": "Por qué sube el precio del café",
+  "kicker": "Explicado",
+  "slides": [
+    {"type": "cover", "title": "El café se volvió caro. ¿Por qué?", "highlight": "caro", "subtitle": "Tres causas en un minuto"},
+    {"type": "headline", "label": "Causa 1", "title": "Menos cosecha", "highlight": "cosecha", "text": "Un clima más seco redujo la producción en varias regiones cafeteras."},
+    {"type": "body", "label": "Causa 2", "text": "El transporte marítimo encareció fletes y seguros, y ese costo llega a la góndola.", "highlight": "fletes"},
+    {"type": "stat", "label": "Dato", "value": "+38%", "text": "suba estimada del precio mayorista en un año (cifra ilustrativa)"},
+    {"type": "quote", "quote": "El precio que ves en la taza refleja todo el viaje del grano.", "author": "Analista de mercados (ejemplo)"},
+    {"type": "source", "text": "Ejemplo ilustrativo. Reemplazá esta línea por tu fuente real."},
+    {"type": "cta", "text": "¿Qué tema explicamos después?", "highlight": "después"}
+  ]
+}

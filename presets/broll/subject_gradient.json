@@ -1,0 +1,16 @@
+{
+  "name": "subject_gradient",
+  "version": 1,
+  "mode": "subject_gradient",
+  "when": "La persona recortada al frente, B-roll detrás con un degradé. Para mantener la cara sin perder el visual.",
+  "inputs": {
+    "a_roll": "ruta al A-roll (persona a cámara), idealmente 9:16",
+    "b_roll": "ruta al B-roll",
+    "start": "segundos, inicio de la ventana de B-roll",
+    "duration": "segundos, duración de la ventana",
+    "fps": "fps de la producción (para convertir tiempos a frames)",
+    "anchor": "opcional: 'canvas' (por defecto) o 'subject'"
+  },
+  "engine": "módulo de composición de B-roll (no incluido en el núcleo)",
+  "notes": "Necesita recorte de sujeto; si el recorte no valida, falla cerrado y no entrega un compuesto roto. Rango probado 15-30 fps."
+}

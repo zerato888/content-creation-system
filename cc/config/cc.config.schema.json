@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "cc.config.schema.json",
+  "title": "Command Center config (.kit-personal/cc.config.json)",
+  "description": "Everything personal lives here, never in code. Every field is optional: missing or invalid fields fall back to defaults.json.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "schema_version": {"type": "integer"},
+    "brands": {"type": "array", "items": {"$ref": "#/$defs/brand"}},
+    "toggles": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "vida": {"type": "boolean"},
+        "agentic": {"type": "boolean"},
+        "produccion_avanzada": {"type": "boolean"},
+        "biblioteca": {"type": "boolean"},
+        "metricas": {"type": "boolean"},
+        "marcas_extra": {"type": "boolean"},
+        "subtitulos": {"type": "boolean"}
+      }
+    },
+    "vida": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "currency": {"type": "string", "pattern": "^[A-Z]{3}$"},
+        "fx_rate": {"type": ["number", "null"]},
+        "income_goal": {"type": ["number", "null"]},
+        "habits": {"type": "array", "items": {"$ref": "#/$defs/habit"}},
+        "fixed_payments": {"type": "array", "items": {"$ref": "#/$defs/payment"}},
+        "recurring_income": {"type": "array", "items": {"$ref": "#/$defs/income"}},
+        "milestones": {"type": "array", "items": {"$ref": "#/$defs/milestone"}}
+      }
+    },
+    "locale": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "timezone": {"type": "string", "pattern": "^(UTC|[A-Za-z_]+(/[A-Za-z0-9_+-]+)+)$"},
+        "language": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+        "date_format": {"enum": ["DD/MM/YYYY", "MM/DD/YYYY", "YYYY-MM-DD"]}
+      }
+    },
+    "creator": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "weekly_goal": {"type": "integer"},
+        "grace_days": {"type": "integer"}
+      }
+    }
+  },
+  "$defs": {
+    "id": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]{0,39}$"},
+    "label": {"type": "string", "minLength": 1, "pattern": "^[^\\u0000-\\u001f]{1,120}$"},
+    "brand": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "name", "task_prefix"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "name": {"$ref": "#/$defs/label"},
+        "task_prefix": {"type": "string", "pattern": "^[A-Z]{2,6}$"},
+        "accent": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"},
+        "logo": {"type": ["string", "null"], "pattern": "^[A-Za-z0-9._-]{1,80}\\.(png|jpg|jpeg|svg|webp)$"},
+        "kind": {"enum": ["brand", "personal-brand"]},
+        "metrics": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "provider": {"enum": ["none", "metricool", "zernio"]},
+            "account": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "blog_id": {"type": "string", "pattern": "^[0-9]{1,20}$"},
+                "user_id": {"type": "string", "pattern": "^[0-9]{1,20}$"},
+                "account_id": {"type": "string", "pattern": "^[A-Za-z0-9_-]{1,64}$"},
+                "handle": {"type": "string", "pattern": "^@?[A-Za-z0-9._]{1,40}$"}
+              }
+            }
+          }
+        }
+      }
+    },
+    "habit": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/label"},
+        "weekdays": {"type": "array", "uniqueItems": true, "items": {"type": "integer", "enum": [0, 1, 2, 3, 4, 5, 6]}}
+      }
+    },
+    "payment": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "amount"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/label"},
+        "amount": {"type": "number"},
+        "day": {"type": ["integer", "null"], "minimum": 1, "maximum": 31}
+      }
+    },
+    "income": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label", "amount"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/label"},
+        "amount": {"type": "number"}
+      }
+    },
+    "milestone": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "label"],
+      "properties": {
+        "id": {"$ref": "#/$defs/id"},
+        "label": {"$ref": "#/$defs/label"}
+      }
+    }
+  }
+}

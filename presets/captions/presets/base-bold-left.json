@@ -1,0 +1,32 @@
+{
+  "name": "base-bold-left",
+  "version": 1,
+  "kind": "base",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "sans",
+      "size_frac": 0.027,
+      "weight": "bold",
+      "case": "keep"
+    },
+    "emphasized": {
+      "font_slot": "sans",
+      "size_frac": 0.027,
+      "weight": "bold",
+      "case": "keep"
+    }
+  },
+  "layout": {
+    "max_lines": 2,
+    "max_words_per_line": 4,
+    "alignment": "left",
+    "margin_l_frac": 0.1,
+    "margin_v_frac": 0.16,
+    "safe_zone_frac": 0.12
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  }
+}

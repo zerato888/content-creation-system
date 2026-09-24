@@ -1,0 +1,33 @@
+{
+  "name": "hook-condensed",
+  "version": 1,
+  "kind": "hook",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "sans",
+      "size_frac": 0.0177,
+      "weight": "regular",
+      "case": "lower"
+    },
+    "emphasized": {
+      "font_slot": "condensed",
+      "size_frac": 0.0229,
+      "weight": "regular",
+      "case": "upper"
+    }
+  },
+  "layout": {
+    "max_lines": null,
+    "max_words_per_line": 2,
+    "alignment": "center",
+    "margin_l_frac": 0.08,
+    "margin_v_frac": 0.4,
+    "safe_zone_frac": 0.12,
+    "line_count": 2
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  }
+}

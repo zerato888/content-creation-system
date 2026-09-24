@@ -1,0 +1,7 @@
+.kit-personal/
+.env
+__pycache__/
+.kit/
+.kit-prev/
+.kit-journal.json
+.kit.lock

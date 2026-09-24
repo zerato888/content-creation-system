@@ -1,0 +1,35 @@
+{
+  "name": "base-condensed-emphasis-inverted",
+  "version": 1,
+  "kind": "base",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "sans",
+      "size_frac": 0.0225,
+      "weight": "bold",
+      "case": "keep"
+    },
+    "emphasized": {
+      "font_slot": "condensed",
+      "size_frac": 0.0337,
+      "weight": "regular",
+      "case": "upper"
+    }
+  },
+  "layout": {
+    "max_lines": 2,
+    "max_words_per_line": 4,
+    "alignment": "center",
+    "margin_l_frac": 0.08,
+    "margin_v_frac": 0.16,
+    "safe_zone_frac": 0.12,
+    "isolate_roles": [
+      "emphasized"
+    ]
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  }
+}

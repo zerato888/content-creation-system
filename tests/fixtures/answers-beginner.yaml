@@ -1,0 +1,41 @@
+{
+  "path": "guiado",
+  "name": "Ana",
+  "projects": [
+    {
+      "name": "canal de cocina",
+      "description": "Videos cortos de recetas caseras"
+    }
+  ],
+  "goals": [
+    "Publicar 3 videos por semana",
+    "Llegar a 1000 seguidores"
+  ],
+  "audience": "Personas que cocinan en casa y tienen poco tiempo",
+  "languages": [
+    "es"
+  ],
+  "budget": "cero",
+  "services": {
+    "openai": false,
+    "elevenlabs": false
+  },
+  "tools": [
+    "claude",
+    "codex"
+  ],
+  "modules": [],
+  "brands": [],
+  "personal_brand": true,
+  "timezone": "America/Bogota",
+  "vida": {
+    "currency": "COP",
+    "habits": [
+      {
+        "label": "Publicar"
+      }
+    ],
+    "fixed_payments": []
+  },
+  "service": true
+}

@@ -1,0 +1,50 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "brand.schema.json",
+  "title": "Brand tokens",
+  "description": "Brand tokens read by every kit engine. Engines read tolerantly: missing fields take the defaults in engines/brand.py and unknown fields are ignored.",
+  "type": "object",
+  "required": ["schema_version", "name"],
+  "properties": {
+    "schema_version": {"const": 1},
+    "name": {"type": "string", "minLength": 1},
+    "handle": {"type": "string"},
+    "language": {"type": "string", "pattern": "^[a-z]{2}(-[A-Z]{2})?$"},
+    "voice": {
+      "type": "object",
+      "properties": {
+        "tone": {"type": "string"},
+        "person": {"enum": ["first", "second", "third"]},
+        "avoid": {"type": "array", "items": {"type": "string"}}
+      }
+    },
+    "colors": {
+      "type": "object",
+      "properties": {
+        "background": {"$ref": "#/$defs/hex"},
+        "surface": {"$ref": "#/$defs/hex"},
+        "text": {"$ref": "#/$defs/hex"},
+        "muted": {"$ref": "#/$defs/hex"},
+        "accent": {"$ref": "#/$defs/hex"},
+        "accent_2": {"$ref": "#/$defs/hex"}
+      }
+    },
+    "fonts": {
+      "type": "object",
+      "description": "Family names. OFL families ship as a consented download into .kit/fonts/.",
+      "properties": {
+        "display": {"type": "string"},
+        "body": {"type": "string"},
+        "serif": {"type": "string"},
+        "mono": {"type": "string"},
+        "condensed": {"type": "string"}
+      }
+    },
+    "logo_text": {"type": "string", "description": "Text wordmark; the kit ships no logo images."},
+    "cta": {"type": "string"},
+    "source_label": {"type": "string", "description": "Prefix shown before a cited source, e.g. 'Fuente:'."}
+  },
+  "$defs": {
+    "hex": {"type": "string", "pattern": "^#[0-9A-Fa-f]{6}$"}
+  }
+}

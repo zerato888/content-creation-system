@@ -1,0 +1,62 @@
+# Onboarding interview. The agent reads this; engines/onboard_write.py enforces the schema.
+# Order matters. "guiado" explains each question first; "rapido" asks it directly.
+- key: path
+  ask: "¿Querés el camino guiado (te explico cada paso) o el rápido?"
+  options: [guiado, rapido]
+- key: name
+  ask: "¿Cómo querés que te llame?"
+  optional: true
+- key: projects
+  ask: "¿En qué proyectos vas a usar el kit? Un nombre corto y una frase de qué es cada uno."
+  shape: "[{name, description}]"
+- key: goals
+  ask: "¿Qué querés lograr en los próximos 3 meses? (2 a 5 objetivos)"
+- key: audience
+  ask: "¿A quién le hablás? Describí a tu audiencia en una o dos frases."
+- key: languages
+  ask: "¿En qué idiomas publicás? (es, en, pt...)"
+- key: budget
+  ask: "¿Cuánto podés gastar por mes en servicios pagos?"
+  options: [cero, bajo, medio, alto]
+- key: hooks
+  ask: "¿Prendemos dos avisos automáticos seguros? block_sudo (frena comandos con permisos de administrador) y session_start_summary (al empezar, te muestra dónde quedaste). Los dos se pueden apagar después."
+  shape: "[block_sudo, session_start_summary]  (vacío = ninguno)"
+  optional: true
+- key: services
+  ask: "¿Ya tenés cuenta en alguno de estos servicios? Solo sí o no: NUNCA me pases la clave."
+  options: [openai, anthropic, gemini, elevenlabs, apify, higgsfield, freepik, replicate, youtube, github]
+- key: tools
+  ask: "Detecté estas herramientas instaladas: ... ¿Usás esas? (Claude Code, Codex o las dos)"
+  options: [claude, codex]
+  detect: "claude / codex en el PATH; si la persona no dice nada, se omite y el script detecta solo"
+- key: modules
+  ask: "¿Querés sumar algún módulo opcional? Te muestro cuáles están listos y cuáles son 'próximamente'."
+  optional: true
+- key: brands
+  ask: "¿Qué marcas tenés? De cada una: nombre corto, color principal (#RRGGBB), tipografías y tono. Cada marca tiene su pantalla en el Command Center."
+  shape: "[{name, display_name, colors, fonts, tone, task_prefix?, kind?}]"
+  optional: true
+- key: personal_brand
+  ask: "¿Hacés contenido como marca personal (vos mismo frente a cámara)?"
+  options: [true, false]
+- key: vida
+  ask: "Vida Personal: ¿en qué moneda manejás tu plata, cuánto querés ganar por mes, qué hábitos querés seguir (y qué días) y qué pagos fijos tenés? Todo opcional."
+  shape: "{currency, income_goal, fx_rate, habits: [{label, weekdays}], fixed_payments: [{label, amount, day}], recurring_income: [{label, amount}], milestones: [{label}]}"
+  optional: true
+- key: timezone
+  ask: "¿En qué zona horaria vivís? (por ejemplo America/Mexico_City)"
+- key: toggles
+  ask: "¿Qué partes del Command Center prendemos además de lo básico? agentic, produccion_avanzada, biblioteca, metricas, marcas_extra, subtitulos"
+  shape: "{nombre: true/false}"
+  optional: true
+- key: creator
+  ask: "¿Cuántos videos por semana es tu meta? (por defecto 3)"
+  shape: "{weekly_goal, grace_days}"
+  optional: true
+- key: hooks
+  ask: "¿Prendemos dos avisos automáticos seguros? block_sudo (frena comandos con permisos de administrador) y session_start_summary (al empezar, te muestra dónde quedaste). Los dos se pueden apagar después."
+  shape: "[block_sudo, session_start_summary]  (vacío = ninguno)"
+  optional: true
+- key: service
+  ask: "¿Querés que el Command Center quede siempre encendido de fondo? (arranca al iniciar sesión y se quita al desinstalar)"
+  options: [true, false]

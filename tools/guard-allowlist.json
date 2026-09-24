@@ -1,0 +1,12 @@
+{
+  "entries": [
+    {"path": "LICENSE*", "string": "Copyright (c) 2026 Fabrizio Zerato", "reason": "Copyright line required by the licenses."},
+    {"path": "LICENSE-CODE", "string": "Required Notice: Copyright Fabrizio Zerato (https://github.com/zerato888)", "reason": "Required Notice line defined by PolyForm Noncommercial 1.0.0."},
+    {"path": "NOTICE", "string": "Copyright (c) 2026 Fabrizio Zerato", "reason": "Copyright line in the attribution notice."},
+    {"path": "README.md", "string": "zerato888/content-creation-system", "reason": "Public repository URL."},
+    {"path": "NOTICE", "string": "zerato888/content-creation-system", "reason": "Public repository URL."},
+    {"path": "install.sh", "string": "zerato888/content-creation-system", "reason": "Installer clones/updates from the public repository."},
+    {"path": "install.ps1", "string": "zerato888/content-creation-system", "reason": "Installer clones/updates from the public repository."},
+    {"path": "installer/*", "string": "zerato888/content-creation-system", "reason": "Installer code resolves releases of the public repository."}
+  ]
+}

@@ -1,0 +1,92 @@
+{
+  "schema": "caption_library_v1",
+  "engine": "engines/video/captions.py",
+  "font_map": "font-map.default.json",
+  "presets": [
+    {
+      "id": "hook-condensed",
+      "kind": "hook",
+      "path": "presets/hook-condensed.json",
+      "version": 1
+    },
+    {
+      "id": "hook-serif-emphasis",
+      "kind": "hook",
+      "path": "presets/hook-serif-emphasis.json",
+      "version": 1
+    },
+    {
+      "id": "hook-serif-escalation",
+      "kind": "hook",
+      "path": "presets/hook-serif-escalation.json",
+      "version": 1
+    },
+    {
+      "id": "base-bold-box-center",
+      "kind": "base",
+      "path": "presets/base-bold-box-center.json",
+      "version": 1
+    },
+    {
+      "id": "base-bold-left",
+      "kind": "base",
+      "path": "presets/base-bold-left.json",
+      "version": 1
+    },
+    {
+      "id": "base-caps-emphasis",
+      "kind": "base",
+      "path": "presets/base-caps-emphasis.json",
+      "version": 1
+    },
+    {
+      "id": "base-condensed-emphasis",
+      "kind": "base",
+      "path": "presets/base-condensed-emphasis.json",
+      "version": 1
+    },
+    {
+      "id": "base-condensed-emphasis-inverted",
+      "kind": "base",
+      "path": "presets/base-condensed-emphasis-inverted.json",
+      "version": 1
+    },
+    {
+      "id": "base-display-plain",
+      "kind": "base",
+      "path": "presets/base-display-plain.json",
+      "version": 1
+    },
+    {
+      "id": "base-mono-box",
+      "kind": "base",
+      "path": "presets/base-mono-box.json",
+      "version": 1
+    },
+    {
+      "id": "base-serif-accent",
+      "kind": "base",
+      "path": "presets/base-serif-accent.json",
+      "version": 1
+    },
+    {
+      "id": "base-uniform-clean",
+      "kind": "base",
+      "path": "presets/base-uniform-clean.json",
+      "version": 1
+    },
+    {
+      "id": "base-word-box",
+      "kind": "base",
+      "path": "presets/base-word-box.json",
+      "version": 1
+    }
+  ],
+  "rules": [
+    "Cargar siempre vía load_preset()/load_font_map() de engines/video/captions.py: fallan cerrado ante campos faltantes, kind inválido o fuente que no se encuentra.",
+    "Un hook (kind='hook') define layout.max_lines=null: el hook entero es un solo bloque, nunca se corta a la mitad.",
+    "La posición vertical no vive en el preset: se pregunta en cada producción y se pasa con --margin-v-frac.",
+    "Solo fuentes OFL (ver fonts.lock.json). \"color\": \"brand.accent\" toma el acento del brand.json activo.",
+    "Cambiar un preset sube su 'version'."
+  ]
+}

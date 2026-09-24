@@ -1,0 +1,25 @@
+{
+  "version": "0.1.0",
+  "skills": [
+    {"name": "onboard", "category": "setup", "tier": "core", "status": "tested", "role": "planner",
+     "deps": [], "paid_services": [], "network": [], "support": {"claude": true, "codex": true, "windows": true, "mac": true},
+     "smoke": {"argv": ["python", "--version"]}, "files": []},
+    {"name": "demo-hooks", "category": "writing", "tier": "core", "status": "tested", "role": "writer",
+     "deps": [], "paid_services": [], "network": [], "support": {"claude": true, "codex": true, "windows": true, "mac": true},
+     "smoke": {"argv": ["python", "--version"]}, "files": []},
+    {"name": "demo-plan", "category": "planning", "tier": "core", "status": "tested", "role": "planner",
+     "deps": [], "paid_services": [], "network": [], "support": {"claude": true, "codex": true, "windows": true, "mac": true},
+     "smoke": {"argv": ["python", "--version"]}, "files": []},
+    {"name": "demo-extra", "category": "writing", "tier": "module", "status": "tested", "role": "writer",
+     "deps": [], "paid_services": [], "network": [{"service": "example.org", "data": "topic text"}],
+     "support": {"claude": true, "codex": true, "windows": true, "mac": true},
+     "smoke": {"argv": ["python", "--version"]}, "files": []},
+    {"name": "demo-future", "category": "video", "tier": "module", "status": "untested", "role": "planner",
+     "deps": ["ffmpeg"], "paid_services": ["some-api"], "network": [], "support": {"claude": true, "codex": true, "windows": true, "mac": true},
+     "smoke": {"argv": ["python", "--version"]}, "files": []}
+  ],
+  "roles": [
+    {"name": "writer", "description": "Writes short copy.", "skills": ["demo-hooks", "demo-extra"]},
+    {"name": "planner", "description": "Plans the work.", "skills": ["onboard", "demo-plan", "demo-future"]}
+  ]
+}

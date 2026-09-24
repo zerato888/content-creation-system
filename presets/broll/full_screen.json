@@ -1,0 +1,15 @@
+{
+  "name": "full_screen",
+  "version": 1,
+  "mode": "full_screen",
+  "when": "El B-roll tapa todo el cuadro durante la ventana. Para ideas que necesitan toda la atención.",
+  "inputs": {
+    "a_roll": "ruta al A-roll (persona a cámara), idealmente 9:16",
+    "b_roll": "ruta al B-roll",
+    "start": "segundos, inicio de la ventana de B-roll",
+    "duration": "segundos, duración de la ventana",
+    "fps": "fps de la producción (para convertir tiempos a frames)"
+  },
+  "engine": "módulo de composición de B-roll (no incluido en el núcleo)",
+  "notes": "No toca audio ni cortes."
+}

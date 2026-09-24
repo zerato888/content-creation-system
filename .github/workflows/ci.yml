@@ -1,0 +1,156 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  GITLEAKS_VERSION: "8.30.1"
+
+jobs:
+  guard-and-tests:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: macos-latest
+            gitleaks_asset: darwin_arm64.tar.gz
+            gitleaks_sha256: b40ab0ae55c505963e365f271a8d3846efbc170aa17f2607f13df610a9aeb6a5
+          - os: windows-latest
+            gitleaks_asset: windows_x64.zip
+            gitleaks_sha256: d29144deff3a68aa93ced33dddf84b7fdc26070add4aa0f4513094c8332afc4e
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install pinned gitleaks (sha256-verified)
+        run: |
+          set -euo pipefail
+          name="gitleaks_${GITLEAKS_VERSION}_${{ matrix.gitleaks_asset }}"
+          curl -fsSL -o "$RUNNER_TEMP/$name" \
+            "https://github.com/gitleaks/gitleaks/releases/download/v${GITLEAKS_VERSION}/$name"
+          python - "$RUNNER_TEMP/$name" "${{ matrix.gitleaks_sha256 }}" <<'PY'
+          import hashlib, sys
+          got = hashlib.sha256(open(sys.argv[1], "rb").read()).hexdigest()
+          sys.exit(0 if got == sys.argv[2] else f"gitleaks sha256 mismatch: {got}")
+          PY
+          mkdir -p "$RUNNER_TEMP/gitleaks"
+          case "$name" in
+            *.zip) unzip -q "$RUNNER_TEMP/$name" -d "$RUNNER_TEMP/gitleaks" ;;
+            *) tar -xzf "$RUNNER_TEMP/$name" -C "$RUNNER_TEMP/gitleaks" ;;
+          esac
+          echo "$RUNNER_TEMP/gitleaks" >> "$GITHUB_PATH"
+
+      - name: Install test deps
+        run: python -m pip install pytest==8.3.3
+
+      - name: Guard
+        run: python tools/guard.py --repo --require-gitleaks
+
+      - name: Tests
+        run: python -m pytest -q tests/
+
+  installer-e2e:
+    needs: guard-and-tests
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [macos-latest, windows-latest]
+        answers: [answers-beginner.yaml, answers-expert.yaml]
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        shell: bash
+    steps:
+      - name: CRLF checkout on Windows
+        if: runner.os == 'Windows'
+        run: git config --global core.autocrlf true
+
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install test deps
+        run: python -m pip install pytest==8.3.3
+
+      - name: Installer unit and e2e tests (fixture catalog)
+        run: python -m pytest -q tests/test_installer_e2e.py tests/test_installer_onboard.py
+
+      - name: Target path with spaces, non-ASCII and a long name
+        run: |
+          t="$RUNNER_TEMP/proyecto de prueba ñandú/$(printf 'carpeta-muy-larga-%.0s' 1 2 3 4 5 6)"
+          mkdir -p "$t"
+          echo "KIT_TARGET=$t" >> "$GITHUB_ENV"
+
+      - name: Real install (install.sh)
+        if: runner.os != 'Windows'
+        run: ./install.sh install --yes --answers "tests/fixtures/${{ matrix.answers }}" --target "$KIT_TARGET"
+
+      - name: Real install (install.ps1)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 install --yes --answers "tests/fixtures/${{ matrix.answers }}" --target "$env:KIT_TARGET"
+
+      - name: Guard the installed project
+        run: python tools/guard.py --project "$KIT_TARGET"
+
+      - name: Re-install is idempotent
+        run: |
+          before=$(cd "$KIT_TARGET" && find . -type f ! -path ./.kit/install.log -exec python -c "import hashlib,sys;[print(hashlib.sha256(open(p,'rb').read()).hexdigest(),p) for p in sys.argv[1:]]" {} + | sort)
+          python -m installer install --yes --target "$KIT_TARGET" | tee out.txt
+          grep -q "Todo al día" out.txt
+          after=$(cd "$KIT_TARGET" && find . -type f ! -path ./.kit/install.log -exec python -c "import hashlib,sys;[print(hashlib.sha256(open(p,'rb').read()).hexdigest(),p) for p in sys.argv[1:]]" {} + | sort)
+          [ "$before" = "$after" ]
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          PYTHONUTF8: "1"
+
+      - name: Uninstall leaves .kit-personal
+        run: |
+          python -m installer uninstall --yes --target "$KIT_TARGET"
+          test -f "$KIT_TARGET/.kit-personal/profile.md"
+          test ! -f "$KIT_TARGET/.kit/manifest.json"
+        env:
+          PYTHONPATH: ${{ github.workspace }}
+          PYTHONUTF8: "1"
+
+      - name: Missing Python gives a clear message
+        if: runner.os != 'Windows'
+        run: |
+          set +e
+          out=$(env PATH=/usr/bin:/bin ./install.sh status 2>&1); rc=$?
+          echo "$out"
+          # /usr/bin/python3 on the runner is older than 3.11 or absent: either way a clear message, exit 127
+          if [ $rc -ne 0 ]; then [ $rc -eq 127 ] && echo "$out" | grep -q "Python 3.11"; fi
+
+      - name: Missing Python gives a clear message (Windows)
+        if: runner.os == 'Windows'
+        shell: pwsh
+        run: |
+          $env:PATH = "$env:SystemRoot\System32;$env:SystemRoot\System32\WindowsPowerShell\v1.0"
+          $out = & powershell -NoProfile -ExecutionPolicy Bypass -File .\install.ps1 status 2>&1 | Out-String
+          Write-Output $out
+          if ($LASTEXITCODE -ne 127 -or $out -notmatch 'Python 3.11') { exit 1 } else { exit 0 }
+
+      - name: Upload install log on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: install-log-${{ matrix.os }}-${{ matrix.answers }}
+          path: ${{ env.KIT_TARGET }}/.kit/install.log
+          retention-days: 7
+          if-no-files-found: ignore

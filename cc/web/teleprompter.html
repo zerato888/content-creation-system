@@ -1,0 +1,26 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Teleprompter</title>
+  <link rel="stylesheet" href="teleprompter.css">
+</head>
+<body>
+  <div id="progress"></div>
+  <div id="countdown" hidden></div>
+  <div id="stage"><div id="script"></div></div>
+  <div id="controls">
+    <button type="button" id="btn-play">▶ Empezar</button>
+    <button type="button" data-act="reset">⟲ Reiniciar</button>
+    <button type="button" data-act="slower">Más lento</button>
+    <button type="button" data-act="faster">Más rápido</button>
+    <button type="button" data-act="smaller">Letra −</button>
+    <button type="button" data-act="bigger">Letra +</button>
+    <button type="button" data-act="version">Puntos clave</button>
+    <button type="button" data-act="full">⛶ Pantalla completa</button>
+    <span id="info"></span>
+  </div>
+  <script type="module" src="teleprompter.js"></script>
+</body>
+</html>

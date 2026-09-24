@@ -1,0 +1,44 @@
+content-creation-system
+https://github.com/zerato888/content-creation-system
+Copyright (c) 2026 Fabrizio Zerato
+
+This product's own code is licensed under PolyForm Noncommercial 1.0.0
+(LICENSE-CODE) and its content under CC BY-NC 4.0 (LICENSE-CONTENT).
+
+The components below are NOT covered by those licenses. Each keeps its own
+license and terms.
+
+== Vendored in this repository ==
+(none in v0.1 foundation; entries are added here, with the component's
+LICENSE file next to it, when a permissively licensed component is vendored)
+
+== Fetched at install time, from pinned upstream versions (not vendored) ==
+- Inter, Montserrat, Bebas Neue, Instrument Serif, Anton, GFS Didot,
+  JetBrains Mono, Barlow Condensed — SIL Open Font License 1.1. Downloaded
+  with consent and pinned hashes into .kit/fonts/.
+- GSAP — GreenSock / Webflow, GSAP Standard License (non-OSI). Downloaded at
+  install time with its license header intact, only if a module needs it.
+- HyperFrames — HeyGen, Apache License 2.0, https://github.com/heygen-com/hyperframes
+- agent-reach — upstream author, license per upstream.
+- last30days — upstream author, license per upstream.
+- humanizer — upstream author, license per upstream (includes material
+  derived from CC BY-SA sources; never relicensed here).
+- defuddle — upstream author, license per upstream.
+- OpenMontage — upstream project, license per upstream.
+- Remotion — Remotion AG, Remotion License (company tier may require a paid
+  license).
+- ponytail, karpathy-skills, superpowers —
+  optional plugins, installed by the user from upstream, licenses per upstream.
+- Playwright (Microsoft, Apache-2.0) and its browser builds, downloaded from
+  Playwright's official CDN over HTTPS and integrity-checked by Playwright.
+- Whisper (OpenAI, MIT), faster-whisper (SYSTRAN, MIT), OpenCV (Apache-2.0),
+  librosa (ISC) — installed from package indexes with pinned hashes.
+
+== Invoked as external programs (never vendored) ==
+- FFmpeg — LGPL/GPL, installed by the user.
+- git, Python, Node.js — installed by the user.
+
+== Third-party services ==
+Paid APIs and apps (voice, image and video generation, scraping, scheduling,
+Adobe apps, AI coding agents) are used only through the user's own accounts
+and are governed by each vendor's terms of service.

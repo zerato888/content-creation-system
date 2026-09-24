@@ -1,0 +1,88 @@
+{
+  "schema": "font_lock_v2",
+  "note": "Tipografías OFL que el instalador descarga con permiso a .kit/fonts/ (install --fonts) y verifica por sha256. URLs fijadas a un commit (inmutables). 'ui' = interfaz del Command Center (woff2, la sirve /fonts/); 'captions' = subtítulos (ttf, las lee libass). Este repo no contiene archivos de fuentes.",
+  "dest": ".kit/fonts/",
+  "fonts": [
+    {
+      "family": "Sora",
+      "use": "ui",
+      "file": "Sora-Variable.woff2",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/sora-xor/sora-font",
+      "url": "https://raw.githubusercontent.com/sora-xor/sora-font/7f9a9c5d0ccd1c099cfac420aa27133df1c5fdc4/fonts/woff2/Sora%5Bwght%5D.woff2",
+      "sha256": "ab33ad8fceb925a49379a69245892da448b49229c3c97ffb28cc9d74aa95fc36"
+    },
+    {
+      "family": "JetBrains Mono",
+      "use": "ui",
+      "file": "JetBrainsMono-Variable.woff2",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/JetBrains/JetBrainsMono",
+      "url": "https://raw.githubusercontent.com/JetBrains/JetBrainsMono/19371302b95d218af43299bce79ddbddd0bc364d/fonts/webfonts/JetBrainsMono%5Bwght%5D.woff2",
+      "sha256": "31ec365b93e4bad6f202ce23352a56d01ca4462b2afc782ed2cf6fa42ca9ac0e"
+    },
+    {
+      "family": "Inter",
+      "use": "captions",
+      "file": "Inter-Variable.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/inter",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/inter/Inter%5Bopsz,wght%5D.ttf",
+      "sha256": "29160a80ff49ddcab2c97711247e08b1fab27a484a329ce8b813d820dc559031"
+    },
+    {
+      "family": "Montserrat",
+      "use": "captions",
+      "file": "Montserrat-Variable.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/montserrat",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/montserrat/Montserrat%5Bwght%5D.ttf",
+      "sha256": "0f7b311b2f3279e4eef9b2f968bcdbab6e28f4daeb1f049f4f278a902bcd82f7"
+    },
+    {
+      "family": "Bebas Neue",
+      "use": "captions",
+      "file": "BebasNeue-Regular.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/bebasneue",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/bebasneue/BebasNeue-Regular.ttf",
+      "sha256": "08e4623805102d819f58601e46e345648846075e363b2ceb23313c2d1c83ec73"
+    },
+    {
+      "family": "Instrument Serif",
+      "use": "captions",
+      "file": "InstrumentSerif-Regular.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/instrumentserif",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/instrumentserif/InstrumentSerif-Regular.ttf",
+      "sha256": "498efd461f6ddfcb7a111bf9a565709d2085d48201d501ead960d93e84ffbb88"
+    },
+    {
+      "family": "Anton",
+      "use": "captions",
+      "file": "Anton-Regular.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/anton",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/anton/Anton-Regular.ttf",
+      "sha256": "a4ba3a92350ebb031da0cb47630ac49eb265082ca1bc0450442f4a83ab947cab"
+    },
+    {
+      "family": "GFS Didot",
+      "use": "captions",
+      "file": "GFSDidot-Regular.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/gfsdidot",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/gfsdidot/GFSDidot-Regular.ttf",
+      "sha256": "4fc784ab824e8866eeef8ad55976b93e7e170fb1b8237fd4f8781b5b4dd297f9"
+    },
+    {
+      "family": "JetBrains Mono",
+      "use": "captions",
+      "file": "JetBrainsMono-Variable.ttf",
+      "license": "OFL-1.1",
+      "upstream": "https://github.com/google/fonts/tree/main/ofl/jetbrainsmono",
+      "url": "https://raw.githubusercontent.com/google/fonts/23e54b51ddffbc7713c583748e3bd86f62b1fa4a/ofl/jetbrainsmono/JetBrainsMono%5Bwght%5D.ttf",
+      "sha256": "48715a42ec242c21e9f02692891e147d022299a52e48d5e413e1a942193ffeda"
+    }
+  ]
+}

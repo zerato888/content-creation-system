@@ -1,0 +1,189 @@
+{
+  "schema_version": 1,
+  "language": "es",
+  "principles": {
+    "three_layers": "Curiosidad + giro + promesa de valor en la misma frase.",
+    "say_the_topic": "El hook dice de qué trata la pieza; no retrasa el tema.",
+    "viewer_is_subject": "El espectador es el protagonista de la frase, no el autor.",
+    "selection": {
+      "no_sabe_que_tiene_el_problema": [
+        "identificacion-dolor",
+        "error-comun",
+        "pregunta-si-no"
+      ],
+      "sabe_del_problema": [
+        "controversia",
+        "creencia-invertida",
+        "transformacion"
+      ],
+      "busca_solucion": [
+        "lista",
+        "autoridad",
+        "especificidad"
+      ],
+      "ya_conoce_la_marca": [
+        "historia",
+        "comparacion",
+        "urgencia"
+      ]
+    }
+  },
+  "categories": [
+    {
+      "id": "curiosidad",
+      "name": "Curiosidad",
+      "emotion": "curiosidad",
+      "templates": [
+        "Lo que nadie te explica de {tema} es {giro}.",
+        "Hay una razón por la que {resultado} y no es {causa obvia}."
+      ],
+      "examples": [
+        "Lo que nadie te explica de ahorrar es que el problema no es cuánto ganás."
+      ]
+    },
+    {
+      "id": "controversia",
+      "name": "Controversia",
+      "emotion": "bronca",
+      "templates": [
+        "{Consejo popular} te está haciendo perder {cosa}.",
+        "Dejá de {hábito común}."
+      ],
+      "examples": [
+        "Levantarte a las 5 de la mañana no te está haciendo más productivo."
+      ]
+    },
+    {
+      "id": "creencia-invertida",
+      "name": "Creencia invertida",
+      "emotion": "sorpresa",
+      "templates": [
+        "Te dijeron que {creencia}. Es al revés.",
+        "{Creencia} no es el problema. {Verdad} sí."
+      ],
+      "examples": [
+        "Te dijeron que necesitás más motivación. Es al revés: necesitás menos opciones."
+      ]
+    },
+    {
+      "id": "identificacion-dolor",
+      "name": "Identificación y dolor",
+      "emotion": "reconocimiento",
+      "templates": [
+        "Si {situación que el público vive}, esto es para vos.",
+        "Ese momento en que {dolor concreto}."
+      ],
+      "examples": [
+        "Si abrís el celular para una cosa y a los veinte minutos no sabés qué buscabas, esto es para vos."
+      ]
+    },
+    {
+      "id": "error-comun",
+      "name": "Error común",
+      "emotion": "vergüenza",
+      "templates": [
+        "El error que comete casi todo el que {actividad}.",
+        "Estás {haciendo X} mal, y no es tu culpa."
+      ],
+      "examples": [
+        "El error que comete casi todo el que empieza a correr: salir demasiado rápido."
+      ]
+    },
+    {
+      "id": "transformacion",
+      "name": "Transformación",
+      "emotion": "esperanza",
+      "templates": [
+        "De {estado inicial} a {estado final} con un solo cambio.",
+        "Así se ve {resultado} después de {tiempo}."
+      ],
+      "examples": [
+        "De no poder leer diez páginas a terminar un libro por semana, con un solo cambio."
+      ]
+    },
+    {
+      "id": "autoridad",
+      "name": "Autoridad",
+      "emotion": "confianza",
+      "templates": [
+        "Después de {experiencia concreta}, esto es lo único que funciona.",
+        "{Número} {casos} me enseñaron esto."
+      ],
+      "examples": [
+        "Después de revisar trescientos currículums, esto es lo único que me hace seguir leyendo."
+      ]
+    },
+    {
+      "id": "lista",
+      "name": "Lista",
+      "emotion": "curiosidad",
+      "templates": [
+        "{N} cosas que {resultado} y nadie te cuenta.",
+        "{N} señales de que {situación}."
+      ],
+      "examples": [
+        "Tres señales de que tu planta tiene demasiada agua, no poca."
+      ]
+    },
+    {
+      "id": "especificidad",
+      "name": "Especificidad sobre exageración",
+      "emotion": "confianza",
+      "templates": [
+        "{Número exacto} {unidad} para {resultado concreto}.",
+        "Lo que cambió en {plazo exacto}."
+      ],
+      "examples": [
+        "Catorce minutos por día para ordenar una casa entera en un mes."
+      ]
+    },
+    {
+      "id": "comparacion",
+      "name": "Comparación",
+      "emotion": "curiosidad",
+      "templates": [
+        "{A} contra {B}: cuál conviene de verdad.",
+        "Lo que hace {grupo A} y no hace {grupo B}."
+      ],
+      "examples": [
+        "Alquilar contra comprar: la cuenta que casi nadie hace completa."
+      ]
+    },
+    {
+      "id": "historia",
+      "name": "Historia",
+      "emotion": "empatía",
+      "templates": [
+        "{Momento concreto} fue cuando entendí {lección}.",
+        "Nadie esperaba que {personaje} {hecho}."
+      ],
+      "examples": [
+        "La noche que se cortó la luz en pleno cierre fue cuando entendí para qué sirven las copias."
+      ]
+    },
+    {
+      "id": "urgencia",
+      "name": "Urgencia",
+      "emotion": "miedo",
+      "templates": [
+        "Antes de {acción próxima}, mirá esto.",
+        "Si {fecha o evento} te agarra sin {cosa}, {consecuencia}."
+      ],
+      "examples": [
+        "Antes de firmar tu próximo contrato de alquiler, mirá esta cláusula."
+      ]
+    },
+    {
+      "id": "pregunta-si-no",
+      "name": "Pregunta de sí o no",
+      "emotion": "reconocimiento",
+      "templates": [
+        "¿Te pasa que {situación}?",
+        "¿Sabías que {dato}?"
+      ],
+      "examples": [
+        "¿Te pasa que ves una serie entera y no te acordás de qué trataba?"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "schema": "caption_font_map_v1",
+  "brand": "default",
+  "slots": {
+    "sans": "Inter",
+    "sans_alt": "Montserrat",
+    "display": "Bebas Neue",
+    "serif": "Instrument Serif",
+    "condensed": "Anton",
+    "didot": "GFS Didot",
+    "mono": "JetBrains Mono"
+  },
+  "families": {
+    "Inter": {
+      "file_stem": "Inter",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Helvetica Neue",
+        "Arial"
+      ]
+    },
+    "Montserrat": {
+      "file_stem": "Montserrat",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Avenir Next",
+        "Arial"
+      ]
+    },
+    "Bebas Neue": {
+      "file_stem": "BebasNeue",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Impact",
+        "Arial Narrow"
+      ]
+    },
+    "Instrument Serif": {
+      "file_stem": "InstrumentSerif",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Georgia",
+        "Times New Roman"
+      ]
+    },
+    "Anton": {
+      "file_stem": "Anton",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Impact",
+        "Arial Narrow"
+      ]
+    },
+    "GFS Didot": {
+      "file_stem": "GFSDidot",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Didot",
+        "Georgia"
+      ]
+    },
+    "JetBrains Mono": {
+      "file_stem": "JetBrainsMono",
+      "license": "OFL-1.1",
+      "system_fallback": [
+        "Menlo",
+        "Consolas"
+      ]
+    }
+  }
+}

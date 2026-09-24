@@ -1,0 +1,15 @@
+{
+  "name": "split_screen",
+  "version": 1,
+  "mode": "split_screen",
+  "when": "Pantalla partida 50/50: persona arriba, B-roll abajo. Para mostrar algo mientras la persona sigue presente.",
+  "inputs": {
+    "a_roll": "ruta al A-roll (persona a cámara), idealmente 9:16",
+    "b_roll": "ruta al B-roll",
+    "start": "segundos, inicio de la ventana de B-roll",
+    "duration": "segundos, duración de la ventana",
+    "fps": "fps de la producción (para convertir tiempos a frames)"
+  },
+  "engine": "módulo de composición de B-roll (no incluido en el núcleo)",
+  "notes": "Mitades exactas. No toca audio ni cortes."
+}

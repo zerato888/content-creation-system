@@ -1,0 +1,617 @@
+{
+  "version": "0.1.0",
+  "skills": [
+    {
+      "name": "brand-onboarding",
+      "category": "brand-strategy",
+      "tier": "core",
+      "status": "tested",
+      "role": "creative-director",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/brand-onboarding"
+        ]
+      },
+      "files": [
+        "references/questionnaire.md",
+        "references/output_templates.md"
+      ]
+    },
+    {
+      "name": "broll-plan",
+      "category": "content-video",
+      "tier": "core",
+      "status": "tested",
+      "role": "dp-cinematographer",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/broll-plan"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "captions",
+      "category": "content-video",
+      "tier": "core",
+      "status": "tested",
+      "role": "editor-video",
+      "deps": [
+        "python>=3.11",
+        "ffmpeg with libass",
+        "faster-whisper (or whisper.cpp)"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/video/captions.py",
+          "--selftest"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "carousel-news",
+      "category": "content-carousel",
+      "tier": "core",
+      "status": "tested",
+      "role": "creative-director",
+      "deps": [
+        "python>=3.11",
+        "playwright",
+        "chromium (shared kit cache)"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/carousel/carousel.py",
+          "--selftest"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "deep-research",
+      "category": "research",
+      "tier": "core",
+      "status": "tested",
+      "role": "fact-checker",
+      "deps": [
+        "agent-reach (optional)",
+        "defuddle (optional)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "agent-reach",
+          "data": "consultas de búsqueda y URLs pedidas por el usuario, al sitio que las responde"
+        },
+        {
+          "service": "defuddle",
+          "data": "la URL del artículo, al sitio que la aloja"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/deep-research"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "finish-session",
+      "category": "agentic-os",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/finish-session"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "hooks",
+      "category": "brand-strategy",
+      "tier": "core",
+      "status": "tested",
+      "role": "copywriter",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/hooks"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "humanizer",
+      "category": "brand-strategy",
+      "tier": "core",
+      "status": "tested",
+      "role": "copywriter",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/humanizer"
+        ]
+      },
+      "files": [
+        "references/checklist.md"
+      ]
+    },
+    {
+      "name": "idea",
+      "category": "brand-strategy",
+      "tier": "core",
+      "status": "tested",
+      "role": "copywriter",
+      "deps": [
+        "agent-reach (optional)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "agent-reach",
+          "data": "consultas de búsqueda y URLs pedidas por el usuario, al sitio que las responde"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/idea"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "kickoff-lite",
+      "category": "workflow",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/kickoff-lite"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "onboard",
+      "category": "workflow",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/onboard"
+        ]
+      },
+      "files": [
+        "references/actualizar-desinstalar.md"
+      ]
+    },
+    {
+      "name": "reference-clone",
+      "category": "content-video",
+      "tier": "core",
+      "status": "tested",
+      "role": "dp-cinematographer",
+      "deps": [
+        "ffmpeg",
+        "yt-dlp (optional, for URLs)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "yt-dlp",
+          "data": "la URL del video de referencia, al sitio que lo aloja (descarga)"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/reference-clone"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "simple",
+      "category": "agentic-os",
+      "tier": "core",
+      "status": "tested",
+      "role": "copywriter",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/simple"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "story-plan",
+      "category": "content-video",
+      "tier": "core",
+      "status": "tested",
+      "role": "screenwriter",
+      "deps": [
+        "agent-reach (optional)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "agent-reach",
+          "data": "consultas de búsqueda y URLs pedidas por el usuario, al sitio que las responde"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/story-plan"
+        ]
+      },
+      "files": [
+        "references/style-library.md"
+      ]
+    },
+    {
+      "name": "task",
+      "category": "agentic-os",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/task"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "task-checkpoint",
+      "category": "agentic-os",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "skills/task-checkpoint/scripts/checkpoint.py",
+          "--selftest"
+        ]
+      },
+      "files": [
+        "scripts/checkpoint.py"
+      ]
+    },
+    {
+      "name": "web-research",
+      "category": "research",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "agent-reach (optional)",
+        "defuddle (optional)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "agent-reach",
+          "data": "consultas de búsqueda y URLs pedidas por el usuario, al sitio que las responde"
+        },
+        {
+          "service": "defuddle",
+          "data": "la URL del artículo, al sitio que la aloja"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/web-research"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "wiki",
+      "category": "knowledge",
+      "tier": "core",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "agent-reach (optional)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "agent-reach",
+          "data": "consultas de búsqueda y URLs pedidas por el usuario, al sitio que las responde"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/wiki"
+        ]
+      },
+      "files": [
+        "references/schema.md"
+      ]
+    },
+    {
+      "name": "trend-research",
+      "category": "research",
+      "tier": "module",
+      "status": "untested",
+      "role": "strategist",
+      "deps": [
+        "last30days (link-install)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "last30days",
+          "data": "el tema como consulta a Reddit, X, YouTube y buscadores web"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/trend-research"
+        ]
+      },
+      "files": []
+    }
+  ],
+  "roles": [
+    {
+      "name": "copywriter",
+      "description": "Especialista en texto corto publicable. Usar antes de redactar hooks en pantalla, títulos, captions, bios, textos de anuncio o de landing.",
+      "skills": [
+        "hooks",
+        "humanizer",
+        "idea",
+        "simple"
+      ]
+    },
+    {
+      "name": "creative-director",
+      "description": "Guardián de la marca del usuario. Usar antes de cualquier pieza creativa (imagen, video, copy, diseño, motion) para verificar que exista un manual de marca y que la pieza lo cumpla.",
+      "skills": [
+        "brand-onboarding",
+        "carousel-news"
+      ]
+    },
+    {
+      "name": "dp-cinematographer",
+      "description": "Diseño de la imagen. Usar antes de generar o buscar cualquier imagen o video: shot lists, planificación de B-roll, storyboards, dirección de arte y prompts visuales por escena.",
+      "skills": [
+        "broll-plan",
+        "reference-clone"
+      ]
+    },
+    {
+      "name": "editor-video",
+      "description": "Armado y mezcla de video. Usar antes de cortar, poner capas, subtítulos, música o exportar: convierte material aprobado en una pieza terminada y revisada.",
+      "skills": [
+        "captions"
+      ]
+    },
+    {
+      "name": "fact-checker",
+      "description": "Revisión de hechos, separada de la marca. Usar antes de publicar cualquier pieza con cifras, nombres propios, fechas o afirmaciones verificables.",
+      "skills": [
+        "deep-research"
+      ]
+    },
+    {
+      "name": "motion-designer",
+      "description": "Motion graphics en After Effects. Usar para clonar el estilo de una referencia, armar títulos, overlays, transiciones o piezas completas y entregar un proyecto editable. Se instala solo con el módulo de After Effects.",
+      "skills": []
+    },
+    {
+      "name": "screenwriter",
+      "description": "Arquitecto de guiones. Usar antes de escribir cualquier guion de video (corto o largo): hook de los primeros segundos, arco hook → tensión → cierre, estructura y locución.",
+      "skills": [
+        "story-plan"
+      ]
+    },
+    {
+      "name": "social-media-manager",
+      "description": "Distribución y lectura de resultados. Usar para armar calendarios, adaptar una pieza a cada red, programar publicaciones y leer métricas o competidores.",
+      "skills": []
+    },
+    {
+      "name": "strategist",
+      "description": "Socio de pensamiento estratégico. Usar para elegir temas y ángulos, investigar audiencia, evaluar una idea nueva o un cambio de rumbo, y decidir qué conviene producir antes de escribir nada.",
+      "skills": [
+        "onboard",
+        "trend-research",
+        "web-research",
+        "kickoff-lite",
+        "wiki",
+        "task",
+        "task-checkpoint",
+        "finish-session"
+      ]
+    }
+  ]
+}

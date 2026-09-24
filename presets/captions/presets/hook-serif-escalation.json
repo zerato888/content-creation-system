@@ -1,0 +1,54 @@
+{
+  "name": "hook-serif-escalation",
+  "version": 1,
+  "kind": "hook",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "display",
+      "size_frac": 0.06296296296296296,
+      "weight": "bold",
+      "italic": false,
+      "case": "keep"
+    },
+    "strong": {
+      "font_slot": "display",
+      "size_frac": 0.06296296296296296,
+      "weight": "bold",
+      "italic": false,
+      "case": "keep"
+    },
+    "emphasized": {
+      "font_slot": "sans",
+      "size_frac": 0.027777777777777776,
+      "weight": "bold",
+      "italic": true,
+      "case": "lower"
+    }
+  },
+  "layout": {
+    "max_lines": null,
+    "max_words_per_line": 4,
+    "alignment": "center",
+    "margin_l_frac": 0.08,
+    "margin_v_frac": 0.32,
+    "safe_zone_frac": 0.12,
+    "first_line_size_mult": 0.5,
+    "line_count": 3,
+    "line_size_mult": [
+      0.4412,
+      1,
+      0.6618
+    ],
+    "line_spacing_mult": [
+      1.15,
+      1.15,
+      0.9
+    ]
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  },
+  "max_chars_per_line": 24
+}

@@ -1,0 +1,27 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Onboarding answers",
+  "description": "Shape accepted by engines/onboard_write.py (which is the enforcement point). JSON is also valid YAML, so answers files may use either extension.",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "path": {"enum": ["guiado", "rapido"]},
+    "name": {"type": "string"},
+    "projects": {"type": "array", "items": {"type": "object", "additionalProperties": false,
+      "properties": {"name": {"type": "string"}, "description": {"type": "string"}}}},
+    "goals": {"type": "array", "items": {"type": "string"}},
+    "audience": {"type": "string"},
+    "languages": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+    "budget": {"enum": ["cero", "bajo", "medio", "alto"]},
+    "services": {"type": "object", "description": "service name -> true/false. Never a key."},
+    "tools": {"type": "array", "items": {"enum": ["claude", "codex"]}},
+    "modules": {"type": "array", "items": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"}},
+    "brands": {"type": "array", "items": {"type": "object", "additionalProperties": false,
+      "properties": {
+        "name": {"type": "string", "pattern": "^[a-z0-9][a-z0-9-]*$"},
+        "display_name": {"type": "string"},
+        "colors": {"type": "object"},
+        "fonts": {"type": "object"},
+        "tone": {"type": "string"}}}}
+  }
+}

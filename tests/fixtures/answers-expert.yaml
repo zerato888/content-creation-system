@@ -1,0 +1,95 @@
+{
+  "path": "rapido",
+  "name": "Leo",
+  "projects": [
+    {
+      "name": "podcast",
+      "description": "Entrevistas semanales sobre diseño"
+    },
+    {
+      "name": "newsletter",
+      "description": "Resumen quincenal con clips"
+    }
+  ],
+  "goals": [
+    "Recortar 10 clips por episodio",
+    "Automatizar subtítulos"
+  ],
+  "audience": "Diseñadores jóvenes de habla hispana",
+  "languages": [
+    "es",
+    "en"
+  ],
+  "budget": "medio",
+  "services": {
+    "openai": true,
+    "elevenlabs": true,
+    "apify": false
+  },
+  "tools": [
+    "claude",
+    "codex"
+  ],
+  "modules": [
+    "demo-extra",
+    "demo-future"
+  ],
+  "brands": [
+    {
+      "name": "estudio-norte",
+      "display_name": "Estudio Norte",
+      "colors": {
+        "primary": "#1B2A41",
+        "accent": "#F2A541"
+      },
+      "fonts": {
+        "title": "Bebas Neue",
+        "body": "Inter"
+      },
+      "tone": "Directo y cálido",
+      "task_prefix": "NOR",
+      "kind": "brand"
+    }
+  ],
+  "personal_brand": true,
+  "timezone": "America/Mexico_City",
+  "toggles": {
+    "agentic": true,
+    "metricas": false
+  },
+  "vida": {
+    "currency": "MXN",
+    "income_goal": 40000,
+    "habits": [
+      {
+        "label": "Grabar",
+        "weekdays": [
+          0,
+          2,
+          4
+        ]
+      },
+      {
+        "label": "Leer"
+      }
+    ],
+    "fixed_payments": [
+      {
+        "label": "Internet",
+        "amount": 600,
+        "day": 5
+      }
+    ],
+    "recurring_income": [],
+    "milestones": [
+      {
+        "label": "Primer patrocinio"
+      }
+    ]
+  },
+  "creator": {
+    "weekly_goal": 4,
+    "grace_days": 1
+  },
+  "service": false
+}

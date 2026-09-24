@@ -1,0 +1,40 @@
+{
+  "name": "base-caps-emphasis",
+  "version": 1,
+  "kind": "base",
+  "status": "ported",
+  "typography_tokens": {
+    "normal": {
+      "font_slot": "sans",
+      "size_frac": 0.03333333333333333,
+      "weight": "bold",
+      "case": "lower"
+    },
+    "emphasized": {
+      "font_slot": "display",
+      "size_frac": 0.06851851851851852,
+      "weight": "regular",
+      "italic": false,
+      "case": "upper"
+    }
+  },
+  "layout": {
+    "max_lines": 2,
+    "max_words_per_line": 4,
+    "alignment": "center",
+    "margin_l_frac": 0.08,
+    "margin_v_frac": 0.36,
+    "safe_zone_frac": 0.12,
+    "first_line_size_mult": 0.7,
+    "line_spacing_mult": [
+      1.01,
+      1.01,
+      1.15
+    ]
+  },
+  "reveal": {
+    "type": "word_by_word_fade",
+    "fade_ms": 150
+  },
+  "max_chars_per_line": 18
+}
