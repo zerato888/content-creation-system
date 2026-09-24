@@ -65,7 +65,7 @@ def test_shopping_list_tasks_and_area_whitelist(tmp_path):
     assert edited["completed_at"] is None
     with pytest.raises(FileNotFoundError):
         life.complete_task(root, 999)
-    (tmp_path / "tasks-maintenance.lock").write_text("x")
+    (tmp_path / "tasks-maintenance.lock").write_text("x", encoding="utf-8")
     with pytest.raises(RuntimeError):
         life.save_task(root, {"title": "y", "area": life.AREA_SHOPPING})
 

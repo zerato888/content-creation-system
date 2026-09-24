@@ -56,7 +56,7 @@ def test_brand_tokens_applied(tmp_path):
 
 def test_tolerant_brand(tmp_path):
     p = tmp_path / "b.json"
-    p.write_text(json.dumps({"name": "X", "colors": {"accent": "red"}, "extra": 1}))
+    p.write_text(json.dumps({"name": "X", "colors": {"accent": "red"}, "extra": 1}), encoding="utf-8")
     b = brand.load_brand(p)
     assert len(build(DEMO, tmp_path, b)) == len(DEMO["slides"])
 
@@ -65,7 +65,7 @@ def test_image_confinement(tmp_path):
     proj = tmp_path / "proj"
     proj.mkdir()
     (proj / "ok.png").write_bytes(PNG)
-    (proj / "bad.svg").write_text("<svg/>")
+    (proj / "bad.svg").write_text("<svg/>", encoding="utf-8")
     (tmp_path / "out.png").write_bytes(PNG)
     assert carousel.safe_image("ok.png", proj) == (proj / "ok.png").resolve()
     for bad in ["../out.png", str(tmp_path / "out.png"), "bad.svg", "missing.jpg", "https://x/y.jpg"]:

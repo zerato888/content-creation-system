@@ -55,9 +55,9 @@ def test_media_is_confined(tmp_path):
             lab.media_path(root, BRAND, item["id"], name)
     lab.save_item(root, {"id": item["id"]}, BRAND)
     path = tmp_path / "lab" / BRAND / "activos" / f"{item['id']}.json"
-    data = json.loads(path.read_text())
+    data = json.loads(path.read_text(encoding="utf-8"))
     data["final_video"] = {"media_local": "../../../tasks.db"}
-    path.write_text(json.dumps(data))
+    path.write_text(json.dumps(data), encoding="utf-8")
     with pytest.raises(ValueError):
         lab.final_media_path(root, item["id"], BRAND)
     assert lab.list_items(root, BRAND)[0]["final_video"]["available"] is False
@@ -121,7 +121,7 @@ def test_carousel_promise_must_match_slides(tmp_path):
 
 def test_final_files_confined_and_no_playlists(tmp_path):
     (tmp_path / "ok.mp4").write_bytes(b"x")
-    (tmp_path / "list.m3u8").write_text("x")
+    (tmp_path / "list.m3u8").write_text("x", encoding="utf-8")
     assert lab.confined_file(str(tmp_path), "ok.mp4").name == "ok.mp4"
     for raw in ("list.m3u8", "../outside.mp4", "/etc/hosts"):
         with pytest.raises(ValueError):

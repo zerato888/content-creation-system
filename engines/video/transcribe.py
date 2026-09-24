@@ -88,7 +88,7 @@ def ffprobe_argv(src: Path) -> list[str]:
 def probe(media) -> dict:
     """{w,h,fps,dur}; audio-only sources get a 1080x1920 @30 canvas."""
     src = check_media_input(media)
-    info = json.loads(subprocess.run(ffprobe_argv(src), capture_output=True, text=True,
+    info = json.loads(subprocess.run(ffprobe_argv(src), capture_output=True, text=True, encoding="utf-8", errors="replace",
                                      check=True).stdout)
     dur = float(info["format"]["duration"])
     v = next((s for s in info.get("streams", []) if s.get("codec_type") == "video"), None)

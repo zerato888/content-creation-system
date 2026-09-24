@@ -104,24 +104,24 @@ def _font_refs(node):
 
 
 def test_presets_only_reference_locked_fonts():
-    lock = json.loads((REPO / "presets/captions/fonts.lock.json").read_text())
+    lock = json.loads((REPO / "presets/captions/fonts.lock.json").read_text(encoding="utf-8"))
     allowed = {f["family"] for f in lock["fonts"] if f["use"] == "captions"}
     assert set(FONT_MAP["slots"].values()) <= allowed and set(FONT_MAP["families"]) <= allowed
     for f in list(PRESETS) + [REPO / "presets/captions/LIBRARY.json"]:
-        for k, v in _font_refs(json.loads(f.read_text())):
+        for k, v in _font_refs(json.loads(f.read_text(encoding="utf-8"))):
             ok = v in FONT_MAP["slots"] if k == "font_slot" else v in allowed
             assert ok, f"{f.name}: {k}={v}"
 
 
 def test_library_lists_every_preset_and_fonts_lock_is_pinned():
-    lib = json.loads((REPO / "presets/captions/LIBRARY.json").read_text())
+    lib = json.loads((REPO / "presets/captions/LIBRARY.json").read_text(encoding="utf-8"))
     assert sorted(e["id"] for e in lib["presets"]) == sorted(p.stem for p in PRESETS)
-    lock = json.loads((REPO / "presets/captions/fonts.lock.json").read_text())
+    lock = json.loads((REPO / "presets/captions/fonts.lock.json").read_text(encoding="utf-8"))
     caps = [f for f in lock["fonts"] if f["use"] == "captions"]
     ui = [f for f in lock["fonts"] if f["use"] == "ui"]
     assert {f["family"] for f in caps} == OFL
     assert {f["file"] for f in ui} == {"Sora-Variable.woff2", "JetBrainsMono-Variable.woff2"}
-    css = (REPO / "cc/web/styles.css").read_text()
+    css = (REPO / "cc/web/styles.css").read_text(encoding="utf-8")
     for f in lock["fonts"]:
         assert f["license"] == "OFL-1.1" and re.fullmatch(r"[0-9a-f]{64}", f["sha256"]), f["file"]
         # immutable: a 40-hex commit in the URL, never a branch name
@@ -136,10 +136,10 @@ def test_library_lists_every_preset_and_fonts_lock_is_pinned():
 
 def test_load_preset_rejects_bad_input(tmp_path):
     bad = tmp_path / "bad.json"
-    bad.write_text(json.dumps({"name": "x", "kind": "base"}))
+    bad.write_text(json.dumps({"name": "x", "kind": "base"}), encoding="utf-8")
     with pytest.raises(cap.ContractViolation, match="faltan"):
         cap.load_preset(bad)
-    bad.write_text(json.dumps({**base_preset(), "kind": "otro"}))
+    bad.write_text(json.dumps({**base_preset(), "kind": "otro"}), encoding="utf-8")
     with pytest.raises(cap.ContractViolation, match="kind"):
         cap.load_preset(bad)
     with pytest.raises(cap.ContractViolation):
@@ -291,7 +291,7 @@ def test_render_env_sets_fontconfig_file_pointing_at_fonts_dir(tmp_path):
     fonts = tmp_path / "fonts"
     fonts.mkdir()
     env = cap.render_env(tmp_path / "t", fonts)
-    conf = Path(env["FONTCONFIG_FILE"]).read_text()
+    conf = Path(env["FONTCONFIG_FILE"]).read_text(encoding="utf-8")
     assert str(fonts.resolve()) in conf
 
 
@@ -310,7 +310,7 @@ def test_prepare_fonts_dir_kit_or_temp_copy(tmp_path, monkeypatch):
 def test_cmd_render_wires_env_and_argv(tmp_path, monkeypatch):
     wj = tmp_path / "v.captions.json"
     wj.write_text(json.dumps({"schema": "flat_words_v1", "video": {"w": 540, "h": 960, "fps": 30, "dur": 3},
-                              "words": [{"text": "hola", "start": 0, "end": .4}, {"text": "mundo", "start": .5, "end": .9}]}))
+                              "words": [{"text": "hola", "start": 0, "end": .4}, {"text": "mundo", "start": .5, "end": .9}]}), encoding="utf-8")
     monkeypatch.setattr(cap, "ffmpeg_with_libass", lambda: "ffmpeg")
     monkeypatch.setattr(cap.kit_platform, "find_font_file", lambda n: str(tmp_path / "F.ttf"))
     (tmp_path / "F.ttf").write_bytes(b"x")
@@ -318,7 +318,7 @@ def test_cmd_render_wires_env_and_argv(tmp_path, monkeypatch):
     monkeypatch.setattr(cap.subprocess, "run", lambda argv, **k: seen.update(argv=argv, env=k["env"]))
     assert cap.main(["render", str(wj), "--base-preset", "base-bold-left", "--margin-v-frac", "0.2"]) == 0
     assert "FONTCONFIG_FILE" in seen["env"] and "-protocol_whitelist" in seen["argv"]
-    assert (tmp_path / "v.captions.ass").read_text().count("Dialogue:") == 2
+    assert (tmp_path / "v.captions.ass").read_text(encoding="utf-8").count("Dialogue:") == 2
     assert cap.main(["render", str(wj), "--base-preset", "base-bold-left", "--margin-v-frac", "1.5"]) == 2
 
 

@@ -352,7 +352,7 @@ def render(kit, data_root, body):
         out_dir.mkdir(parents=True, exist_ok=True)
         out = _confined(out_dir, Path(video.name).stem + ".captions" + FORMATS[fmt])
         if fmt == "srt":
-            out.write_text(to_srt(blocks), encoding="utf-8")
+            out.write_text(to_srt(blocks), encoding="utf-8", newline="\n")  # same bytes on every OS
             return {"file": out.name, "format": fmt}
         meta = tr.get("video") or eng.probe(video)
         font_map = eng.load_font_map()
@@ -363,7 +363,7 @@ def render(kit, data_root, body):
         ff = eng.ffmpeg_with_libass()
         with tempfile.TemporaryDirectory() as td:
             ass_path = Path(td) / "captions.ass"
-            ass_path.write_text(ass, encoding="utf-8")
+            ass_path.write_text(ass, encoding="utf-8", newline="\n")
             fonts_dir = eng.prepare_fonts_dir(resolved, td)
             argv = (burn_argv(eng, ff, video, ass_path, fonts_dir, out) if fmt == "video" else
                     eng.render_argv(ff, ass_path, fonts_dir, out, width=meta["w"], height=meta["h"],

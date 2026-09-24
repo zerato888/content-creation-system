@@ -83,7 +83,7 @@ def release_sha(src: Path) -> str:
     if not (src / ".git").exists():
         return "local"
     try:
-        r = subprocess.run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, text=True, timeout=20)
+        r = subprocess.run(["git", "-C", str(src), "rev-parse", "HEAD"], capture_output=True, text=True, encoding="utf-8", errors="replace", timeout=20)
     except OSError:
         return "local"
     return r.stdout.strip() if r.returncode == 0 else "local"

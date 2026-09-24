@@ -459,7 +459,7 @@ def probe(path, *entries):
         raise ValueError("ffprobe no está instalado")
     out = subprocess.run([ffprobe, "-v", "error", "-protocol_whitelist", "file,pipe", *entries,
                           "-of", "json", "file:" + str(path)],
-                         capture_output=True, text=True, check=True, timeout=20)
+                         capture_output=True, text=True, encoding="utf-8", errors="replace", check=True, timeout=20)
     return json.loads(out.stdout)
 
 

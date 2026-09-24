@@ -1,6 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Command Center wiring: cc/ copied into .kit, cc.config.json from onboarding, tool detection,
 the running marker, and the always-on service (OS calls mocked in conftest.py)."""
+import datetime as dt
 import json
 import os
 import plistlib
@@ -40,7 +41,9 @@ def test_cc_tree_copied_without_tests(src, proj):
     assert not (proj / ".kit/content-lab").exists()
 
 
-def test_cc_config_from_expert_answers(src, proj):
+def test_cc_config_from_expert_answers(src, proj, monkeypatch):
+    # a known zone loads without warnings whether or not this machine has tzdata (Windows CI)
+    monkeypatch.setattr(ccconfig, "_tz", lambda name: dt.timezone.utc)
     assert run(src, proj, "install", "--answers", str(answers("expert"))) == 0
     raw = load_json(proj / ".kit-personal/cc.config.json")
     assert [(b["id"], b["task_prefix"], b["kind"]) for b in raw["brands"]] == [
@@ -61,7 +64,9 @@ def test_cc_config_from_expert_answers(src, proj):
     ({"creator": {"weekly_goal": "tres"}}, "weekly_goal"),
     ({"service": "si"}, "service"),
 ])
-def test_cc_answers_rejected(tmp_path, patch, msg):
+def test_cc_answers_rejected(tmp_path, patch, msg, monkeypatch):
+    # with a tz database an unknown zone is an error (without one it is only a note)
+    monkeypatch.setattr(ow, "_tz_database", lambda: True)
     a = {**load_json(answers("expert")), **patch}
     with pytest.raises(ow.KitError, match=msg):
         ow.plan(tmp_path, a, tools=["claude"], roles_md="", skills=[])
@@ -160,7 +165,7 @@ def test_install_fonts_reads_the_preset_lock_verifies_hashes_and_skips_todo(tmp_
     good = b"wOF2-good"
     lock.write_text(json.dumps({"fonts": [
         {"file": "Sora-Variable.woff2", "url": "https://example.invalid/a", "sha256": hashlib.sha256(good).hexdigest()},
-        {"file": "Later.ttf", "url": "TODO", "sha256": "TODO-pin"}]}))
+        {"file": "Later.ttf", "url": "TODO", "sha256": "TODO-pin"}]}), encoding="utf-8")
     got = []
     core.install_fonts(tmp_path, lambda url, limit: got.append(url) or good, lambda msg: True, core.Log(tmp_path))
     assert got == ["https://example.invalid/a"]  # the TODO entry is never fetched

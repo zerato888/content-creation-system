@@ -402,7 +402,7 @@ def run_gitleaks(root: Path, files: list[str], repo: bool, require: bool, f: Fin
                                capture_output=True).returncode == 0:
         cmds.append([exe, "git", "--no-banner", "--redact", "--exit-code", "1", str(root)])
     for cmd in cmds:
-        r = subprocess.run(cmd, capture_output=True, text=True)
+        r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
         if r.returncode == 1:
             f.add("secret", "(gitleaks)", None, f"gitleaks {cmd[1]} reported leaks:\n{r.stdout}{r.stderr}")
         elif r.returncode != 0:
@@ -463,7 +463,7 @@ def main(argv: list[str] | None = None) -> int:
 
     if a.repo:
         base = Path(a.root or ".").resolve()
-        r = subprocess.run(["git", "-C", str(base), "rev-parse", "--show-toplevel"], capture_output=True, text=True)
+        r = subprocess.run(["git", "-C", str(base), "rev-parse", "--show-toplevel"], capture_output=True, text=True, encoding="utf-8", errors="replace")
         if r.returncode != 0:
             print(f"guard: not a git repository: {base}", file=sys.stderr)
             return 2

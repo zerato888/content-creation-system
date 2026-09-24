@@ -20,7 +20,7 @@ def test_rejects_urls_and_protocols(bad):
 @pytest.mark.parametrize("name", ["list.m3u8", "list.m3u", "list.ffconcat"])
 def test_rejects_playlist_suffixes(tmp_path, name):
     f = tmp_path / name
-    f.write_text("x")
+    f.write_text("x", encoding="utf-8")
     with pytest.raises(tx.MediaRejected):
         tx.check_media_input(f)
 
@@ -28,7 +28,7 @@ def test_rejects_playlist_suffixes(tmp_path, name):
 @pytest.mark.parametrize("head", ["#EXTM3U\n#EXTINF:1\nhttp://x", "ffconcat version 1.0\nfile a.mp4"])
 def test_rejects_playlist_content_with_media_extension(tmp_path, head):
     f = tmp_path / "trap.mp4"
-    f.write_text(head)
+    f.write_text(head, encoding="utf-8")
     with pytest.raises(tx.MediaRejected):
         tx.check_media_input(f)
 
@@ -153,6 +153,6 @@ def test_group_blocks_pairs_lines_and_breaks_on_pause():
 
 
 def test_no_hardcoded_absolute_paths():
-    src = (REPO / "engines" / "video" / "transcribe.py").read_text()
+    src = (REPO / "engines" / "video" / "transcribe.py").read_text(encoding="utf-8")
     for bad in ("/usr/local/" + "share", "/" + "Users/", "hyper" + "frames", "C:" + "\\\\", "/" + "opt/"):
         assert bad not in src

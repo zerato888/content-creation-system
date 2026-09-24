@@ -113,7 +113,7 @@ def test_links_schema_version_and_maintenance_lock(tmp_path):
         tasks.list_tasks(root, P)
     with sqlite3.connect(tmp_path / "tasks.db") as conn:
         conn.execute("PRAGMA user_version=1")
-    (tmp_path / "tasks-maintenance.lock").write_text("x")
+    (tmp_path / "tasks-maintenance.lock").write_text("x", encoding="utf-8")
     with pytest.raises(RuntimeError, match="maintenance"):
         created(root, "locked")
 
@@ -128,7 +128,7 @@ def test_lock_is_rechecked_after_sqlite_write_access(tmp_path):
     worker.start()
     try:
         threading.Event().wait(0.3)
-        (tmp_path / "tasks-maintenance.lock").write_text("x")
+        (tmp_path / "tasks-maintenance.lock").write_text("x", encoding="utf-8")
         blocker.rollback()
         worker.join(timeout=6)
         assert not worker.is_alive() and errors

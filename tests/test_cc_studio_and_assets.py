@@ -20,7 +20,7 @@ def _clip(tmp_path, name="clip uno.mp4", words=WORDS):
     d.mkdir(parents=True, exist_ok=True)
     (d / name).write_bytes(b"\x00\x00\x00\x18ftypmp42" + b"\x00" * 64)
     (d / f"{name}.captions.json").write_text(json.dumps(
-        {"schema": "flat_words_v1", "words": words, "video": {"w": 1080, "h": 1920, "fps": 30, "dur": 6.0}}))
+        {"schema": "flat_words_v1", "words": words, "video": {"w": 1080, "h": 1920, "fps": 30, "dur": 6.0}}), encoding="utf-8")
     return name
 
 
@@ -60,13 +60,13 @@ def test_toggle_from_ui_writes_config_and_applies_without_restart(server):
     status, _, body = client.post("/api/config/toggle", {"module": "biblioteca", "on": True})
     assert status == 200 and body["config"]["toggles"]["biblioteca"] is True
     assert client.get("/api/library")[0] == 200
-    raw = json.loads((tmp_path / ".kit-personal/cc.config.json").read_text())
+    raw = json.loads((tmp_path / ".kit-personal/cc.config.json").read_text(encoding="utf-8"))
     assert raw["toggles"] == {"biblioteca": True} and raw["brands"] == CONFIG["brands"]  # rest kept
     assert client.post("/api/config/toggle", {"module": "biblioteca", "on": False})[0] == 200
     assert client.get("/api/library")[0] == 404
     for bad in ({"module": "rm -rf", "on": True}, {"module": "vida", "on": "yes"}, {"module": "core", "on": True}):
         assert client.post("/api/config/toggle", bad)[0] == 400, bad
-    (tmp_path / ".kit-personal/cc.config.json").write_text("{broken")
+    (tmp_path / ".kit-personal/cc.config.json").write_text("{broken", encoding="utf-8")
     assert client.post("/api/config/toggle", {"module": "vida", "on": True})[0] == 400  # never clobbers
 
 
@@ -106,7 +106,7 @@ def test_old_script_without_task_code_still_records(server):
     client.login()
     d = tmp_path / ".kit-personal/data/guiones/en_proceso"
     d.mkdir(parents=True)
-    (d / "2026-01-01-viejo.md").write_text('---\ntitulo: "Viejo"\nestado: "en_proceso"\ntask_code: "CAN-99"\n---\n\n## Guion\nhola\n')
+    (d / "2026-01-01-viejo.md").write_text('---\ntitulo: "Viejo"\nestado: "en_proceso"\ntask_code: "CAN-99"\n---\n\n## Guion\nhola\n', encoding="utf-8")
     assert client.get("/api/guiones")[2]["guiones"][0]["task_code"] == "CAN-99"
     assert client.post("/api/creator/recorded", {"file": "2026-01-01-viejo.md", "brand": "canal"})[0] == 200
 
@@ -151,7 +151,7 @@ def test_preview_forces_a_three_line_balanced_hook(server):
     client.login()
     _studio_on(tmp_path)
     _clip(tmp_path)
-    hook = json.loads((REPO_PRESETS / "captions/presets/hook-serif-escalation.json").read_text())
+    hook = json.loads((REPO_PRESETS / "captions/presets/hook-serif-escalation.json").read_text(encoding="utf-8"))
     assert hook["layout"]["line_count"] == 3
     body = {"file": "clip uno.mp4", "format": "preview", "base_preset": "base-uniform-clean", "hook_preset": hook,
             "annotated_text": "[hook]esto es lo que nadie te cuenta[/hook] sobre grabar videos cortos cada semana",
@@ -242,6 +242,6 @@ def test_playlists_are_never_media(server, ext):
     client.login()
     _studio_on(tmp_path)
     (tmp_path / ".kit-personal/data/captions").mkdir(parents=True, exist_ok=True)
-    (tmp_path / f".kit-personal/data/captions/list.{ext}").write_text("#EXTM3U\nfile:///etc/passwd\n")
+    (tmp_path / f".kit-personal/data/captions/list.{ext}").write_text("#EXTM3U\nfile:///etc/passwd\n", encoding="utf-8")
     assert client.get("/api/captions/videos")[2]["videos"] == []
     assert client.post("/api/captions/transcript", {"file": f"list.{ext}"})[0] == 400

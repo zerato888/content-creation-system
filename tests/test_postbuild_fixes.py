@@ -230,10 +230,11 @@ def fake_pip(monkeypatch, fail_when):
     """subprocess.run stand-in: `-m venv` makes a venv dir, pip fails when fail_when(lock text) is true."""
     def fake(argv, check=False, **k):
         if argv[1:3] == ["-m", "venv"]:
-            (Path(argv[3]) / "bin").mkdir(parents=True)
-            (Path(argv[3]) / "bin/python").write_text("")
-            (Path(argv[3]) / "marker").write_text(Path(argv[3]).name)
-        elif "pip" in argv and fail_when(Path(argv[-1]).read_text()):
+            bindir = Path(argv[3]) / ("Scripts" if os.name == "nt" else "bin")
+            bindir.mkdir(parents=True)
+            (bindir / ("python.exe" if os.name == "nt" else "python")).write_text("", encoding="utf-8")
+            (Path(argv[3]) / "marker").write_text(Path(argv[3]).name, encoding="utf-8")
+        elif "pip" in argv and fail_when(Path(argv[-1]).read_text(encoding="utf-8")):
             raise subprocess.CalledProcessError(1, argv)
     spy_run(monkeypatch, fake)
 
@@ -241,25 +242,25 @@ def fake_pip(monkeypatch, fail_when):
 def _v2_with_lock(src, tmp_path, lock):
     v2 = tmp_path / "v2"
     shutil.copytree(src, v2)
-    (v2 / "requirements.lock").write_text(lock, encoding="utf-8")
+    (v2 / "requirements.lock").write_bytes(lock.encode())
     return v2
 
 
 @pytest.mark.parametrize("pip_fails", [False, True])
 def test_f08_update_reconciles_venv_or_rolls_back(src, proj, tmp_path, monkeypatch, pip_fails):
-    (src / "requirements.lock").write_text("demo==1\n", encoding="utf-8")
+    (src / "requirements.lock").write_bytes(b"demo==1\n")
     fake_pip(monkeypatch, lambda text: pip_fails and "demo==2" in text)
     assert run(src, proj, "install") == 0
     stamp = proj / ".kit/venv/.kit-req.sha256"
-    v1 = stamp.read_text().strip()
+    v1 = stamp.read_text(encoding="utf-8").strip()
     net = FakeRelease(_v2_with_lock(src, tmp_path, "demo==2\n"))
     rc = cli.main(["update", "--target", str(proj), "--yes", "--confirm-sha", SHA], net=net)
     lock = (proj / ".kit/requirements.lock").read_text(encoding="utf-8")
     if pip_fails:
-        assert rc == 2 and lock == "demo==1\n" and stamp.read_text().strip() == v1
+        assert rc == 2 and lock == "demo==1\n" and stamp.read_text(encoding="utf-8").strip() == v1
         assert cli.read_manifest(proj)["release"] != SHA
     else:
-        assert rc == 0 and lock == "demo==2\n" and stamp.read_text().strip() == hashlib.sha256(b"demo==2\n").hexdigest()
+        assert rc == 0 and lock == "demo==2\n" and stamp.read_text(encoding="utf-8").strip() == hashlib.sha256(b"demo==2\n").hexdigest()
     assert not (proj / ".kit/venv.old").exists()
 
 
@@ -361,7 +362,7 @@ def test_f12_each_project_has_its_own_cookie(tmp_path):
     a, b = ccapp.App(tmp_path / "a"), ccapp.App(tmp_path / "b")
     assert a.cookie != b.cookie and a.cookie.startswith("cc_session_") and re.fullmatch(r"cc_session_[0-9a-f]{12}", a.cookie)
     (tmp_path / "a/.kit/cc/web").mkdir(parents=True)
-    (tmp_path / "a/.kit/cc/web/index.html").write_text("<!doctype html>")
+    (tmp_path / "a/.kit/cc/web/index.html").write_text("<!doctype html>", encoding="utf-8")
     srv, app = ccapp.make_server(tmp_path / "a")
     threading.Thread(target=srv.serve_forever, daemon=True).start()
     try:
@@ -443,7 +444,7 @@ def test_f17_translation_handoff_names_only_shipped_skills():
 def test_f17_translation_cli_writes_whitelisted_fields(tmp_path, capsys):
     (tmp_path / ".kit-personal").mkdir()
     (tmp_path / ".kit-personal/cc.config.json").write_text(json.dumps(
-        {"brands": [{"id": "canal", "name": "Canal", "task_prefix": "CAN", "kind": "personal-brand"}]}))
+        {"brands": [{"id": "canal", "name": "Canal", "task_prefix": "CAN", "kind": "personal-brand"}]}), encoding="utf-8")
     root = str(tmp_path / ".kit-personal/data")
     item = lab.save_item(root, {"tipo": "reel", "tema": "demo", "transcript_original": "Hello world"}, "canal")
     campos = tmp_path / "t.json"

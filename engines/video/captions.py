@@ -477,7 +477,7 @@ def ffmpeg_with_libass():
     ff = kit_platform.ffmpeg()
     try:
         out = subprocess.run([ff, "-hide_banner", "-h", "filter=subtitles"],
-                             capture_output=True, text=True).stdout
+                             capture_output=True, text=True, encoding="utf-8", errors="replace").stdout
     except OSError:
         out = ""
     if "subtitles" not in out or "Unknown filter" in out:

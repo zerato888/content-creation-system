@@ -126,9 +126,9 @@ def test_hooks_off_by_default_and_never_clobber(tmp_path):
     assert "hooks" not in json.loads(files[".claude/settings.json"]) and ".codex/hooks.json" not in files
     (tmp_path / ".claude").mkdir()
     mine = {"model": "x", "hooks": {"PreToolUse": [{"matcher": "Edit", "hooks": [{"type": "command", "command": "my-lint"}]}]}}
-    (tmp_path / ".claude/settings.json").write_text(json.dumps(mine))
+    (tmp_path / ".claude/settings.json").write_text(json.dumps(mine), encoding="utf-8")
     (tmp_path / ".kit-personal").mkdir()
-    (tmp_path / ".kit-personal/lessons.md").write_text("- mi lección\n")
+    (tmp_path / ".kit-personal/lessons.md").write_text("- mi lección\n", encoding="utf-8")
     files = _plan(tmp_path, ["claude"], ["block_sudo"])
     s = json.loads(files[".claude/settings.json"])
     assert s["model"] == "x" and {"matcher": "Edit", "hooks": [{"type": "command", "command": "my-lint"}]} in s["hooks"]["PreToolUse"]
@@ -148,16 +148,16 @@ def test_install_then_uninstall_removes_kit_hook_entries(tmp_path):
     proj = tmp_path / "proj ñ"
     proj.mkdir()
     (proj / ".claude").mkdir()
-    (proj / ".claude/settings.json").write_text(json.dumps({"hooks": {"Stop": [{"hooks": [{"type": "command", "command": "mine"}]}]}}))
+    (proj / ".claude/settings.json").write_text(json.dumps({"hooks": {"Stop": [{"hooks": [{"type": "command", "command": "mine"}]}]}}), encoding="utf-8")
     ans = tmp_path / "a.json"
-    ans.write_text(json.dumps({**BASE, "tools": ["claude", "codex"], "hooks": ["block_sudo", "knowledge_router"]}))
+    ans.write_text(json.dumps({**BASE, "tools": ["claude", "codex"], "hooks": ["block_sudo", "knowledge_router"]}), encoding="utf-8")
     assert run(src, proj, "install", "--answers", str(ans)) == 0
     assert (proj / ".kit/hooks/block_sudo.py").is_file()
-    assert "block_sudo" in (proj / ".claude/settings.json").read_text() and (proj / ".codex/hooks.json").is_file()
+    assert "block_sudo" in (proj / ".claude/settings.json").read_text(encoding="utf-8") and (proj / ".codex/hooks.json").is_file()
     assert run(src, proj, "uninstall") == 0
-    s = json.loads((proj / ".claude/settings.json").read_text())
+    s = json.loads((proj / ".claude/settings.json").read_text(encoding="utf-8"))
     assert s["hooks"] == {"Stop": [{"hooks": [{"type": "command", "command": "mine"}]}]}
-    assert json.loads((proj / ".codex/hooks.json").read_text()) == {}
+    assert json.loads((proj / ".codex/hooks.json").read_text(encoding="utf-8")) == {}
     assert not (proj / ".kit/hooks").exists()
 
 
@@ -176,7 +176,7 @@ def test_new_skills_need_no_second_tool(name):
     assert entry["tier"] == "core" and entry["status"] == "tested" and entry["support"]["codex"] and entry["support"]["claude"]
     role = next(r for r in cat["roles"] if r["name"] == entry["role"])
     assert name in role["skills"]
-    assert re.search(rf"^skills: \[.*\b{re.escape(name)}\b.*\]$", (REPO / f"agents/{entry['role']}.md").read_text(), re.M)
+    assert re.search(rf"^skills: \[.*\b{re.escape(name)}\b.*\]$", (REPO / f"agents/{entry['role']}.md").read_text(encoding="utf-8"), re.M)
 
 
 def test_checkpoint_script(tmp_path):
@@ -193,7 +193,7 @@ def test_checkpoint_script(tmp_path):
 def test_task_skill_cli_runs_from_project_root(tmp_path):
     (tmp_path / ".kit-personal").mkdir()
     (tmp_path / ".kit-personal/cc.config.json").write_text(json.dumps(
-        {"brands": [{"id": "canal", "name": "Canal", "task_prefix": "CAN", "kind": "personal-brand"}]}))
+        {"brands": [{"id": "canal", "name": "Canal", "task_prefix": "CAN", "kind": "personal-brand"}]}), encoding="utf-8")
     cli = [sys.executable, str(REPO / "cc/server/tasks.py")]
     r = subprocess.run([*cli, "add", "Grabar intro", "--ecosystem", "canal"], cwd=tmp_path, capture_output=True, text=True)
     assert r.returncode == 0 and json.loads(r.stdout)["code"] == "CAN-1", r.stderr

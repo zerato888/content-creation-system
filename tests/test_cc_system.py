@@ -17,17 +17,17 @@ from cc.server import (creator, health, lab, life, metrics_metricool, metrics_ze
 def installed_project(tmp_path):
     (tmp_path / ".claude/skills/hooks").mkdir(parents=True)
     (tmp_path / ".claude/skills/hooks/SKILL.md").write_text(
-        "---\nname: hooks\ndescription: Escribe hooks.\n---\nLee `.kit/knowledge/hooks-storytelling.md`.\n")
+        "---\nname: hooks\ndescription: Escribe hooks.\n---\nLee `.kit/knowledge/hooks-storytelling.md`.\n", encoding="utf-8")
     (tmp_path / ".agents/skills/hooks").mkdir(parents=True)
-    (tmp_path / ".agents/skills/hooks/SKILL.md").write_text("---\nname: hooks\n---\n")
+    (tmp_path / ".agents/skills/hooks/SKILL.md").write_text("---\nname: hooks\n---\n", encoding="utf-8")
     (tmp_path / ".claude/agents").mkdir(parents=True)
     (tmp_path / ".claude/agents/copywriter.md").write_text(
         "---\nname: copywriter\ndescription: Texto corto.\nskills: [hooks, falta]\n---\n"
-        "Ver `.kit/knowledge/hooks-storytelling.md` y `.kit/knowledge/no-existe.md`.\n")
+        "Ver `.kit/knowledge/hooks-storytelling.md` y `.kit/knowledge/no-existe.md`.\n", encoding="utf-8")
     (tmp_path / ".kit/knowledge").mkdir(parents=True)
-    (tmp_path / ".kit/knowledge/hooks-storytelling.md").write_text("# Hooks y relato\nVer [[idea-madre]].\n")
+    (tmp_path / ".kit/knowledge/hooks-storytelling.md").write_text("# Hooks y relato\nVer [[idea-madre]].\n", encoding="utf-8")
     (tmp_path / "wiki").mkdir()
-    (tmp_path / "wiki/idea-madre.md").write_text("---\ntitle: Idea madre\n---\ntexto\n")
+    (tmp_path / "wiki/idea-madre.md").write_text("---\ntitle: Idea madre\n---\ntexto\n", encoding="utf-8")
     return tmp_path
 
 
@@ -56,7 +56,7 @@ def test_index_reads_only_the_installed_kit(tmp_path):
 def test_index_codex_only_roles_and_empty_project(tmp_path):
     assert system_index.build(tmp_path)["agents"] == []
     (tmp_path / ".kit").mkdir()
-    (tmp_path / ".kit/roles.md").write_text("### copywriter\n\nTexto.\n\n### screenwriter\n\nGuiones.\n")
+    (tmp_path / ".kit/roles.md").write_text("### copywriter\n\nTexto.\n\n### screenwriter\n\nGuiones.\n", encoding="utf-8")
     assert [a["label"] for a in system_index.build(tmp_path)["agents"]] == ["copywriter", "screenwriter"]
 
 
@@ -79,7 +79,7 @@ def test_recommendations_are_evidence_based(tmp_path):
     item = lab.save_item(root, {"tipo": "reel", "tema": "vieja"}, "canal")
     old = (dt.datetime.now(dt.timezone.utc) - dt.timedelta(days=9)).isoformat()
     path = tmp_path / "lab/canal/activos" / f"{item['id']}.json"
-    path.write_text(json.dumps({**item, "actualizado": old}))
+    path.write_text(json.dumps({**item, "actualizado": old}), encoding="utf-8")
     kinds = {r["kind"] for r in recommendations.run(root, cfg)["items"]}
     assert "stalled_piece" in kinds and "weekly_goal" in kinds
     today = config.today(cfg)
@@ -97,7 +97,7 @@ def test_health(tmp_path):
     cfg = config.normalize({})
     assert health.collect(str(tmp_path), cfg)["overall"] == "failed"  # no log yet
     (tmp_path / "logs").mkdir()
-    (tmp_path / "logs/server.log").write_text("{}\n")
+    (tmp_path / "logs/server.log").write_text("{}\n", encoding="utf-8")
     assert health.collect(str(tmp_path), cfg)["overall"] == "ok"
     assert health.collect(str(tmp_path), config.normalize({"x": 1}))["overall"] == "degraded"
 

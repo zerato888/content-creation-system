@@ -86,11 +86,11 @@ def test_ordinary_words_pass(tmp_path, capsys, terms, text):
 def test_allowlist_is_exact_string_and_path_scoped(tmp_path, capsys, terms):
     root = make_repo(tmp_path / "a", {"LICENSE": "(c) Acme Corp\n", "docs/x.md": "(c) Acme Corp\n"})
     (root / "tools" / "guard-allowlist.json").write_text(json.dumps({"entries": [
-        {"path": "LICENSE*", "string": "(c) Acme Corp", "reason": "fixture"}]}))
+        {"path": "LICENSE*", "string": "(c) Acme Corp", "reason": "fixture"}]}), encoding="utf-8")
     rc, out = run(root, capsys, "--terms", terms)
     assert rc == 1 and "docs/x.md" in out and "LICENSE" not in out, out
     # Same file, but the term appears outside the exact allowed string.
-    (root / "LICENSE").write_text("(c) Acme Corp\nby acme corp\n")
+    (root / "LICENSE").write_text("(c) Acme Corp\nby acme corp\n", encoding="utf-8")
     rc, out = run(root, capsys, "--terms", terms)
     assert "LICENSE:2" in out, out
 
@@ -103,7 +103,7 @@ def test_shipped_allowlist_is_valid(tmp_path, capsys):
 def test_repo_wide_allowlist_rejected(tmp_path, capsys):
     root = make_repo(tmp_path, {})
     (root / "tools" / "guard-allowlist.json").write_text(json.dumps(
-        {"entries": [{"path": "*", "string": "x", "reason": "y"}]}))
+        {"entries": [{"path": "*", "string": "x", "reason": "y"}]}), encoding="utf-8")
     assert "[allowlist]" in run(root, capsys)[1]
 
 
@@ -242,9 +242,9 @@ def test_project_mode_without_git(tmp_path, capsys):
     (proj / ".kit-personal").mkdir(parents=True)
     (proj / ".kit" / "fonts").mkdir(parents=True)
     (proj / ".kit" / "fonts" / "Inter.woff2").write_bytes(b"wOF2....")  # skipped dir
-    (proj / "CLAUDE.md").write_text("hello\n")
+    (proj / "CLAUDE.md").write_text("hello\n", encoding="utf-8")
     assert guard.main(["--project", str(proj)]) == 0
-    (proj / ".kit-personal" / "profile.md").write_text("home: /" + "Users/me\n")
+    (proj / ".kit-personal" / "profile.md").write_text("home: /" + "Users/me\n", encoding="utf-8")
     assert guard.main(["--project", str(proj)]) == 1
     assert "[abspath]" in capsys.readouterr().out
 

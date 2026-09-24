@@ -166,9 +166,9 @@ def test_lock_nonce_recheck(proj):
     lk = core.Lock(proj, "install", lambda *a, **k: False, core.Log(proj))
     lk.acquire()
     lk.check()
-    data = json.loads((proj / ".kit.lock").read_text())
+    data = json.loads((proj / ".kit.lock").read_text(encoding="utf-8"))
     data["nonce"] = "someone-else"
-    (proj / ".kit.lock").write_text(json.dumps(data))
+    (proj / ".kit.lock").write_text(json.dumps(data), encoding="utf-8")
     with pytest.raises(core.LockLost):
         lk.check()
 
