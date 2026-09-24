@@ -110,6 +110,8 @@ jobs:
 
       - name: Re-install is idempotent
         run: |
+          # a live Command Center (beginner answers turn the service on) blocks reinstall by design
+          python -m installer service off --yes --target "$KIT_TARGET"
           before=$(cd "$KIT_TARGET" && find . -type f ! -path ./.kit/install.log -exec python -c "import hashlib,sys;[print(hashlib.sha256(open(p,'rb').read()).hexdigest(),p) for p in sys.argv[1:]]" {} + | sort)
           python -m installer install --yes --target "$KIT_TARGET" | tee out.txt
           grep -q "Todo al día" out.txt
