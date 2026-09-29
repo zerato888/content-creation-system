@@ -6,7 +6,10 @@ from pathlib import Path
 import pytest
 
 REPO = Path(__file__).resolve().parents[1]
-DOCS = sorted([*(REPO / "agents").glob("*.md"), *(REPO / "knowledge").glob("*.md")])
+DOCS = sorted([*(REPO / "agents").glob("*.md"), *(REPO / "knowledge").glob("*.md"),
+                *(REPO / "knowledge").glob("guion/*.md"), *(REPO / "knowledge").glob("estrategia/*.md"),
+                *(REPO / "knowledge").glob("visual/*.md"), *(REPO / "knowledge").glob("agentes/*.md"),
+                *(REPO / "knowledge").glob("playbooks/*.md")])
 AGENTS = sorted(p for p in (REPO / "agents").glob("*.md") if p.name != "README.md")
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 ROLES = {"copywriter", "creative-director", "dp-cinematographer", "editor-video", "fact-checker",
@@ -14,7 +17,7 @@ ROLES = {"copywriter", "creative-director", "dp-cinematographer", "editor-video"
          "ui-designer", "revenue-strategist"}
 
 
-@pytest.mark.parametrize("doc", DOCS, ids=lambda p: p.name)
+@pytest.mark.parametrize("doc", DOCS, ids=lambda p: f"{p.parent.name}/{p.name}")
 def test_relative_links_resolve(doc):
     for target in LINK.findall(doc.read_text(encoding="utf-8")):
         if re.match(r"^[a-z][a-z0-9+.-]*:", target) or target.startswith("#"):

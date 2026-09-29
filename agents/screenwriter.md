@@ -48,3 +48,12 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/estructura-del-vsl.md` cuando: guion de VSL en siete bloques.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/contenido-viral-vs-nicho.md` cuando: decidir viral vs. nicho.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/grabacion-celular-luz-encuadre-audio.md` cuando: guion que la persona graba con celular.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/guion/estructuras-de-guion.md` cuando: elegir estructura, voz, título y subtítulo del hook.
+- Leé `.kit/knowledge/guion/hook-interrupcion-de-patron.md` cuando: escribir la primera línea del guion.
+- Leé `.kit/knowledge/guion/narrativa-adictiva.md` cuando: sostener la atención: apuesta, pregunta grande, giro y re-gancho.
+- Leé `.kit/knowledge/guion/rueda-de-historias.md` cuando: contar una historia personal y auditar su profundidad.
+- Leé `.kit/knowledge/playbooks/guionista.md` cuando: escribir un reel, un video largo o el texto de un carrusel.
+- Leé `.kit/knowledge/playbooks/guardian-de-voz.md` cuando: revisar que el guion suene a la persona.

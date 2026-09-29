@@ -1,0 +1,473 @@
+{
+  "schema_version": 1,
+  "language": "es",
+  "about": "Estructuras de guion con plantillas por beat. Regla de uso: elegí la estructura que calza el tema, escribí la última línea primero, después el hook, después los beats.",
+  "voice": {
+    "field_note": "Este bloque es el valor neutro por defecto. Cada marca lo pisa con el campo `voice` de su ficha (.kit-personal/brands/<nombre>.json). Si la marca no define voz, se usa esto.",
+    "default": {
+      "title": "Voz por defecto",
+      "rules": [
+        "Hablar de persona a persona, como a una sola persona que conocés. Sin tono de mentor ni de coach.",
+        "Frases cortas con ritmo variado. Todas del mismo largo suena monótono.",
+        "'Yo' y 'vos/tú' en cada pieza: es una conversación, no un anuncio.",
+        "Lo específico le gana a lo vago: un número o un momento real, no una idea general.",
+        "Un solo sentimiento por pieza. Decidí qué querés que sientan al final y construí hacia atrás.",
+        "Sin frases motivacionales, sin voz pasiva, vocabulario simple."
+      ],
+      "but_therefore": "Encadená con PERO / POR LO TANTO, no con Y DESPUÉS. Y DESPUÉS apila y aburre. PERO trae conflicto. POR LO TANTO trae consecuencia.",
+      "kill_on_sight": [
+        "'En el mundo acelerado de hoy...' -> arrancá con la cosa real",
+        "'Es importante recordar que...' -> decí la cosa",
+        "'¡Tú puedes!' / '¡Cree en ti!' -> mostrá por qué funciona, no animes",
+        "'Esto que aprendí...' -> decí lo que aprendiste, sin anuncio",
+        "'Déjame explicarte...' -> no des clase, hablá",
+        "'La mayoría no se da cuenta...' -> arrancá con yo o vos",
+        "'Aprovechar', 'sinergia', 'empoderar' -> palabras simples"
+      ]
+    },
+    "brands": {}
+  },
+  "structures": [
+    {
+      "key": "heros-journey",
+      "name": "Hero's Journey",
+      "when": "Historias de transformación grande. Cuando saliste de un problema profundo y querés que vean el arco entero.",
+      "beats": [
+        {
+          "step": "Problema",
+          "template": "Arrancá en el problema crudo: '[lo que estaba mal en mi vida, dicho sin adornos].'"
+        },
+        {
+          "step": "Dolores",
+          "template": "Qué se sentía día a día: '[la sensación específica que cualquiera reconoce].'"
+        },
+        {
+          "step": "Intentos fallidos",
+          "template": "Lo que probaste y no funcionó: 'probé [X], probé [Y]. Nada movió la aguja.'"
+        },
+        {
+          "step": "La solución",
+          "template": "El giro: 'hasta que [la cosa que cambió todo]. No fue [lo obvio], fue [lo real].'"
+        },
+        {
+          "step": "Resultados",
+          "template": "La prueba concreta: 'hoy [resultado específico y medible].'"
+        },
+        {
+          "step": "CTA / cierre",
+          "template": "Aterrizá el sentimiento + invitación natural: '[última línea que se puede citar].'"
+        }
+      ]
+    },
+    {
+      "key": "man-in-a-hole",
+      "name": "Man in a Hole",
+      "when": "Recuperación personal. Caíste, tocaste fondo, y saliste mejor.",
+      "beats": [
+        {
+          "step": "Vida normal",
+          "template": "Cómo era antes, sin drama: '[mi vida normal, un detalle concreto].'"
+        },
+        {
+          "step": "Detonante",
+          "template": "Lo que la rompió: 'BUT entonces [el evento que lo cambió].'"
+        },
+        {
+          "step": "Crisis + realización",
+          "template": "El fondo y lo que viste ahí: 'toqué fondo cuando [momento]. Y ahí me cayó la ficha: [la verdad].'"
+        },
+        {
+          "step": "Recuperación",
+          "template": "Cómo saliste: 'THEREFORE empecé a [acción concreta].'"
+        },
+        {
+          "step": "Mejor que antes",
+          "template": "Por qué ahora estás mejor que en el punto de partida: '[el upgrade real, no un cliché].'"
+        }
+      ]
+    },
+    {
+      "key": "breakthrough",
+      "name": "The Breakthrough",
+      "when": "'Descubrí algo'. Una realización que te voló la cabeza y la querés pasar.",
+      "beats": [
+        {
+          "step": "Problema",
+          "template": "El problema que tenías atascado: 'estuve [tiempo] peleando con [cosa].'"
+        },
+        {
+          "step": "Realización",
+          "template": "El insight que cambió todo: 'hasta que entendí que [la realización contraintuitiva].'"
+        },
+        {
+          "step": "El fix",
+          "template": "Qué hiciste distinto: 'dejé de [lo viejo] y empecé a [lo nuevo].'"
+        },
+        {
+          "step": "Prueba",
+          "template": "La evidencia de que funcionó: 'en [tiempo], [resultado concreto].'"
+        }
+      ]
+    },
+    {
+      "key": "challenge-to-victory",
+      "name": "Challenge to Victory",
+      "when": "Superar la duda. Tenías una creencia limitante y la rompiste.",
+      "beats": [
+        {
+          "step": "Creencia limitante",
+          "template": "Lo que creías que te frenaba: 'yo pensaba que [creencia falsa].'"
+        },
+        {
+          "step": "Lucha",
+          "template": "La pelea contra eso: 'cada vez que [intento], [el miedo/obstáculo].'"
+        },
+        {
+          "step": "Punto de quiebre",
+          "template": "El momento que lo cambió: 'BUT un día [el quiebre].'"
+        },
+        {
+          "step": "El método",
+          "template": "Lo que empezaste a hacer: 'THEREFORE [el método/sistema concreto].'"
+        },
+        {
+          "step": "Transformación + myth bust",
+          "template": "El antes/después y la mentira derribada: 'resulta que [la creencia] nunca fue verdad. La verdad es [X].'"
+        }
+      ]
+    },
+    {
+      "key": "transformation-snapshot",
+      "name": "Transformation Snapshot",
+      "when": "Antes/después rápido y visual. Ideal para reel corto con contraste fuerte.",
+      "beats": [
+        {
+          "step": "Estado antes",
+          "template": "Foto del antes: 'hace [tiempo] yo era [estado concreto].'"
+        },
+        {
+          "step": "Punto bajo",
+          "template": "El punto más bajo, vívido: 'el peor momento fue [escena específica].'"
+        },
+        {
+          "step": "Punto de quiebre",
+          "template": "Qué disparó el cambio: 'todo cambió cuando [el clic].'"
+        },
+        {
+          "step": "Estado después",
+          "template": "Foto del después: 'hoy [estado concreto y distinto].'"
+        },
+        {
+          "step": "CTA / cierre",
+          "template": "El sentimiento + 1 acción: '[línea de cierre que duele o inspira sin cliché].'"
+        }
+      ]
+    },
+    {
+      "key": "mistake-and-fix",
+      "name": "Mistake & Fix",
+      "when": "'Me equivoqué'. Una confesión honesta que enseña.",
+      "beats": [
+        {
+          "step": "La confesión",
+          "template": "Lo que hiciste mal, sin justificar: 'cometí el error de [error concreto].'"
+        },
+        {
+          "step": "Qué costó",
+          "template": "El precio real: 'me costó [tiempo / plata / oportunidad].'"
+        },
+        {
+          "step": "La realización",
+          "template": "Cuándo lo viste: 'me di cuenta cuando [momento].'"
+        },
+        {
+          "step": "El fix",
+          "template": "Qué cambiaste: 'ahora [lo que hago distinto].'"
+        },
+        {
+          "step": "El resultado",
+          "template": "La diferencia que hizo: '[resultado concreto desde el cambio].'"
+        }
+      ]
+    },
+    {
+      "key": "from-x-to-y",
+      "name": "From X to Y",
+      "when": "Contenido de viaje. De un punto A claro a un punto B claro.",
+      "beats": [
+        {
+          "step": "Dónde empezaste",
+          "template": "Punto A concreto: 'empecé en [X: lugar/estado/número].'"
+        },
+        {
+          "step": "Qué se sentía",
+          "template": "La emoción de ese punto: 'se sentía [sensación específica].'"
+        },
+        {
+          "step": "Qué cambió",
+          "template": "El shift: 'lo que cambió fue [la decisión/acción].'"
+        },
+        {
+          "step": "Dónde estás ahora",
+          "template": "Punto B concreto: 'hoy estoy en [Y: lugar/estado/número].'"
+        },
+        {
+          "step": "CTA / cierre",
+          "template": "Puente al espectador: 'si estás en [X], esto es lo que yo haría.'"
+        }
+      ]
+    },
+    {
+      "key": "one-decision-story",
+      "name": "One Decision Story",
+      "when": "Una decisión audaz que cambió el rumbo. Riesgo alto, payoff claro.",
+      "beats": [
+        {
+          "step": "La decisión",
+          "template": "La decisión, dicha de una: 'decidí [la decisión concreta].'"
+        },
+        {
+          "step": "Los stakes / riesgo",
+          "template": "Qué te jugabas: 'si salía mal, [la consecuencia real].'"
+        },
+        {
+          "step": "La acción",
+          "template": "Lo que hiciste de verdad: 'THEREFORE [la acción, sin rodeos].'"
+        },
+        {
+          "step": "El payoff",
+          "template": "El resultado: 'y pasó que [el payoff concreto].'"
+        },
+        {
+          "step": "Reto a la audiencia",
+          "template": "El espejo: '¿cuál es la decisión que vos venís postergando?'"
+        }
+      ]
+    },
+    {
+      "key": "lesson-from-others",
+      "name": "Lesson from Others",
+      "when": "Mentor o figura. Algo que aprendiste de otra persona y aplicaste.",
+      "beats": [
+        {
+          "step": "Presentá a la persona",
+          "template": "Quién es, en una línea: 'conocí a [persona / referente].'"
+        },
+        {
+          "step": "Su lucha",
+          "template": "Lo que esa persona enfrentó: 'había pasado por [su problema].'"
+        },
+        {
+          "step": "La lección",
+          "template": "Lo que te dijo o mostró: 'me dijo: [la lección, textual].'"
+        },
+        {
+          "step": "Cómo la aplicaste",
+          "template": "Tu acción: 'THEREFORE yo [cómo lo usé en mi vida].'"
+        },
+        {
+          "step": "Compartí",
+          "template": "Por qué importa para el que ve: 'si te suena, [la invitación].'"
+        }
+      ]
+    },
+    {
+      "key": "about-me",
+      "name": "About Me",
+      "when": "Presentarte / construir conexión. Quién sos y por qué deberían quedarse.",
+      "beats": [
+        {
+          "step": "El gancho de identidad",
+          "template": "Quién sos sin currículum: 'soy el tipo que [algo específico y poco obvio].'"
+        },
+        {
+          "step": "De dónde venís",
+          "template": "El origen real: 'hace [tiempo] yo [punto de partida].'"
+        },
+        {
+          "step": "Qué hacés ahora",
+          "template": "Lo que estás construyendo: 'hoy [lo que hacés], y lo hago así: [el cómo].'"
+        },
+        {
+          "step": "Por qué te importa",
+          "template": "El porqué profundo: 'lo hago porque [la razón que se siente verdadera].'"
+        },
+        {
+          "step": "Invitación",
+          "template": "Qué van a encontrar acá: 'si te interesa [tema], quedate.'"
+        }
+      ]
+    },
+    {
+      "key": "the-lesson",
+      "name": "The Lesson",
+      "when": "Una sola enseñanza concreta. Educativo sin sonar a profesor.",
+      "beats": [
+        {
+          "step": "La lección en una línea",
+          "template": "El punto entero arriba: '[la lección, dicha de una].'"
+        },
+        {
+          "step": "El contexto",
+          "template": "De dónde sale: 'lo aprendí cuando [situación real].'"
+        },
+        {
+          "step": "Por qué es verdad",
+          "template": "El mecanismo: 'funciona porque [la razón, simple].'"
+        },
+        {
+          "step": "Cómo aplicarla",
+          "template": "La acción concreta: 'hacelo así: [paso claro].'"
+        },
+        {
+          "step": "Cierre",
+          "template": "Línea citable: '[la frase que resume y se comparte].'"
+        }
+      ]
+    },
+    {
+      "key": "big-goal",
+      "name": "The Big Goal / Dream",
+      "when": "Declarar una meta grande en público. Compromiso + invitar a que te sigan en el camino.",
+      "beats": [
+        {
+          "step": "El sueño",
+          "template": "La meta sin pedir permiso: 'voy a [la meta grande, concreta].'"
+        },
+        {
+          "step": "Por qué",
+          "template": "El motivo que la sostiene: 'porque [la razón que duele/empuja].'"
+        },
+        {
+          "step": "Dónde estás hoy",
+          "template": "El punto de partida honesto: 'ahora mismo estoy en [estado actual].'"
+        },
+        {
+          "step": "El siguiente paso",
+          "template": "Lo próximo y real: 'el primer paso es [acción de esta semana].'"
+        },
+        {
+          "step": "Invitación a seguir",
+          "template": "El público como testigo: 'seguime y te muestro si lo logro o me parto la cara.'"
+        }
+      ]
+    },
+    {
+      "key": "expectativa-reversion",
+      "name": "Expectativa-Reversión",
+      "when": "Setup de lo que todos esperan → vuelta de tuerca. El hook es la promesa que después rompés.",
+      "beats": [
+        {
+          "step": "La expectativa",
+          "template": "Lo que cualquiera asumiría: 'pensarías que [lo esperado / el cliché].'"
+        },
+        {
+          "step": "El setup",
+          "template": "Reforzá la expectativa un toque: 'y tiene sentido, porque [razón obvia].'"
+        },
+        {
+          "step": "La reversión",
+          "template": "El giro que rompe todo: 'BUT lo que pasó fue [lo inesperado].'"
+        },
+        {
+          "step": "Por qué",
+          "template": "Explicá la vuelta: 'resulta que [la verdad detrás del giro].'"
+        },
+        {
+          "step": "Cierre",
+          "template": "El aprendizaje que queda: '[la frase que reencuadra todo].'"
+        }
+      ]
+    }
+  ],
+  "hook_styles": [
+    {
+      "type": "Confesión personal",
+      "structure": "Caé en un momento crudo",
+      "example": "Posté todos los días 3 meses. Mismos 50 seguidores. Casi renuncio."
+    },
+    {
+      "type": "Contraste/Reframe",
+      "structure": "Lo que creen vs lo que es verdad",
+      "example": "Todos dicen postear más. Posté menos y crecí más rápido."
+    },
+    {
+      "type": "Dolor relatable",
+      "structure": "Nombrá el sentimiento exacto",
+      "example": "Sabés esa sensación de currártela en algo y que a nadie le importe? Sí."
+    },
+    {
+      "type": "Statement provocador",
+      "structure": "Audaz, un poco incómodo",
+      "example": "Tu contenido no es malo. Nadie sabe que existís."
+    },
+    {
+      "type": "If I were you",
+      "structure": "Basado en escenario",
+      "example": "Si despertara mañana con cero seguidores, esto es lo primero que haría."
+    },
+    {
+      "type": "Myth bust",
+      "structure": "Llamá la mentira",
+      "example": "Me dijeron que necesitaba un nicho. Fue el peor consejo que seguí."
+    },
+    {
+      "type": "Time-based",
+      "structure": "Resultado específico, tiempo específico",
+      "example": "30 segundos de consejo que le daría a mi mejor amigo si empezara de cero."
+    }
+  ],
+  "storytelling_wheel": {
+    "title": "Rueda de historias: capa obligatoria sobre cualquier estructura",
+    "que_postear_LIFE": {
+      "L_love": "relaciones y hobbies",
+      "I_identity": "cultura, género, edad, confianza",
+      "F_fitness": "cuerpo y espíritu (físico/mental/espiritual)",
+      "E_earnings": "carrera, clientes, habilidades, dinero"
+    },
+    "como_contarlo_3_porques": {
+      "safe": "la respuesta superficial y presentable (lo que cualquiera diría)",
+      "real": "la verdad concreta debajo (lo que de verdad pasó)",
+      "raw": "la confesión vulnerable (el miedo/la herida/la creencia rota) — las mejores historias viven acá",
+      "tecnica": "preguntarse '¿por qué importa esto?' 3 veces, bajando un nivel por respuesta. Escribir los 3 porqués ANTES del guion."
+    },
+    "reglas": [
+      "El cierre del guion entrega la capa RAW (confesión), no un dato ni un consejo.",
+      "Narrar PORQUÉS, no qués — tu vida no es aburrida, la estás contando mal.",
+      "Un belief central atraviesa las 4 categorías LIFE (humano completo > fragmento; nicho único = reemplazable).",
+      "El creador es protagonista con perspectiva, no narrador de información.",
+      "Integración: la escena cold-open dramatiza el nivel Safe; el acto 3 desciende Safe→Real; el acto 4 aterriza en Raw."
+    ]
+  },
+  "cold_open_cinematic": {
+    "title": "Formato cold-open cinematográfico (alternativa sin fórmulas de hook)",
+    "principle": "Segunda persona, hook de menos de 12 s, dramatización de una escena como apertura, producción cinematográfica.",
+    "acts": [
+      {
+        "act": "1 · Hook cotidiano (0–3s)",
+        "desc": "Escena cotidiana sin contexto. Crea un vacío de curiosidad."
+      },
+      {
+        "act": "2 · Ancla (3–20s)",
+        "desc": "Psicología/neurociencia/metáfora cinemática. Eleva lo simple a lo universal."
+      },
+      {
+        "act": "3 · Giro hacia enseñanza (20–45s)",
+        "desc": "Reframe del problema. Introduce el concepto central."
+      },
+      {
+        "act": "4 · Conclusión transformadora (45–60s)",
+        "desc": "CTA implícito/explícito. Te deja con una nueva perspectiva."
+      }
+    ]
+  },
+  "process": [
+    "1. Elegí la estructura de historia que calza el tema.",
+    "2. Escribí la última línea primero. ¿Qué querés que sientan al final?",
+    "3. Encontrá el hook: lo más honesto, incómodo o sorprendente enterrado en el tema.",
+    "4. Llená los beats con BUT/THEREFORE, no AND THEN.",
+    "5. Variá el largo de frase. Borde irregular = bueno.",
+    "6. Leelo en voz alta. ¿Suena escrito? Reescribilo. ¿Suena a hablar con un amigo? Listo.",
+    "7. Cortá todo lo que no mueve la historia."
+  ]
+}

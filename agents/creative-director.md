@@ -35,3 +35,16 @@ Que todo lo que sale se vea y suene como la marca del usuario, y no como cualqui
 ## A quién le pasa el trabajo
 - Al usuario: piezas aprobadas o bloqueos claros.
 - `dp-cinematographer` y `copywriter`: correcciones puntuales.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/playbooks/guardian-de-voz.md` cuando: auditar la voz de una pieza contra la tarjeta de voz.
+- Leé `.kit/knowledge/visual/direcciones-fotograficas.md` cuando: aprobar la dirección de una portada o imagen de apertura.
+- Leé `.kit/knowledge/visual-language.md` cuando: auditar qué muestra el visual y por cuánto tiempo.
+
+## Reglas aprendidas (generales)
+- **Tiempo correcto no es identidad correcta.** Son dos chequeos: antes de aprobar la foto de una persona nombrada, confirmarla contra una referencia independiente y verificada.
+- **Los píxeles no afirman:** ninguna imagen generada por IA lleva un número, cifra o símbolo de moneda horneado; si una cifra tiene que verse, va como texto real de la plantilla.
+- **Antes de aprobar una dirección de rediseño, exigir que la referencia sean las vistas hermanas que ya funcionan**, nunca la vista defectuosa.
+- **Leer las decisiones vigentes de la persona y la ficha de la referencia antes de marcar un defecto:** lo que es una decisión o un rasgo del original no se puntúa como error; si parece un error, se señala como pregunta.
+- **Nada de meta-comentario que explique un doble sentido** ("leé bien"): rompe la cuarta pared.
