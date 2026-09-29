@@ -42,6 +42,11 @@ COMMANDS = {
     "lessons": ("engines/lessons_index.py", []),
     "wiki-lint": ("engines/wiki_lint.py", []),
     "course": ("engines/course/course.py", []),
+    "imagegen": ("engines/imagegen/imagegen.py", []),
+    "fetch-image": ("engines/imagegen/fetch_image.py", []),
+    "gallery": ("engines/gallery/gallery.py", []),
+    "telegram": ("engines/telegram/tg_send.py", []),
+    "apify": ("engines/apify/apify_scrape.py", []),
 }
 
 

@@ -723,6 +723,160 @@
         ]
       },
       "files": []
+    },
+    {
+      "name": "imagen",
+      "category": "creative",
+      "tier": "module",
+      "status": "tested",
+      "role": "dp-cinematographer",
+      "deps": [
+        "python>=3.11",
+        "codex CLI (npm @openai/codex) o agy (Gemini) — al menos uno",
+        "pillow (opcional, chequeo de brillo)"
+      ],
+      "paid_services": [
+        "ChatGPT Plus/Pro (tu cuenta) o cuenta Google para agy; Magnific/Higgsfield opcionales"
+      ],
+      "network": [
+        {
+          "service": "OpenAI o Google (el que elijas)",
+          "data": "el prompt y las imágenes de referencia, con tu cuenta"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/imagen"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "entrega",
+      "category": "distribution",
+      "tier": "module",
+      "status": "tested",
+      "role": "creative-director",
+      "deps": [
+        "python>=3.11",
+        "navegador"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/entrega"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "telegram",
+      "category": "distribution",
+      "tier": "module",
+      "status": "tested",
+      "role": "social-media-manager",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [
+        "bot de Telegram (gratis, tu cuenta)"
+      ],
+      "network": [
+        {
+          "service": "Telegram",
+          "data": "la pieza y el pie de foto, con el token de tu bot"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/telegram"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "scraper-apify",
+      "category": "research",
+      "tier": "module",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [
+        "Apify (tu cuenta, cobra por resultado)"
+      ],
+      "network": [
+        {
+          "service": "Apify",
+          "data": "la cuenta, hashtag o consulta que pidas, con tu token"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/scraper-apify"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "sistema-de-marca",
+      "category": "brand",
+      "tier": "module",
+      "status": "untested",
+      "role": "creative-director",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/skill_check.py",
+          "skills/sistema-de-marca"
+        ]
+      },
+      "files": []
     }
   ],
   "roles": [
@@ -742,7 +896,9 @@
       "skills": [
         "brand-onboarding",
         "carousel-news",
-        "logo"
+        "logo",
+        "entrega",
+        "sistema-de-marca"
       ]
     },
     {
@@ -751,7 +907,8 @@
       "skills": [
         "broll-plan",
         "reference-clone",
-        "broll-higgsfield"
+        "broll-higgsfield",
+        "imagen"
       ]
     },
     {
@@ -790,7 +947,8 @@
       "name": "social-media-manager",
       "description": "Distribución y lectura de resultados. Usar para armar calendarios, adaptar una pieza a cada red, programar publicaciones y leer métricas o competidores.",
       "skills": [
-        "publicar"
+        "publicar",
+        "telegram"
       ]
     },
     {
@@ -806,7 +964,8 @@
         "task-checkpoint",
         "finish-session",
         "wiki-lint",
-        "curso-ingest"
+        "curso-ingest",
+        "scraper-apify"
       ]
     },
     {
