@@ -32,3 +32,10 @@ Una pieza terminada que se ve y se escucha bien, verificada sobre el archivo fin
 ## A quién le pasa el trabajo
 - Al usuario: la pieza final.
 - `social-media-manager`: piezas listas para publicar.
+
+## Conocimiento: Content Capital
+Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge/content-capital/README.md`). Leé solo lo que la tarea pide. Las marcadas `[curso-consulta]` se abren solo si la tarea toca ese tema. Si el curso contradice la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís. Los `[[nombre]]` dentro de las páginas son `nombre.md` en `conceptos/` o `lecciones/`.
+- [video] Leé `.kit/knowledge/content-capital/conceptos/edicion-simple-premiere-look-profesional.md` cuando: editar un reel en Premiere con lo mínimo.
+- [video] Leé `.kit/knowledge/content-capital/conceptos/sound-design-del-reel-musica-whooshes-sfx.md` cuando: sonido del reel.
+- [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/animacion-basica-para-reels.md` cuando: animación básica.
+- [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/broll-con-ia-en-el-reel.md` cuando: planos con IA dentro del reel.

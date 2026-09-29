@@ -38,3 +38,10 @@ Que cada imagen cuente algo del guion, no que decore.
 - `creative-director`: revisión contra la marca.
 - `editor-video`: shot list y material aprobado.
 - `motion-designer`: prompts y beat sheet si hay motion.
+
+## Conocimiento: Content Capital
+Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge/content-capital/README.md`). Leé solo lo que la tarea pide. Las marcadas `[curso-consulta]` se abren solo si la tarea toca ese tema. Si el curso contradice la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís. Los `[[nombre]]` dentro de las páginas son `nombre.md` en `conceptos/` o `lecciones/`.
+- [broll, prompt] Leé `.kit/knowledge/content-capital/conceptos/broll-con-ia-en-el-reel.md` cuando: prompts de planos con IA desde el frame del timeline.
+- [carrusel] Leé `.kit/knowledge/content-capital/conceptos/carruseles-con-ia-y-photoshop.md` cuando: personaje y escenas de carrusel con IA.
+- [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/clonacion-con-ia-avatar-de-video.md` cuando: avatar de video sobre audio real.
+- [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/grabacion-celular-luz-encuadre-audio.md` cuando: luz y encuadre con celular.
