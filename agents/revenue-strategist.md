@@ -48,3 +48,8 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - Leé `.kit/knowledge/content-capital/conceptos/embudo-de-webinar-a-llamada.md` cuando: embudo de webinar.
 - Leé `.kit/knowledge/content-capital/conceptos/venta-privada-hand-raisers-y-triage.md` cuando: venta privada y triage.
 - Leé `.kit/knowledge/content-capital/conceptos/retencion-y-churn-de-clientes.md` cuando: retención o churn.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/playbooks/escritor-de-oferta-y-bio.md` cuando: revisar la oferta, la página de venta y los mensajes.
+- Leé `.kit/knowledge/playbooks/analista-de-resultados.md` cuando: conectar las métricas de contenido con conversión.

@@ -49,3 +49,10 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/cuenta-fantasma-y-sortfeed.md` cuando: ideación con cuenta fantasma.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/follow-me-ads-trafico-al-perfil.md` cuando: pauta de tráfico al perfil.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/perfil-como-landing-page.md` cuando: optimizar el perfil.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/playbooks/analista-de-resultados.md` cuando: leer métricas y decidir el próximo paso.
+- Leé `.kit/knowledge/playbooks/reutilizador-de-contenido.md` cuando: repartir una pieza en salidas nativas y un calendario.
+- Leé `.kit/knowledge/estrategia/menu-de-tipos-de-contenido.md` cuando: repartir la producción entre tipos de contenido.
+- Leé `.kit/knowledge/estrategia/outliers-y-patrones-virales.md` cuando: deconstruir un post que funcionó mucho.

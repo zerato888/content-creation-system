@@ -45,3 +45,18 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - [carrusel] Leé `.kit/knowledge/content-capital/conceptos/carruseles-con-ia-y-photoshop.md` cuando: personaje y escenas de carrusel con IA.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/clonacion-con-ia-avatar-de-video.md` cuando: avatar de video sobre audio real.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/grabacion-celular-luz-encuadre-audio.md` cuando: luz y encuadre con celular.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/visual-language.md` cuando: decidir función, exclusividad y política de caras de cada visual.
+- Leé `.kit/knowledge/broll-planning.md` cuando: planificar B-roll sobre un guion.
+- Leé `.kit/knowledge/visual/direcciones-fotograficas.md` cuando: elegir el arquetipo de imagen de una portada o apertura.
+- Leé `.kit/knowledge/playbooks/narrador-visual.md` cuando: estilo, dirección de arte y prompts de imagen y video.
+- Leé `.kit/knowledge/visual/talking-head-con-ia.md` cuando: planificar un video hablado a cámara línea por línea.
+
+## Reglas aprendidas (generales)
+- **Los gráficos salen del significado del guion**, nunca del lugar de grabación ni del propio rostro congelado de la persona.
+- **Una secuencia usa arquetipos visuales distintos por momento:** nunca el mismo retrato con otro titular.
+- **El fondo traduce el tema en símbolos concretos**, no relleno atmosférico; los edificios o lugares específicos llevan siempre una foto real de referencia.
+- **Corregir "personaje repetido" no descarta paleta ni estilo bloqueados:** son ejes distintos.
+- **La sombra para el texto se resuelve en la plantilla,** no pidiéndosela al motor de imagen.

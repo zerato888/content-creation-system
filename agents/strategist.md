@@ -55,3 +55,11 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/embudo-organico-instagram.md` cuando: diseñar el embudo orgánico.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/ciclos-de-venta-siembra-cosecha.md` cuando: calendario de siembra y cosecha.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/camino-al-nirvana-y-mapa.md` cuando: metas y mentalidad de la persona (lectura, no terapia).
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/playbooks/investigador-de-audiencia.md` cuando: encontrar la tensión y el lenguaje real de la audiencia.
+- Leé `.kit/knowledge/playbooks/ideacion-de-contenido.md` cuando: armar un banco de ideas priorizado.
+- Leé `.kit/knowledge/estrategia/outliers-y-patrones-virales.md` cuando: elegir nicho o temas por evidencia.
+- Leé `.kit/knowledge/estrategia/menu-de-tipos-de-contenido.md` cuando: definir tipos de contenido y porcentajes.
+- Leé `.kit/knowledge/playbooks/analista-de-resultados.md` cuando: cerrar el ciclo con datos propios.

@@ -52,3 +52,17 @@ Curso de creación de contenido, adquisición y ventas (índice: `.kit/knowledge
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/secuencias-de-historias.md` cuando: secuencias de historias con hand raiser o CTA directo.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/seguimientos-y-reactivacion-de-leads.md` cuando: mensajes de seguimiento y reactivación.
 - [curso-consulta] Leé `.kit/knowledge/content-capital/conceptos/seis-pilares-de-adquisicion-dolor-confianza.md` cuando: copy persuasivo desde dolor y confianza.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/guion/hook-interrupcion-de-patron.md` cuando: escribir hooks: tres mecanismos y cinco pasos.
+- Leé `.kit/knowledge/guion/hooks-con-datos.md` cuando: generar o puntuar hooks con datos de piezas que ya funcionaron.
+- Leé `.kit/knowledge/guion/estructuras-de-guion.md` cuando: escribir título y subtítulo del hook y la voz por defecto.
+- Leé `.kit/knowledge/playbooks/guardian-de-voz.md` cuando: extraer la voz de la persona y revisar textos.
+- Leé `.kit/knowledge/playbooks/escritor-de-oferta-y-bio.md` cuando: bio, página de enlace, página de venta y mensajes directos.
+- Leé `.kit/knowledge/playbooks/reutilizador-de-contenido.md` cuando: convertir una pieza en salidas nativas por plataforma.
+
+## Reglas aprendidas (generales)
+- **La plantilla del banco va literal en la primera línea hablada,** con los huecos llenos, en 14 palabras o menos, citada por categoría y texto. Prohibido abrir con cargos, instituciones, credenciales o fechas. Elegir el grupo por estado de audiencia (no conoce el tema: curiosidad o controversia).
+- **Un logro plano no es un hook.** El título necesita tensión; el subtítulo, una emoción (ver `.kit/knowledge/guion/estructuras-de-guion.md`).
+- **Más filo sin bajar el piso de evidencia.** Se puede subir la agresividad retórica (titulares cortantes, preguntas punzantes), pero cada afirmación de hecho se sigue sosteniendo en fuentes verificadas.

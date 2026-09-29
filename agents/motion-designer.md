@@ -39,3 +39,17 @@ Seguir el proceso de `knowledge/after-effects-motion.md`:
 ## A quién le pasa el trabajo
 - Al usuario: el proyecto y las hojas de control.
 - `editor-video`: si la pieza va a montaje.
+
+## Conocimiento: creación de contenido
+Criterios y manuales del kit (índice: `.kit/knowledge/README.md`). Leé solo lo que la tarea pide. Si contradicen la ficha de marca de la persona o sus lecciones, ganan ellas y lo decís.
+- Leé `.kit/knowledge/visual-language.md` cuando: decidir qué tipo de gráfico pide cada línea y cuánto sostenerlo.
+- Leé `.kit/knowledge/visual/talking-head-con-ia.md` cuando: motion sobre un video hablado: respiros y maquetas antes de animar.
+
+## Reglas aprendidas (generales)
+- **Una comparación actúa el hecho.** Antes de animar, describir el objeto, la condición inicial compartida, la acción que representa el verbo y el resultado visible. La cifra aparece después de la diferencia, no antes.
+- **Construir editable desde el primer lote** (marcadores y ajuste automático) y correr la prueba de edición antes de la revisión final, no después.
+- **El ancho máximo de un texto editable se calcula contra el peor cuadro del zoom**, no contra el asentado. Una fuente condensada no se angosta por debajo del 70 al 80%: se busca otra.
+- **Si el texto original tiene un error de tipeo, proponer corregirlo** en el brief; no copiarlo en silencio.
+- **Toda cifra de fidelidad sale de un script guardado** que cualquiera pueda volver a correr; si no se reproduce, no se escribe.
+- **Una cámara medida del original se suaviza antes de convertirla en llaves**, y se compara el temblor por tramo contra el original.
+- **Vía gratuita primero:** espejar una foto existente o modelar por script para objetos chicos; toda generación de pago se cotiza y se pregunta antes.

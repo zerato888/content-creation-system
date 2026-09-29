@@ -35,7 +35,17 @@
       "emotion": "curiosidad",
       "templates": [
         "Lo que nadie te explica de {tema} es {giro}.",
-        "Hay una razón por la que {resultado} y no es {causa obvia}."
+        "Hay una razón por la que {resultado} y no es {causa obvia}.",
+        "Nadie te está contando esto sobre [___]",
+        "El secreto que [___] no quiere que sepas",
+        "Lo que descubrí después de [___] años haciendo [___] me dejó sin palabras",
+        "El truco que usan los expertos y nunca enseñan",
+        "Hay algo que nadie te dice sobre [___]",
+        "Te voy a mostrar algo que el 99% nunca verá",
+        "La verdad incómoda sobre [___] que nadie quiere admitir",
+        "Llevo [___] años en esto y recién descubrí esto",
+        "El dato sobre [___] que cambia todo lo que creías saber",
+        "Lo que pasa detrás de cámaras en [___]"
       ],
       "examples": [
         "Lo que nadie te explica de ahorrar es que el problema no es cuánto ganás."
@@ -47,7 +57,17 @@
       "emotion": "bronca",
       "templates": [
         "{Consejo popular} te está haciendo perder {cosa}.",
-        "Dejá de {hábito común}."
+        "Dejá de {hábito común}.",
+        "Estaba completamente equivocado sobre [___]",
+        "Me dijeron que esto era imposible — lo hice igual",
+        "Hice lo que nadie recomendaba y funcionó",
+        "Todo lo que te enseñaron sobre [___] está mal",
+        "Dejé de hacer [___] por 30 días y esto pasó",
+        "La razón por la que [___] no te funciona no es lo que crees",
+        "La opinión más impopular sobre [___] que tengo",
+        "Paré de escuchar a los expertos e hice esto",
+        "El consejo más peligroso que se da sobre [___]",
+        "Lo intenté 100 veces y fallé — hasta que encontré esto"
       ],
       "examples": [
         "Levantarte a las 5 de la mañana no te está haciendo más productivo."
@@ -59,7 +79,17 @@
       "emotion": "sorpresa",
       "templates": [
         "Te dijeron que {creencia}. Es al revés.",
-        "{Creencia} no es el problema. {Verdad} sí."
+        "{Creencia} no es el problema. {Verdad} sí.",
+        "No necesitas [lo que crees que necesitas]. Necesitas [la palanca real].",
+        "Más [métrica de vanidad] no te va a [salvar]. Mejor [palanca real] sí.",
+        "No necesitas [input caro]. Necesitas mejor [input real].",
+        "Deja de perseguir [meta brillante]. Empieza a construir [cosa fundamental].",
+        "[Gran movimiento] no se trata de [cosa asumida]. Se trata de [cosa real] primero.",
+        "No necesitas un [X] más grande. Necesitas un [Y] mejor.",
+        "[Virtud] no se trata de [comportamiento asumido]. Se trata de [comportamiento real].",
+        "Tu [output] no necesita ser [perfecto]. Necesita estar [publicado].",
+        "No necesitas más [cantidad]. Necesitas mejor [calidad].",
+        "[Cosa] no está muerta. Tu [culpable real] sí."
       ],
       "examples": [
         "Te dijeron que necesitás más motivación. Es al revés: necesitás menos opciones."
@@ -71,7 +101,28 @@
       "emotion": "reconocimiento",
       "templates": [
         "Si {situación que el público vive}, esto es para vos.",
-        "Ese momento en que {dolor concreto}."
+        "Ese momento en que {dolor concreto}.",
+        "Si alguna vez sentiste que [___] este video es para ti",
+        "Para todos los que están cansados de [___]",
+        "Si llevas tiempo intentando [___] sin resultados, escucha esto",
+        "El problema no eres tú, es que nadie te enseñó esto",
+        "¿Por qué a ti no te funciona lo que a otros sí?",
+        "Si te pasa esto con [___] no estás solo",
+        "La razón real por la que sigues atascado en [___]",
+        "¿Cuánto tiempo más vas a esperar para hacer [___]?",
+        "Esto es exactamente lo que yo sentía antes de descubrir [___]",
+        "Si estás en [___] situación, esto va a cambiar tu perspectiva",
+        "El error que cometen el 90% de las personas en [___]",
+        "Si estás estancado en [meseta específica], esto es lo que te está frenando",
+        "¿Sigues [comportamiento] con [cero resultado]? Por esto.",
+        "Si tu [cosa] se siente como [metáfora dolorosa], lee esto",
+        "Estás haciendo todo bien — excepto esta sola cosa",
+        "Si [éxito parcial] pero [sigues sufriendo], tu [sistema] está roto",
+        "¿Sigues esperando a que [salvador externo] te [elija]? Esto es lo que funciona de verdad.",
+        "Si eres [talentoso] pero [invisible], este es tu obstáculo",
+        "Trabajas [input duro] para [output bajo]. Así le das la vuelta.",
+        "Si tu [canal] está muerto pero tu [contenido] es fuego, esta es la pieza que falta",
+        "Estás [cobrando/rindiendo de menos] porque no sabes [comunicar X]. Vamos a arreglarlo."
       ],
       "examples": [
         "Si abrís el celular para una cosa y a los veinte minutos no sabés qué buscabas, esto es para vos."
@@ -83,7 +134,17 @@
       "emotion": "vergüenza",
       "templates": [
         "El error que comete casi todo el que {actividad}.",
-        "Estás {haciendo X} mal, y no es tu culpa."
+        "Estás {haciendo X} mal, y no es tu culpa.",
+        "Estás haciendo [X] mal — y por eso [consecuencia dolorosa]",
+        "Tu [cosa] no es el problema. Tu [cosa real] lo es.",
+        "Estás haciendo [X] para [target equivocado], no para [target real] — y por eso [resultado] se muere",
+        "Deja de culpar a [chivo expiatorio externo]. Tu [cosa] simplemente no es lo suficientemente [cualidad].",
+        "Estás haciendo [actividad] mal — y te está costando [costo]",
+        "Tu [activo] está matando tu [resultado]. Esto es lo que debes hacer en su lugar.",
+        "No tienes un problema de [síntoma superficial]. Tienes un problema de [raíz].",
+        "Tu [output] no está [fallando] por [causa asumida]. Está [fallando] por [causa real].",
+        "Estás sobrepensando [cosa] — y por eso no estás [ejecutando/lanzando]",
+        "Estás tratando [plataforma/cosa] como un [marco equivocado]. Por eso [cero resultado]."
       ],
       "examples": [
         "El error que comete casi todo el que empieza a correr: salir demasiado rápido."
@@ -95,7 +156,18 @@
       "emotion": "esperanza",
       "templates": [
         "De {estado inicial} a {estado final} con un solo cambio.",
-        "Así se ve {resultado} después de {tiempo}."
+        "Así se ve {resultado} después de {tiempo}.",
+        "Cómo pasé de [___] a [___] en solo [___] días",
+        "Lo que cambié para finalmente lograr [___]",
+        "El sistema exacto que uso para [___]",
+        "Cómo logré [___] sin [___] ni [___]",
+        "Esto me tomó [___] años aprenderlo, a ti te toma 60 segundos",
+        "Por qué la gente exitosa en [___] hace exactamente lo contrario",
+        "El proceso paso a paso que nadie explica de verdad",
+        "Lo que separa a los que logran [___] de los que no",
+        "Gané [___] haciendo solo esto — sin complicarlo",
+        "Cambié [___] cosa y mis resultados se duplicaron",
+        "La diferencia entre los que triunfan y los que no en [___]"
       ],
       "examples": [
         "De no poder leer diez páginas a terminar un libro por semana, con un solo cambio."
@@ -107,7 +179,14 @@
       "emotion": "confianza",
       "templates": [
         "Después de {experiencia concreta}, esto es lo único que funciona.",
-        "{Número} {casos} me enseñaron esto."
+        "{Número} {casos} me enseñaron esto.",
+        "Analicé [___] casos de éxito y encontré esto en común",
+        "Después de [___] años haciendo esto aprendí una sola cosa",
+        "Lo que hacen diferente las personas top en [___]",
+        "Estudié a los mejores en [___] y copié exactamente esto",
+        "Lo que los más grandes en [___] nunca revelan en público",
+        "El patrón que encontré después de revisar [___] casos",
+        "Así es como lo hacen los que realmente saben de [___]"
       ],
       "examples": [
         "Después de revisar trescientos currículums, esto es lo único que me hace seguir leyendo."
@@ -119,7 +198,16 @@
       "emotion": "curiosidad",
       "templates": [
         "{N} cosas que {resultado} y nadie te cuenta.",
-        "{N} señales de que {situación}."
+        "{N} señales de que {situación}.",
+        "[___] errores que estás cometiendo en [___] sin saberlo",
+        "Las [___] reglas que nadie te dice sobre [___]",
+        "[___] cosas que hacen diferente los que triunfan en [___]",
+        "[___] señales de que estás haciendo [___] mal",
+        "Las [___] mentiras que te vendieron sobre [___]",
+        "[___] formas de [___] que funcionan de verdad",
+        "Los [___] pasos que nadie te explica completos",
+        "[___] razones por las que [___] no te está dando resultados",
+        "Las [___] preguntas que debes hacerte antes de [___]"
       ],
       "examples": [
         "Tres señales de que tu planta tiene demasiada agua, no poca."
@@ -131,7 +219,16 @@
       "emotion": "confianza",
       "templates": [
         "{Número exacto} {unidad} para {resultado concreto}.",
-        "Lo que cambió en {plazo exacto}."
+        "Lo que cambió en {plazo exacto}.",
+        "Pasé de [antes preciso] a [después preciso] usando [un cambio específico]",
+        "Este [formato específico] me dio [resultado preciso] en [plazo]",
+        "Logré [resultado preciso] en [plazo corto] usando este [método específico]",
+        "Reemplacé [cosa cara/lenta] con [cosa específica más barata] — y [dupliqué/gané métrica]",
+        "Pasé de [piso preciso] a [techo preciso] subiendo [una palanca de X a Y]",
+        "Conseguí [número preciso] [resultados] en [plazo] cambiando una línea de mi [activo]",
+        "Este [activo de N palabras] tiene un [% preciso] de [métrica]",
+        "Pasé de [0] a [hito preciso] en [plazo] haciendo [cadencia contraintuitiva]",
+        "Un solo ajuste en [activo] subió mi [métrica] de [% preciso] a [% preciso]"
       ],
       "examples": [
         "Catorce minutos por día para ordenar una casa entera en un mes."
@@ -143,7 +240,12 @@
       "emotion": "curiosidad",
       "templates": [
         "{A} contra {B}: cuál conviene de verdad.",
-        "Lo que hace {grupo A} y no hace {grupo B}."
+        "Lo que hace {grupo A} y no hace {grupo B}.",
+        "Por qué [___] funciona y [___] no, aunque parezcan iguales",
+        "Lo que creía antes vs lo que sé ahora sobre [___]",
+        "El antes y después real de hacer [___]",
+        "Lo que dice la gente común vs lo que hacen los exitosos en [___]",
+        "La versión fácil vs la versión que realmente funciona de [___]"
       ],
       "examples": [
         "Alquilar contra comprar: la cuenta que casi nadie hace completa."
@@ -155,7 +257,14 @@
       "emotion": "empatía",
       "templates": [
         "{Momento concreto} fue cuando entendí {lección}.",
-        "Nadie esperaba que {personaje} {hecho}."
+        "Nadie esperaba que {personaje} {hecho}.",
+        "Hace [___] años tomé una decisión que cambió todo",
+        "Nadie creyó que podía hacer [___] — hasta que pasó esto",
+        "El día que perdí [___] fue el mejor día de mi vida, aquí por qué",
+        "Me dijeron que era una locura — tenían razón, pero lo hice igual",
+        "La historia que nunca había contado sobre [___]",
+        "Esto empezó como un fracaso total y terminó siendo lo mejor que me pasó",
+        "El momento exacto en que todo cambió para mí en [___]"
       ],
       "examples": [
         "La noche que se cortó la luz en pleno cierre fue cuando entendí para qué sirven las copias."
@@ -167,7 +276,8 @@
       "emotion": "miedo",
       "templates": [
         "Antes de {acción próxima}, mirá esto.",
-        "Si {fecha o evento} te agarra sin {cosa}, {consecuencia}."
+        "Si {fecha o evento} te agarra sin {cosa}, {consecuencia}.",
+        "En 60 segundos te doy lo que me tomó [___] años aprender"
       ],
       "examples": [
         "Antes de firmar tu próximo contrato de alquiler, mirá esta cláusula."
@@ -179,11 +289,84 @@
       "emotion": "reconocimiento",
       "templates": [
         "¿Te pasa que {situación}?",
-        "¿Sabías que {dato}?"
+        "¿Sabías que {dato}?",
+        "¿Sigues [cambiando tiempo por dinero]? Lee esto.",
+        "¿Cansado de [crear contenido que no convierte]? Por esto.",
+        "¿Alguna vez sientes que estás [publicando al vacío]? No estás solo.",
+        "¿Gastas [horas] en [cosa] sin nada que mostrar? Vamos a arreglarlo.",
+        "¿Sigues esperando a que [clientes/audiencia] te encuentren? Eso no es una estrategia.",
+        "¿Tienes [activo de vanidad] pero [cero resultado real]? Este es el problema.",
+        "¿Eres el secreto mejor guardado de tu [nicho]? Hora de cambiar eso.",
+        "¿Tus [posts] reciben [métrica superficial] pero ningún [métrica profunda]? Tu [CTA] está roto.",
+        "¿Estás [saboteando X] sin darte cuenta? Revisa esto.",
+        "¿Sigues copiando lo que le funcionó a otro? Por eso a ti no te funciona."
       ],
       "examples": [
         "¿Te pasa que ves una serie entera y no te acordás de qué trataba?"
       ]
+    },
+    {
+      "id": "formula-directa-en",
+      "name": "Fórmulas directas (inglés)",
+      "emotion": "curiosidad",
+      "language": "en",
+      "templates": [
+        "So you want to learn how to [do action]. First you need to understand [unique concept].",
+        "I figured out the exact steps to [get desirable outcome] and I'm going to prove it to you in under [X] seconds.",
+        "Here's why you need to stop [common industry norm] if you're actually serious about [desired outcome].",
+        "Most people don't realize that in 2026, there's one thing you gotta do if you want to survive in [your niche].",
+        "I [do action] for a living and this is my number one rule.",
+        "[Achieving difficult goal] is easier than you think.",
+        "Don't [do common action] until you've done this one thing.",
+        "Your [inputs] are [negative adjective] and we're going to fix that.",
+        "Here are [X] smart [topic] tips [credible avatar] don't have time to tell you.",
+        "Please, never [do common harmful action].",
+        "I [achieved impressive result] last year & here's what they don't tell you about how to [generate desired outcome].",
+        "Let me quickly convince you to start [beneficial unpopular action].",
+        "Most [measurably improvable thing]s suck, here's how to have them suck less."
+      ],
+      "examples": [
+        "Here's why you need to stop editing every clip by hand if you're serious about posting daily."
+      ]
     }
-  ]
+  ],
+  "visual_hook_types": [
+    {
+      "name": "Cold Open Cinematográfico",
+      "frequency": "muy alta",
+      "description": "In media res. Sin intro, sin logo, sin contexto. Te suelta en medio de una escena. Explota el reflejo de orientación.",
+      "use_when": "Cualquier video con un momento visualmente impactante o emocionalmente cargado."
+    },
+    {
+      "name": "Cotidiano Extraordinario",
+      "frequency": "muy alta",
+      "description": "Un micro-conflicto mundano dramatizado a proporciones cinematográficas. Identificación + pattern interrupt.",
+      "use_when": "Lifestyle, marca con relatabilidad, humor-adjacent, marca personal."
+    },
+    {
+      "name": "Pattern Interrupt + Curiosity Gap",
+      "frequency": "alta",
+      "description": "Visual o statement inesperado en el primer frame que no calza con ningún patrón esperado.",
+      "use_when": "Feeds de alto ruido. Reels y TikTok donde el thumb-stop lo es todo."
+    },
+    {
+      "name": "Declaración Disruptiva/Contraintuitiva",
+      "frequency": "alta",
+      "description": "Ataca una convención de inmediato. El instinto de defender la creencia crea atención involuntaria.",
+      "use_when": "Tomas calientes de industria, educativo contrario, myth-busting."
+    },
+    {
+      "name": "Tensión/Conflicto Inmediato",
+      "frequency": "media",
+      "description": "Abre con confrontación, stakes altos o tensión visible. Activa el sistema de detección de amenazas.",
+      "use_when": "Debate, challenges, competición, decisiones make-or-break."
+    },
+    {
+      "name": "Pregunta Existencial/Identidad",
+      "frequency": "media",
+      "description": "Abre con una pregunta personal profunda que dispara autorreflexión. No puedes scrollear sin responderla.",
+      "use_when": "Crecimiento personal, filosofía de marca, inspiracional, posts para comentarios."
+    }
+  ],
+  "notes": "Las plantillas con [corchetes] o {llaves} son huecos para completar. Cada plantilla es un patrón (mecanismo + sintaxis), no texto fijo: se reconstruye de forma nativa en cada idioma, nunca se traduce literal. Filtrá por la ficha de marca: algunas plantillas agresivas chocan con marcas sobrias."
 }
