@@ -246,15 +246,18 @@ def glyph_problems(texts: dict[str, str]) -> list[str]:
     """Characters the kit font file does not have (they'd render in a fallback font).
     ponytail: optional; skipped when fontTools is not installed."""
     try:
-        import logging
         from fontTools.ttLib import TTFont
-        logging.getLogger("fontTools").setLevel(logging.ERROR)  # woff2 without brotli: skipped, not noisy
     except ImportError:
         return []
+    try:
+        import brotli  # noqa: F401  (fontTools needs it to read woff2)
+        woff2 = True
+    except ImportError:
+        woff2 = False
     out = []
     for fam, text in texts.items():
         f = kit_font_file(fam)
-        if not f:
+        if not f or (f.suffix.lower() == ".woff2" and not woff2):
             continue
         try:
             cmap = TTFont(str(f), lazy=True).getBestCmap() or {}
