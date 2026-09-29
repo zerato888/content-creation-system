@@ -75,8 +75,8 @@ def suggestions(prompt: str) -> list:
         name = s.get("name", "")
         if name in have:
             vocab = words(" ".join([name.replace("-", " "), s.get("category", ""), description(name)]))
-            if asked & vocab:
-                scored.append((len(asked & vocab), name, s.get("role")))
+            if asked & vocab:  # naming the skill itself ("hooks", "carrusel") outweighs incidental word overlap
+                scored.append((len(asked & vocab) + 3 * len(asked & words(name.replace("-", " "))), name, s.get("role")))
     scored.sort(key=lambda x: (-x[0], x[1]))
     tips = [f"- skill `{n}`" + (f" (rol `{r}`)" if r else "") for _, n, r in scored[:2]]
     for text, match in lessons():

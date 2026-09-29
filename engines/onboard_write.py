@@ -77,7 +77,8 @@ HOOKS = {
     "brand_gate": {"claude": ("PreToolUse", "Bash"), "codex": ("PreToolUse", None)},
     "no_open_headless": {"claude": ("PreToolUse", "Bash"), "codex": ("PreToolUse", None)},
 }
-SAFE_HOOKS = ("block_sudo", "session_start_summary")
+SAFE_HOOKS = ("block_sudo", "session_start_summary", "knowledge_router", "simple_mode", "plan_plain_language",
+              "grounding_track", "no_open_headless")  # brand_gate and post_compact_reminder stay opt-in
 KIT_HOOK_MARK = ".kit/hooks/"
 EMPTY_PERSONAL = ("lessons.md", "hot.md")  # created empty once, never overwritten
 ANSWERS_REL = f"{PERSONAL}/answers.json"  # the validated answers so far: a rerun merges into them
@@ -830,6 +831,11 @@ def plan(root: Path, answers: dict | None = None, *, tools: list[str] | None = N
         for name in EMPTY_PERSONAL:
             if _read(root, f"{PERSONAL}/{name}") is None:
                 out[f"{PERSONAL}/{name}"] = b""
+        mem_src = HERE.parent / "onboarding" / "memory"  # one empty memory file per role, created once, never overwritten
+        for tmpl in sorted(mem_src.glob("*.md.tmpl")) if mem_src.is_dir() else []:
+            rel = f"{PERSONAL}/memory/{tmpl.name[:-len('.md.tmpl')]}.md"
+            if _read(root, rel) is None:
+                out[rel] = tmpl.read_text(encoding="utf-8").encode("utf-8")
         for rel, keys, render in ((f"{PERSONAL}/profile.md", PROFILE_KEYS, render_profile),
                                   (f"{PERSONAL}/goals.md", {"goals"}, render_goals),
                                   (f"{PERSONAL}/.env.example", {"services"}, render_env_example)):

@@ -19,8 +19,8 @@
   ask: "¿Cuánto podés gastar por mes en servicios pagos?"
   options: [cero, bajo, medio, alto]
 - key: hooks
-  ask: "¿Prendemos dos avisos automáticos seguros? block_sudo (frena comandos con permisos de administrador) y session_start_summary (al empezar, te muestra dónde quedaste). Los dos se pueden apagar después."
-  shape: "[block_sudo, session_start_summary]  (vacío = ninguno)"
+  ask: "¿Prendemos los avisos automáticos recomendados? block_sudo (frena comandos con permisos de administrador), session_start_summary (al empezar, te muestra dónde quedaste), knowledge_router (te sugiere la skill y las lecciones que aplican a cada pedido), simple_mode (respuestas siempre en lenguaje simple), plan_plain_language (avisa si un plan sale con jerga), grounding_track (anota qué fichas de marca se leyeron) y no_open_headless (evita abrir ventanas en procesos automáticos). Todos se pueden apagar después. Aparte hay brand_gate, que frena carruseles, reels y logos si todavía no existe tu ficha de marca; solo se prende si lo pedís."
+  shape: "[block_sudo, session_start_summary, knowledge_router, simple_mode, plan_plain_language, grounding_track, no_open_headless]  (vacío = ninguno)"
   optional: true
 - key: services
   ask: "¿Ya tenés cuenta en alguno de estos servicios? Solo sí o no: NUNCA me pases la clave."
@@ -54,8 +54,8 @@
   shape: "{weekly_goal, grace_days}"
   optional: true
 - key: hooks
-  ask: "¿Prendemos dos avisos automáticos seguros? block_sudo (frena comandos con permisos de administrador) y session_start_summary (al empezar, te muestra dónde quedaste). Los dos se pueden apagar después."
-  shape: "[block_sudo, session_start_summary]  (vacío = ninguno)"
+  ask: "¿Prendemos los avisos automáticos recomendados? block_sudo (frena comandos con permisos de administrador), session_start_summary (al empezar, te muestra dónde quedaste), knowledge_router (te sugiere la skill y las lecciones que aplican a cada pedido), simple_mode (respuestas siempre en lenguaje simple), plan_plain_language (avisa si un plan sale con jerga), grounding_track (anota qué fichas de marca se leyeron) y no_open_headless (evita abrir ventanas en procesos automáticos). Todos se pueden apagar después. Aparte hay brand_gate, que frena carruseles, reels y logos si todavía no existe tu ficha de marca; solo se prende si lo pedís."
+  shape: "[block_sudo, session_start_summary, knowledge_router, simple_mode, plan_plain_language, grounding_track, no_open_headless]  (vacío = ninguno)"
   optional: true
 - key: service
   ask: "¿Querés que el Command Center quede siempre encendido de fondo? (arranca al iniciar sesión y se quita al desinstalar)"

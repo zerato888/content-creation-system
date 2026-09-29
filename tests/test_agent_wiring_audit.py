@@ -69,3 +69,18 @@ def test_declared_pages_are_not_orphans(tmp_path):
     assert aw.audit(tmp_path)["paginas_huerfanas"] == ["solo.md"]
     w(tmp_path / "knowledge" / "no-agent-owner.json", json.dumps({"pages": {"solo.md": "referencia general"}}))
     assert aw.audit(tmp_path)["paginas_huerfanas"] == []
+
+
+def test_installed_layout(tmp_path):
+    """TARGET/.kit holds catalog and knowledge; skills sit in TARGET/.agents/skills (roles come from the catalog)."""
+    kit = tmp_path / ".kit"
+    (kit / "knowledge").mkdir(parents=True)
+    (kit / "knowledge" / "README.md").write_text("# k\n", encoding="utf-8")
+    (kit / "catalog.json").write_text(json.dumps({"skills": [{"name": "uno"}, {"name": "dos"}],
+                                                  "roles": [{"name": "copywriter"}]}), encoding="utf-8")
+    sk = tmp_path / ".agents" / "skills" / "uno"
+    sk.mkdir(parents=True)
+    (sk / "SKILL.md").write_text("---\nname: uno\nrole: copywriter\n---\n## Delegación\n- `copywriter`\n", encoding="utf-8")
+    r = aw.audit(kit)
+    assert r["skills_total"] == 1 and r["roles"] == ["copywriter"]
+    assert r["skills_sin_rol"] == [] and r["catalogo_sin_carpeta"] == []  # `dos` was not chosen: not an error

@@ -58,8 +58,15 @@ def audit(root: Path) -> dict:
     know = root / "knowledge"
     role_files = sorted(p for p in (root / "agents").glob("*.md") if p.name != "README.md")
     roles = {p.stem for p in role_files}
-    skill_dirs = sorted(d for d in (root / "skills").iterdir() if (d / "SKILL.md").is_file()) \
-        if (root / "skills").is_dir() else []
+    skill_roots = [root / "skills"]
+    if not (root / "skills").is_dir() and (root / "catalog.json").is_file():
+        # installed project: root is TARGET/.kit; skills live in TARGET/.agents/skills and/or .claude/skills,
+        # roles are sections of AGENTS.md (names come from the catalog)
+        skill_roots = [root.parent / ".agents" / "skills", root.parent / ".claude" / "skills"]
+        if not roles:
+            roles = {r["name"] for r in json.loads(_read(root / "catalog.json")).get("roles", [])}
+    skill_dirs = sorted({d.name: d for base in skill_roots if base.is_dir()
+                         for d in base.iterdir() if (d / "SKILL.md").is_file()}.values(), key=lambda d: d.name)
     skills = {d.name for d in skill_dirs}
 
     problems: dict[str, list] = {k: [] for k in (
@@ -91,7 +98,9 @@ def audit(root: Path) -> dict:
     if cat_path.is_file():
         cat = json.loads(_read(cat_path))
         in_cat = {s["name"] for s in cat.get("skills", [])}
-        problems["catalogo_sin_carpeta"] = sorted(in_cat - skills)
+        # an installed project only has the modules the person chose: a catalog entry without a folder is normal there
+        installed = not (root / "skills").is_dir()
+        problems["catalogo_sin_carpeta"] = [] if installed else sorted(in_cat - skills)
         problems["carpeta_sin_catalogo"] = sorted(skills - in_cat)
         problems["roles_del_catalogo_sin_archivo"] = sorted(
             r["name"] for r in cat.get("roles", []) if r["name"] not in roles)

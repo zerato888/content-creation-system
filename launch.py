@@ -11,6 +11,9 @@
     python .kit/launch.py carousel ... | logo ... | task ... | lab ... | secrets ...
     python .kit/launch.py doctor           # what works and what is missing, in plain words
     python .kit/launch.py docsizes | lessons   # reading budget / lessons index
+    python .kit/launch.py reel ... | publish ...   # reel from a recording / schedule on Zernio or Metricool
+    python .kit/launch.py imagegen ... | gallery ... | telegram ... | apify ...   # images, review gallery, phone, scraping
+    python .kit/launch.py wiki-lint | course ...   # wiki checks / course ingestion
 
 Whatever Python starts it, the command runs with the project's own environment
 (.kit/venv, where the installer put faster-whisper, tzdata, ...). Without .kit/venv it

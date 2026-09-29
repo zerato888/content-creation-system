@@ -40,6 +40,23 @@ El instalador pregunta antes de cada descarga (dependencias de Python, tipograf�
 
 3. Abrí Codex (o Claude Code) dentro de `~/MiMarca` y escribí: **"hagamos el onboarding"**.
 
+## Cómo saber que todo funciona
+
+```bash
+python3 .kit/launch.py doctor
+```
+
+Te dice en lenguaje simple qué funciona y qué falta (Python, ffmpeg con subtítulos, navegador, modelo de transcripción, fuentes, claves, skills). Nunca muestra tus claves.
+
+## Qué puedes pedirle
+
+- **Marca:** "armemos mi marca" (entrevista, logo con 5 propuestas, dirección visual, ficha).
+- **Contenido:** ideas, hooks, guiones, plan de b-roll, carruseles, subtítulos y **reel desde tu grabación** ("armá el reel de este video").
+- **Imágenes:** "generá una imagen" (ChatGPT/Codex o Gemini) y galería para aprobar o rechazar.
+- **Publicar:** "programá este reel para mañana a las 6" en Zernio o Metricool, con tu cuenta y tu clave (siempre te muestra qué, dónde y cuándo antes de enviar).
+- **Conocimiento:** wiki propia, ingestar cursos y que tus agentes los usen; Content Capital ya viene cargado.
+- **Tablero:** `python3 .kit/launch.py serve` abre el Command Center (tareas, ideas, producción y Vida Personal).
+
 ## Actualizar, revisar, volver atrás
 
 ```bash
