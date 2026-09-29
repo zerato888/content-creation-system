@@ -6,6 +6,7 @@ import {
   api, areaPath, button, card, el, empty, errorLine, formatDate, inlineAdd, input, masthead, money, pills, safe,
   select, smoothPath, svg, todayIso, toast,
 } from "../lib.js";
+import { ideas, journal, reminders } from "./vida-notas.js";
 
 const AREA_FIXED = "Pagos Fijos";
 const AREA_SHOPPING = "Compras";
@@ -333,19 +334,25 @@ export async function render(root, ctx) {
     safe(api(`/api/tasks?ecosystem=${VIDA}`)), safe(api("/api/life/tasks")), safe(api(`/api/life/habits?week=${todayIso()}`)),
     safe(api("/api/life/income")), safe(api("/api/life/income-history")), safe(api("/api/life/goals")),
   ]);
-  const label = tab === "tareas" ? "Tareas y hábitos" : "Finanzas";
-  const head = masthead(["Vida Personal", label], "Vida Personal", "Tu plata, tus tareas y tus hábitos");
-  const tabs = pills([["finanzas", "Finanzas"], ["tareas", "Tareas y hábitos"]], tab, (k) => { tab = k; reload(); });
+  const TABS = [["finanzas", "Finanzas"], ["tareas", "Tareas y hábitos"], ["diario", "Diario"],
+    ["recordatorios", "Recordatorios"], ["ideas", "Ideas"]];
+  const label = (TABS.find(([k]) => k === tab) || TABS[0])[1];
+  const head = masthead(["Vida Personal", label], "Vida Personal", "Tu plata, tus tareas, tus hábitos y tu diario");
+  const tabs = pills(TABS, tab, (k) => { tab = k; reload(); });
   const grid = el("div", "grid grid--main-side");
   const main = el("div", "stack");
   const side = el("div", "stack");
-  if (tab === "tareas") {
+  const NOTES = { diario: journal, recordatorios: reminders, ideas };
+  if (NOTES[tab]) {
+    main.append(await NOTES[tab](reload));
+    grid.className = "grid";
+  } else if (tab === "tareas") {
     main.append(renderTasks(tasks, reload), renderHabits(week, reload));
     side.append(renderConsistency(week.consistency), renderMilestones(goals), renderMonthGoals(tasks, reload));
   } else {
     main.append(renderIncome(income, history, reload), renderGoals(goals, reload, currency));
     side.append(renderFixed(life, reload), renderShopping(life, reload));
   }
-  grid.append(main, side);
+  grid.append(...(NOTES[tab] ? [main] : [main, side]));
   root.replaceChildren(head, tabs, grid);
 }
