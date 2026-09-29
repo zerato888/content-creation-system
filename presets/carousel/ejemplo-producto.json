@@ -1,0 +1,13 @@
+{
+  "title": "Un jabón que tarda seis semanas",
+  "kicker": "Hecho a mano",
+  "slides": [
+    {"type": "cover", "title": "Este jabón tarda seis semanas", "highlight": "seis semanas", "subtitle": "Y esa espera es lo que lo hace distinto"},
+    {"type": "headline", "label": "La historia", "title": "Empezó en una cocina", "highlight": "cocina", "text": "Casa Ruda nació probando recetas en casa, un lote pequeño a la vez, hasta dar con la textura justa."},
+    {"type": "body", "label": "El oficio", "text": "Lo hacemos en frío y lo dejamos curar varias semanas. Esa pausa deja una barra más firme que dura más en la ducha.", "highlight": "curar"},
+    {"type": "headline", "label": "Ingredientes", "title": "Avena, aceite de oliva y ruda", "highlight": "ruda", "text": "Pocos ingredientes, todos a la vista en la etiqueta. Aroma suave, espuma cremosa."},
+    {"type": "body", "label": "Cómo se usa", "text": "Humedece la barra, haz espuma entre las manos y aplícala. Después, déjala secar sobre una jabonera con drenaje para que no se ablande.", "highlight": "déjala secar"},
+    {"type": "stat", "label": "Lote", "value": "40", "text": "barras por lote, numeradas a mano (ejemplo)"},
+    {"type": "cta", "text": "Pide el tuyo por mensaje", "highlight": "por mensaje", "follow": "Nuevos lotes cada mes"}
+  ]
+}

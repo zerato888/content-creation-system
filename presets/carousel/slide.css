@@ -15,8 +15,8 @@ html, body { width: 1080px; height: 1350px; overflow: hidden; background: var(--
 .kicker { color: var(--brand-muted); }
 .body { flex: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: 32px; padding-bottom: 40px; }
 .bottom { display: flex; justify-content: space-between; font-size: 26px; color: var(--brand-muted); }
-h1 { font-family: var(--font-display); font-size: 128px; line-height: .95; text-transform: uppercase; }
-h2 { font-family: var(--font-display); font-size: 92px; line-height: 1; text-transform: uppercase; }
+h1 { font-family: var(--font-display); font-size: 128px; line-height: 1.12; text-transform: uppercase; }
+h2 { font-family: var(--font-display); font-size: 92px; line-height: 1.12; text-transform: uppercase; }
 p { font-size: 44px; line-height: 1.3; }
 .sub { color: var(--brand-muted); font-size: 40px; }
 .hl { color: var(--brand-accent); }
@@ -26,5 +26,8 @@ blockquote { font-family: var(--font-serif); font-size: 76px; line-height: 1.15;
 .author { font-size: 34px; color: var(--brand-muted); }
 .stat { font-family: var(--font-display); font-size: 300px; line-height: .9; color: var(--brand-accent); }
 .source { font-family: var(--font-mono); font-size: 32px; color: var(--brand-muted); }
-.cta { font-family: var(--font-display); font-size: 110px; line-height: 1; text-transform: uppercase; }
+.cta { font-family: var(--font-display); font-size: 110px; line-height: 1.12; text-transform: uppercase; }
 .follow { color: var(--brand-accent); font-size: 44px; }
+.media.band-top { inset: 0 0 auto 0; height: 560px; }
+.media.band-bottom { inset: auto 0 0 0; height: 560px; }
+.band-bottom .body { justify-content: flex-start; padding: 48px 0 0; margin-bottom: 520px; }

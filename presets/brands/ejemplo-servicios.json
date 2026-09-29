@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "name": "Mesa Lista",
+  "handle": "@mesalista.ia",
+  "language": "es",
+  "voice": {"tone": "práctico, cercano, de socio de negocio; muestra el antes y el después", "person": "second", "avoid": ["prometer ventas o ingresos", "tecnicismos de IA sin explicar", "urgencia falsa"]},
+  "colors": {"background": "#F6F6F1", "surface": "#FFFFFF", "text": "#15171C", "muted": "#555B66", "accent": "#5B3DF5", "accent_2": "#00896A"},
+  "fonts": {"display": "Sora", "body": "Inter", "serif": "Instrument Serif", "mono": "JetBrains Mono", "condensed": "Montserrat"},
+  "logo_text": "mesa lista",
+  "cta": "Escríbeme y revisamos tus redes",
+  "source_label": "Fuente:"
+}

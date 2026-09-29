@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "name": "Casa Ruda",
+  "handle": "@casaruda.jabones",
+  "language": "es",
+  "voice": {"tone": "sereno, sensorial, artesanal; cuenta el oficio sin adornos", "person": "second", "avoid": ["prometer curas o beneficios médicos", "decir 100% natural sin respaldo", "superlativos vacíos"]},
+  "colors": {"background": "#1E2B22", "surface": "#28392D", "text": "#F1EDE4", "muted": "#A9B3A5", "accent": "#E8A6B8", "accent_2": "#D9C27A"},
+  "fonts": {"display": "GFS Didot", "body": "Montserrat", "serif": "GFS Didot", "mono": "JetBrains Mono", "condensed": "Bebas Neue"},
+  "logo_text": "CASA RUDA",
+  "cta": "Pide el tuyo por mensaje",
+  "source_label": "Fuente:"
+}

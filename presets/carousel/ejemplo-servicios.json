@@ -1,0 +1,49 @@
+{
+  "title": "Tu restaurante publica, pero nadie reserva",
+  "kicker": "Redes con IA",
+  "slides": [
+    {
+      "type": "cover",
+      "title": "Publicas todos los días y nadie reserva",
+      "highlight": "nadie reserva",
+      "subtitle": "El problema no es cuánto publicas",
+      "label": "Restaurantes"
+    },
+    {
+      "type": "headline",
+      "label": "El problema",
+      "title": "Fotos lindas, cero motivo para venir",
+      "highlight": "cero motivo",
+      "text": "La mayoría de las cuentas muestran el plato, pero no dicen cuándo, por qué hoy ni cómo reservar."
+    },
+    {
+      "type": "body",
+      "label": "Cómo lo resuelvo",
+      "text": "Uso IA para armar un mes de publicaciones con tu menú real: cada post tiene una razón para venir y un paso claro para reservar.",
+      "highlight": "un paso claro"
+    },
+    {
+      "type": "headline",
+      "title": "Tú solo apruebas",
+      "text": "Te mando el calendario, lo revisas en 15 minutos y yo programo todo. Nada sale sin tu visto bueno.",
+      "highlight": "tu visto bueno"
+    },
+    {
+      "type": "stat",
+      "label": "Prueba",
+      "value": "3×",
+      "text": "más mensajes de reserva en un mes, en un caso de muestra (ejemplo)"
+    },
+    {
+      "type": "quote",
+      "quote": "Por fin las redes hablan como nosotros y no como un folleto.",
+      "author": "Dueña de restaurante (ejemplo)"
+    },
+    {
+      "type": "cta",
+      "text": "Te reviso tus últimas 9 publicaciones gratis",
+      "highlight": "gratis",
+      "follow": "Escríbeme REVISIÓN por mensaje"
+    }
+  ]
+}

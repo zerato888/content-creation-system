@@ -28,6 +28,7 @@ TYPES = {"cover", "headline", "body", "quote", "stat", "source", "cta"}
 REQUIRED = {"cover": ["title"], "headline": ["title"], "body": ["text"], "quote": ["quote"],
             "stat": ["value", "text"], "source": ["text"], "cta": ["text"]}
 IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
+IMAGE_POSITIONS = {"full", "top", "bottom"}  # top/bottom: photo in a band, text on a clean background
 MAX_SLIDES = 20
 MAX_TEXT = 600
 
@@ -48,12 +49,33 @@ def validate_spec(spec) -> list[dict]:
         for k in REQUIRED[s["type"]]:
             if not isinstance(s.get(k), str) or not s[k].strip():
                 raise SpecError(f"slide {i} ({s['type']}): '{k}' is required text")
+        pos = s.get("image_position", "full")
+        if pos not in IMAGE_POSITIONS:
+            raise SpecError(f"slide {i}: image_position must be one of {sorted(IMAGE_POSITIONS)}")
+        if pos != "full" and not s.get("image"):
+            raise SpecError(f"slide {i}: image_position '{pos}' needs an image")
         for k, v in s.items():
             if k != "type" and not isinstance(v, str):
                 raise SpecError(f"slide {i}: '{k}' must be text")
             if len(v) > MAX_TEXT:
                 raise SpecError(f"slide {i}: '{k}' longer than {MAX_TEXT} chars")
     return slides
+
+
+def structure_warnings(slides: list[dict]) -> list[str]:
+    """Narrative rules from presets/carousel/ESTRUCTURAS.md. Advice, not errors: a member's
+    carousel still renders, the engine just says what to improve."""
+    out = []
+    if not 4 <= len(slides) <= 8:
+        out.append(f"{len(slides)} slides: lo recomendado es de 4 a 8")
+    if slides[0]["type"] != "cover":
+        out.append("el primer slide debería ser 'cover'")
+    if slides[-1]["type"] != "cta":
+        out.append("el último slide debería ser 'cta'")
+    for i in range(1, len(slides)):
+        if slides[i]["type"] == slides[i - 1]["type"] and slides[i]["type"] != "headline":
+            out.append(f"slides {i} y {i + 1} son del mismo tipo ('{slides[i]['type']}')")
+    return out
 
 
 def safe_image(path: str, project: Path) -> Path:
@@ -82,13 +104,32 @@ def esc(text: str, highlight: str = "") -> str:
     return t
 
 
+FONT_EXT = {".ttf", ".otf", ".woff2", ".woff"}
+
+
+def kit_font_file(family: str) -> Path | None:
+    """Font file for a family inside the kit fonts dir only. Chromium reads woff2, so it counts
+    here (kit_platform.find_font_file skips it because ffmpeg/ASS cannot). Kit copy wins over
+    the system copy: a member's machine has the kit fonts, not ours."""
+    want = "".join(c for c in family.lower() if c.isalnum())
+    d = kit_platform.kit_fonts_dir()
+    if not want or not d.is_dir():
+        return None
+    files = sorted((p for p in d.rglob("*") if p.suffix.lower() in FONT_EXT),
+                   key=lambda p: (p.suffix.lower() not in (".ttf", ".otf"), len(p.stem)))
+    for p in files:
+        stem = "".join(c for c in p.stem.lower() if c.isalnum())
+        if stem.startswith(want) and not stem[len(want):].startswith(("bold", "italic", "light", "black", "thin")):
+            return p.resolve()
+    return None
+
+
 def font_faces(b: dict) -> str:
     """@font-face only for font files that exist inside the kit fonts dir (no web fonts)."""
-    kit = kit_platform.kit_fonts_dir().resolve()
     out = []
     for fam in dict.fromkeys(b["fonts"].values()):
-        f = kit_platform.find_font_file(fam)
-        if f and kit in Path(f).resolve().parents:
+        f = kit_font_file(fam)
+        if f:
             name = re.sub(r"[^\w .-]", "", fam)
             out.append(f'@font-face {{ font-family: "{name}"; src: url("{Path(f).resolve().as_uri()}"); }}')
     return "\n".join(out)
@@ -123,14 +164,16 @@ def build_html(spec: dict, b: dict, project: Path) -> list[str]:
     for i, s in enumerate(slides, 1):
         if s.get("image"):
             uri = safe_image(s["image"], project).as_uri().replace("'", "%27")
-            media = f'<div class="media" style="background-image:url(\'{uri}\')"></div><div class="shade"></div>'
+            pos = s.get("image_position", "full")
+            shade = '<div class="shade"></div>' if pos == "full" else ""
+            media = f'<div class="media band-{pos}" style="background-image:url(\'{uri}\')"></div>{shade}'
         elif s["type"] in ("cover", "headline", "cta"):
             media = '<div class="media panel"></div>'  # no image: brand-colored panel
         else:
             media = ""
         pages.append(tmpl.substitute(
             lang=esc(b["language"]), title=esc(spec.get("title", b["name"])), fontfaces=faces,
-            vars=vars_, css=css, type=s["type"], media=media, logo=esc(b["logo_text"]),
+            vars=vars_, css=css, type=s["type"] + (f" band-{s['image_position']}" if s.get("image_position", "full") != "full" else ""), media=media, logo=esc(b["logo_text"]),
             kicker=esc(s.get("kicker", spec.get("kicker", ""))), inner=inner_html(s, b),
             handle=esc(b["handle"]), page=f"{i}/{len(slides)}"))
     return pages
@@ -144,6 +187,83 @@ def write_html(pages: list[str], out: Path) -> list[Path]:
         p.write_text(page, encoding="utf-8")
         paths.append(p)
     return paths
+
+
+# QC ported from the vault's carousel@1 render gate: a PNG is only written when every check passes.
+QC_JS = """() => {
+  const probs = [];
+  const slide = document.querySelector('.slide').getBoundingClientRect();
+  const els = [...document.querySelectorAll('.body *, .top span, .bottom span')]
+    .filter(el => el.innerText.trim() && el.getClientRects().length && !el.querySelector('*'));
+  const boxes = [];
+  for (const el of els) {
+    const name = el.className || el.tagName.toLowerCase();
+    if (el.scrollWidth > el.clientWidth + 2 && getComputedStyle(el).display !== 'inline')
+      probs.push(`"${name}": una palabra no entra a lo ancho`);
+    // element box, not a text Range: a 300px stat's Range includes the font's full ascent and
+    // reads as overlapping its neighbours when nothing visibly touches
+    const b = el.getBoundingClientRect();
+    if (b.top < slide.top - 2 || b.bottom > slide.bottom + 2 || b.left < slide.left - 2 || b.right > slide.right + 2)
+      probs.push(`"${name}": el texto se sale del slide (acórtalo)`);
+    boxes.push({name, l: b.left, t: b.top, r: b.right, b: b.bottom});
+  }
+  for (let i = 0; i < boxes.length; i++) for (let j = i + 1; j < boxes.length; j++) {
+    const a = boxes[i], c = boxes[j];
+    const w = Math.min(a.r, c.r) - Math.max(a.l, c.l), h = Math.min(a.b, c.b) - Math.max(a.t, c.t);
+    if (w > 1 && h > 1) probs.push(`"${a.name}" y "${c.name}" quedan encimados (acorta el texto)`);
+  }
+  // accented capitals on multi-line titles: the accent's top must clear the line above by 6px.
+  // Consecutive baselines sit one line-height apart, so the gap is line-height - ascent("Á").
+  const ctx = document.createElement('canvas').getContext('2d');
+  for (const el of document.querySelectorAll('h1, h2, .cta, blockquote, .stat')) {
+    const cs = getComputedStyle(el), lh = parseFloat(cs.lineHeight);
+    const t = cs.textTransform === 'uppercase' ? el.innerText.toUpperCase() : el.innerText;
+    if (!lh || !/[ÁÉÍÓÚÑÜ]/.test(t) || el.getBoundingClientRect().height < lh * 1.5) continue;
+    ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
+    const up = Math.max(...[...'ÁÉÍÓÚÑÜ'].filter(c => t.includes(c)).map(c => ctx.measureText(c).actualBoundingBoxAscent));
+    if (lh - up < 6) probs.push(`"${el.tagName.toLowerCase()}": una tilde choca con la línea de arriba (sube line-height)`);
+  }
+  const texts = {};
+  for (const el of els) {
+    const cs = getComputedStyle(el), fam = cs.fontFamily.split(',')[0].replace(/["']/g, '').trim();
+    const t = cs.textTransform === 'uppercase' ? el.innerText.toUpperCase() : el.innerText;
+    texts[fam] = (texts[fam] || '') + t;
+  }
+  for (const fam of Object.keys(texts)) {  // only families this slide actually uses get loaded
+    const face = [...document.fonts].find(f => f.family.replace(/["']/g, '') === fam);
+    if (!face || face.status !== 'loaded')
+      probs.push(`la fuente "${fam}" no cargó (se vería con otra); instala las fuentes del kit`);
+  }
+  return {probs, texts};
+}"""
+
+
+class QCError(RuntimeError):
+    pass
+
+
+def glyph_problems(texts: dict[str, str]) -> list[str]:
+    """Characters the kit font file does not have (they'd render in a fallback font).
+    ponytail: optional; skipped when fontTools is not installed."""
+    try:
+        import logging
+        from fontTools.ttLib import TTFont
+        logging.getLogger("fontTools").setLevel(logging.ERROR)  # woff2 without brotli: skipped, not noisy
+    except ImportError:
+        return []
+    out = []
+    for fam, text in texts.items():
+        f = kit_font_file(fam)
+        if not f:
+            continue
+        try:
+            cmap = TTFont(str(f), lazy=True).getBestCmap() or {}
+        except Exception:  # woff2 without brotli, damaged file: the loaded-font check still runs
+            continue
+        missing = sorted({ch for ch in text if not ch.isspace() and ord(ch) not in cmap})
+        if missing:
+            out.append(f'la fuente "{fam}" no tiene: {" ".join(missing)}')
+    return out
 
 
 def render_png(html_paths: list[Path]) -> list[Path]:
@@ -164,13 +284,24 @@ def render_png(html_paths: list[Path]) -> list[Path]:
         page = browser.new_page(viewport={"width": W, "height": H})
         # block every non-file request: slides are offline by construction
         page.route("**/*", lambda r: r.continue_() if r.request.url.startswith("file:") else r.abort())
+        failed = {}
         for p in html_paths:
             page.goto(p.resolve().as_uri())
             page.wait_for_load_state("load")
+            page.evaluate("document.fonts.ready.then(() => true)")
+            qc = page.evaluate(QC_JS)
+            probs = qc["probs"] + glyph_problems(qc["texts"])
             png = p.with_suffix(".png")
+            if probs:
+                failed[p.name] = probs
+                png.unlink(missing_ok=True)
+                continue
             page.screenshot(path=str(png), clip={"x": 0, "y": 0, "width": W, "height": H})
             pngs.append(png)
         browser.close()
+    if failed:
+        lines = [f"  {name}: {msg}" for name, ps in failed.items() for msg in dict.fromkeys(ps)]
+        raise QCError("control de calidad: no se generó la imagen de estos slides\n" + "\n".join(lines))
     return pngs
 
 
@@ -209,10 +340,16 @@ def main(argv=None) -> int:
     except (OSError, ValueError) as e:
         print(f"carousel: {e}", file=sys.stderr)
         return 2
+    for w in structure_warnings(spec["slides"]):
+        print(f"carousel: aviso: {w} (ver presets/carousel/ESTRUCTURAS.md)", file=sys.stderr)
     out = Path(a.out) if a.out else spec_path.parent / (spec_path.stem + "-carousel")
     paths = write_html(pages, out)
     if not a.html_only:
-        paths = render_png(paths)
+        try:
+            paths = render_png(paths)
+        except QCError as e:
+            print(f"carousel: {e}", file=sys.stderr)
+            return 3
     for p in paths:
         print(p)
     return 0

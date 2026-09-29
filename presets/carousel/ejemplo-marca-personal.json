@@ -1,0 +1,13 @@
+{
+  "title": "El error de ahorrar lo que sobra",
+  "kicker": "Finanzas simples",
+  "slides": [
+    {"type": "cover", "title": "Ahorras lo que sobra. Nunca sobra.", "highlight": "Nunca sobra", "subtitle": "No es falta de disciplina, es el orden"},
+    {"type": "headline", "label": "El error común", "title": "Ahorrar al final del mes", "highlight": "al final", "text": "Si el ahorro depende de lo que queda, compite contra todos tus gastos. Y casi siempre pierde."},
+    {"type": "headline", "label": "Paso 1", "title": "Aparta primero, gasta después", "highlight": "primero", "text": "El día que cobras, mueve una cantidad pequeña a otra cuenta. Aunque sea poca."},
+    {"type": "headline", "label": "Paso 2", "title": "Ponle nombre a ese dinero", "highlight": "nombre", "text": "\"Viaje\", \"imprevistos\", \"curso\". Un nombre hace que cueste más tocarlo."},
+    {"type": "headline", "label": "Paso 3", "title": "Revísalo 10 minutos por semana", "highlight": "10 minutos", "text": "No para juzgarte: para ver qué cambió y ajustar sin drama."},
+    {"type": "quote", "quote": "El orden no te quita libertad. Te la devuelve de a poco.", "author": "Lucía Orden (ejemplo)"},
+    {"type": "cta", "text": "Guarda esto y empieza el próximo día de pago", "highlight": "próximo día de pago", "follow": "Sígueme para más pasos simples"}
+  ]
+}

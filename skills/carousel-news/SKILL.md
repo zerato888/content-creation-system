@@ -18,9 +18,10 @@ Todo corre en tu máquina: no se sube nada ni se descarga nada. Publicar queda f
 ## Flujo
 
 1. **Elegí la historia o el tema.** Una idea por carrusel. Si hay cifras, anotá de dónde salen.
-2. **Copy.** Delegá al copywriter con el tema, la voz de la marca (`voice` en tu brand.json) y los tipos de slide disponibles. Pedí textos cortos: portada que diga el tema de entrada, una idea por slide, fuente y cierre.
-3. **Imágenes (opcional).** Solo imágenes tuyas o con licencia, en `.jpg`, `.png` o `.webp`, dentro de la carpeta del proyecto. Nunca se descargan de internet. Si una slide no tiene imagen, se usa un panel con los colores de la marca.
-4. **Escribí el spec** (JSON). Tomá como modelo `.kit/presets/carousel/demo-spec.json`. Tipos de slide:
+2. **Estructura.** Elegí un módulo por slide de `.kit/presets/carousel/ESTRUCTURAS.md` (de 4 a 8 slides, `cover` primero, `cta` al final). Hay tres ejemplos completos para copiar: `ejemplo-servicios.json`, `ejemplo-marca-personal.json` y `ejemplo-producto.json`, cada uno con su marca en `.kit/presets/brands/`. El motor avisa si la estructura no sigue las reglas.
+3. **Copy.** Delegá al copywriter con el tema, la voz de la marca (`voice` en tu brand.json) y los tipos de slide disponibles. Pedí textos cortos: portada que diga el tema de entrada, una idea por slide, fuente y cierre.
+4. **Imágenes (opcional).** Solo imágenes tuyas o con licencia, en `.jpg`, `.png` o `.webp`, dentro de la carpeta del proyecto. Nunca se descargan de internet. Si una slide no tiene imagen, se usa un panel con los colores de la marca. Con `"image_position": "top"` o `"bottom"` la foto va en una franja y el texto sobre fondo limpio; `"full"` (por defecto) la pone de fondo.
+5. **Escribí el spec** (JSON). Tomá como modelo `.kit/presets/carousel/demo-spec.json`. Tipos de slide:
    - `cover`: `title`, `subtitle`, `highlight` (palabra resaltada), `image`
    - `headline`: `title`, `text`, `label`, `highlight`, `image`
    - `body`: `text`, `label`, `highlight`
@@ -29,14 +30,14 @@ Todo corre en tu máquina: no se sube nada ni se descarga nada. Publicar queda f
    - `source`: `text` (se antepone `source_label` de la marca)
    - `cta`: `text`, `follow` (si falta, se usa el `handle` de la marca), `image`
    Todos aceptan `kicker`. Los campos son texto; máximo 600 caracteres por campo y 20 slides.
-5. **Render HTML** (revisión rápida en el navegador):
+6. **Render HTML** (revisión rápida en el navegador):
    `python .kit/launch.py carousel mi-carrusel.json --brand .kit-personal/brands/<marca>.json --html-only`
-6. **PNG:** mismo comando sin `--html-only`. Necesita Playwright y Chromium en la caché compartida del kit; si faltan, el script dice cómo instalarlos. Usá `--out CARPETA` para elegir dónde quedan y `--project CARPETA` si tus imágenes viven en otra carpeta del proyecto.
-7. **Revisión.** Delegá al creative-director con los PNG: legibilidad, jerarquía, colores de marca, texto cortado. Corregí el spec y volvé a renderizar.
+7. **PNG:** mismo comando sin `--html-only`. Antes de guardar cada PNG se corre un control de calidad: si una fuente no cargó, una palabra no entra, un texto se sale o se encima con otro, o una tilde choca con la línea de arriba, ese slide no se guarda y el comando dice qué corregir (sale con código 3). Necesita Playwright y Chromium en la caché compartida del kit; si faltan, el script dice cómo instalarlos. Usá `--out CARPETA` para elegir dónde quedan y `--project CARPETA` si tus imágenes viven en otra carpeta del proyecto.
+8. **Revisión.** Delegá al creative-director con los PNG: legibilidad, jerarquía, colores de marca, texto cortado. Corregí el spec y volvé a renderizar.
 
 ## Reglas
 
 - Todo el texto se escapa: lo que escribas se muestra tal cual, nunca se ejecuta.
 - Las imágenes fuera de la carpeta del proyecto, URLs o formatos distintos a jpg/png/webp se rechazan.
-- Las tipografías salen de tu brand.json. Si el archivo de la fuente está en la carpeta de fuentes del kit se usa; si no, el sistema usa una fuente parecida. No hay fuentes web.
+- Las tipografías salen de tu brand.json y tienen que estar en la carpeta de fuentes del kit (el instalador descarga las libres). Si una fuente usada no está, el PNG no se genera: así nunca sale un carrusel con otra letra sin que lo sepas. No hay fuentes web.
 - Chequeo sin conexión: `python .kit/launch.py carousel --selftest`.

@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "name": "Lucía Orden",
+  "handle": "@lucia.enorden",
+  "language": "es",
+  "voice": {"tone": "cálido, honesto, sin culpa; habla como una amiga que ya pasó por eso", "person": "second", "avoid": ["prometer riqueza o libertad financiera", "culpar al lector", "consejos de inversión"]},
+  "colors": {"background": "#F3E9DC", "surface": "#EADBC8", "text": "#2B1D14", "muted": "#6B5646", "accent": "#B4472A", "accent_2": "#5E7F64"},
+  "fonts": {"display": "Instrument Serif", "body": "Inter", "serif": "Instrument Serif", "mono": "JetBrains Mono", "condensed": "Montserrat"},
+  "logo_text": "Lucía Orden",
+  "cta": "Sígueme para más pasos simples",
+  "source_label": "Fuente:"
+}
