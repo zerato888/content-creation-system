@@ -109,6 +109,40 @@
       "files": []
     },
     {
+      "name": "logo",
+      "category": "brand-strategy",
+      "tier": "module",
+      "status": "tested",
+      "role": "creative-director",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [
+        "ChatGPT Plus o Pro (recomendado; incluye Codex)",
+        "Higgsfield o Magnific (alternativa si usas Claude)"
+      ],
+      "network": [
+        {
+          "service": "ChatGPT / Higgsfield / Magnific",
+          "data": "el pedido del logo (nombre de la marca, colores y estilo), a la herramienta de imágenes que elijas"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/logo/logo_qc.py",
+          "--selftest"
+        ]
+      },
+      "files": []
+    },
+    {
       "name": "deep-research",
       "category": "research",
       "tier": "core",
@@ -557,7 +591,8 @@
       "description": "Guardián de la marca del usuario. Usar antes de cualquier pieza creativa (imagen, video, copy, diseño, motion) para verificar que exista un manual de marca y que la pieza lo cumpla.",
       "skills": [
         "brand-onboarding",
-        "carousel-news"
+        "carousel-news",
+        "logo"
       ]
     },
     {
