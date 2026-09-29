@@ -35,6 +35,11 @@ COMMANDS = {
     "task": ("cc/server/tasks.py", []),
     "lab": ("cc/server/lab.py", []),
     "secrets": ("engines/kit_secrets.py", []),
+    "imagegen": ("engines/imagegen/imagegen.py", []),
+    "fetch-image": ("engines/imagegen/fetch_image.py", []),
+    "gallery": ("engines/gallery/gallery.py", []),
+    "telegram": ("engines/telegram/tg_send.py", []),
+    "apify": ("engines/apify/apify_scrape.py", []),
 }
 
 

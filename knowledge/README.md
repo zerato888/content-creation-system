@@ -13,6 +13,7 @@ Leé solo lo que la tarea necesita.
 | [broll-planning.md](broll-planning.md) | Al planificar B-roll sobre un guion |
 | [captions.md](captions.md) | Al hacer subtítulos |
 | [commercial-patterns.md](commercial-patterns.md) | Al elegir la forma de un anuncio o un corto |
+| [herramientas-recomendadas.md](herramientas-recomendadas.md) | Al necesitar algo que el kit no trae (limpiar páginas, notas, diseño de páginas) |
 | [after-effects-motion.md](after-effects-motion.md) | Solo con el módulo de After Effects |
 
 Las ideas de terceros llevan su crédito en el texto. Están explicadas con palabras propias, no copiadas.
