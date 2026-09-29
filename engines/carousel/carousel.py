@@ -13,6 +13,7 @@ import html
 import json
 import os
 import re
+import unicodedata
 import sys
 import tempfile
 from pathlib import Path
@@ -75,7 +76,20 @@ def structure_warnings(slides: list[dict]) -> list[str]:
     for i in range(1, len(slides)):
         if slides[i]["type"] == slides[i - 1]["type"] and slides[i]["type"] != "headline":
             out.append(f"slides {i} y {i + 1} son del mismo tipo ('{slides[i]['type']}')")
+    seen = {}
+    for i, s in enumerate(slides, 1):  # the same sentence twice reads as filler
+        for k in ("title", "text", "subtitle", "quote"):
+            key = _norm(s.get(k, ""))
+            if len(key) >= 20:
+                if key in seen and seen[key] != i:
+                    out.append(f"slides {seen[key]} y {i} repiten el mismo texto")
+                seen.setdefault(key, i)
     return out
+
+
+def _norm(text: str) -> str:
+    t = unicodedata.normalize("NFKD", str(text).lower())
+    return re.sub(r"[^a-z0-9 ]", "", "".join(c for c in t if not unicodedata.combining(c))).strip()
 
 
 def safe_image(path: str, project: Path) -> Path:

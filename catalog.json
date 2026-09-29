@@ -632,6 +632,39 @@
         ]
       },
       "files": []
+    },
+    {
+      "name": "publicar",
+      "category": "distribution",
+      "tier": "module",
+      "status": "tested",
+      "role": "social-media-manager",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [
+        "Zernio (tu cuenta)"
+      ],
+      "network": [
+        {
+          "service": "Zernio",
+          "data": "el reel o las imágenes, el caption y la fecha, con tu clave"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/publish/zernio.py",
+          "--selftest"
+        ]
+      },
+      "files": []
     }
   ],
   "roles": [
@@ -698,7 +731,9 @@
     {
       "name": "social-media-manager",
       "description": "Distribución y lectura de resultados. Usar para armar calendarios, adaptar una pieza a cada red, programar publicaciones y leer métricas o competidores.",
-      "skills": []
+      "skills": [
+        "publicar"
+      ]
     },
     {
       "name": "strategist",

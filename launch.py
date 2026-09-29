@@ -30,6 +30,7 @@ COMMANDS = {
     "models": ("engines/video/transcribe.py", ["download-model"]),
     "carousel": ("engines/carousel/carousel.py", []),
     "reel": ("engines/video/reel.py", []),
+    "publish": ("engines/publish/zernio.py", []),
     "logo": ("engines/logo/logo_qc.py", []),
     "task": ("cc/server/tasks.py", []),
     "lab": ("cc/server/lab.py", []),

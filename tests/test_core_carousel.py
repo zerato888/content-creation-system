@@ -111,6 +111,9 @@ def test_structure_warnings():
     w = carousel.structure_warnings(s("body", "stat", "stat"))
     assert any("4 a 8" in x for x in w) and any("cover" in x for x in w)
     assert any("'cta'" in x for x in w) and any("mismo tipo" in x for x in w)
+    rep = [{"type": "cover", "title": "Ahorrá primero, gastá después"}, {"type": "body", "text": "x"},
+           {"type": "stat", "text": "AHORRÁ primero, gastá después."}, {"type": "cta", "text": "y"}]
+    assert any("repiten" in x for x in carousel.structure_warnings(rep))
 
 
 def test_image_position(tmp_path):
