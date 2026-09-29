@@ -31,6 +31,13 @@ def read(rel: str, limit: int | None = None) -> str:
         return ""
 
 
+for _s in (sys.stdout, sys.stderr):  # Windows encodes with the console code page: accents in our messages must reach the tool as UTF-8
+    try:
+        _s.reconfigure(encoding="utf-8", errors="replace")
+    except Exception:
+        pass
+
+
 def say(text: str) -> None:
     """Plain stdout: both tools add it to the model's context for SessionStart / UserPromptSubmit."""
     try:

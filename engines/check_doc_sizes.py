@@ -51,9 +51,13 @@ def patterns(root: Path, given: list) -> list:
 def hot_files(root: Path, pats: list) -> list:
     found = {}
     for pat in pats:
-        if Path(pat).is_absolute() or ".." in Path(pat).parts:
-            continue  # only inside the project
-        for p in sorted(root.glob(pat)):
+        if Path(pat).is_absolute() or pat[:1] in ("/", "\\") or ".." in Path(pat).parts:
+            continue  # only inside the project ("/etc/*" is not "absolute" on Windows: no drive letter)
+        try:
+            matches = sorted(root.glob(pat))
+        except (NotImplementedError, ValueError, OSError):
+            continue  # a pattern pathlib cannot use is skipped, never fatal
+        for p in matches:
             if p.is_file() and not p.is_symlink() and not any(p.match(a) for a in ARCHIVE):
                 found[p] = None
     return list(found)

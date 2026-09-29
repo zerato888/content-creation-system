@@ -1,0 +1,9 @@
+{
+  "note": "GSAP (GreenSock / Webflow, licencia GSAP Standard, no OSI). Este repo no la contiene: reel9.py fetch-gsap la baja con permiso a la caché del kit y verifica el hash antes de usarla.",
+  "file": "gsap.min.js",
+  "version": "3.12.5",
+  "license": "GSAP Standard License, https://gsap.com/standard-license",
+  "url": "https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js",
+  "sha256": "28033e449a31ebcc396e5be8b13b63152bf03094288fb5867034321927bce087",
+  "size": 72214
+}

@@ -465,6 +465,9 @@ def install_extras(root: Path, confirm, log: Log) -> None:
               [str(py), "-m", "playwright", "install", "chromium"], "deps-chromium"),
              ("Descargar el modelo de transcripción 'small' para subtítulos (~460 MB)?",
               [str(py), str(safe_path(root, ".kit/launch.py")), "models", "small", "--yes"], "deps-model")]
+    if any((root / d / "skills" / "reel-contenido" / "SKILL.md").is_file() for d in (".agents", ".claude")):
+        steps.append(("Descargar GSAP (animaciones del reel de contenido, ~70 KB, licencia GreenSock Standard)?",
+                      [str(py), str(safe_path(root, ".kit/launch.py")), "reel9", "fetch-gsap", "--yes"], "deps-gsap"))
     for q, cmd, tag in steps:
         if not confirm(q):
             continue

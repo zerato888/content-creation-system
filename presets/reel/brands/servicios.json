@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "Taller Norte",
+  "handle": "@tallernorte.servicios",
+  "language": "es",
+  "voice": {"tone": "claro, profesional y cercano; explica el proceso sin tecnicismos", "person": "second", "avoid": ["promesas de resultados garantizados", "urgencia falsa"]},
+  "colors": {"background": "#10202B", "surface": "#183040", "text": "#F4F1EA", "muted": "#A9B7C2", "accent": "#F2A93B", "accent_2": "#4FB3A9"},
+  "fonts": {"display": "Montserrat", "body": "Inter", "serif": "Instrument Serif", "mono": "JetBrains Mono", "condensed": "Anton"},
+  "logo_text": "TALLER NORTE",
+  "cta": "Agenda tu llamada",
+  "source_label": "Fuente:",
+  "reel": {"tag": "TALLER NORTE", "stat_kicker": "EL DATO", "display_weight": 800, "display_case": "uppercase", "emphasis_weight": 800}
+}

@@ -877,6 +877,40 @@
         ]
       },
       "files": []
+    },
+    {
+      "name": "reel-contenido",
+      "category": "content-video",
+      "tier": "module",
+      "status": "tested",
+      "role": "editor-video",
+      "deps": [
+        "python>=3.11",
+        "ffmpeg",
+        "playwright (Chrome o Chromium)",
+        "GSAP (se baja con permiso: reel9 fetch-gsap)"
+      ],
+      "paid_services": [],
+      "network": [
+        {
+          "service": "jsDelivr (solo fetch-gsap)",
+          "data": "nada tuyo: baja la librería de animación GSAP, con tu permiso y con hash verificado"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/video/reel9.py",
+          "--selftest"
+        ]
+      },
+      "files": []
     }
   ],
   "roles": [
@@ -916,7 +950,8 @@
       "description": "Armado y mezcla de video. Usar antes de cortar, poner capas, subtítulos, música o exportar: convierte material aprobado en una pieza terminada y revisada.",
       "skills": [
         "captions",
-        "reel"
+        "reel",
+        "reel-contenido"
       ]
     },
     {

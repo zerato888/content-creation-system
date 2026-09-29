@@ -8,7 +8,7 @@
     python .kit/launch.py captions ...     # engines/video/captions.py
     python .kit/launch.py transcribe ...   # engines/video/transcribe.py
     python .kit/launch.py models small     # download a pinned Whisper model (asks first)
-    python .kit/launch.py carousel ... | logo ... | task ... | lab ... | secrets ...
+    python .kit/launch.py carousel ... | logo ... | task ... | lab ... | secrets ... | reel9 ...
     python .kit/launch.py doctor           # what works and what is missing, in plain words
     python .kit/launch.py docsizes | lessons   # reading budget / lessons index
     python .kit/launch.py reel ... | publish ...   # reel from a recording / schedule on Zernio or Metricool
@@ -50,6 +50,7 @@ COMMANDS = {
     "gallery": ("engines/gallery/gallery.py", []),
     "telegram": ("engines/telegram/tg_send.py", []),
     "apify": ("engines/apify/apify_scrape.py", []),
+    "reel9": ("engines/video/reel9.py", []),
 }
 
 

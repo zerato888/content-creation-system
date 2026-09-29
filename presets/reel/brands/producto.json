@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "name": "Casa Brisa",
+  "handle": "@casabrisa.velas",
+  "language": "es",
+  "voice": {"tone": "sereno, sensorial y artesanal; cuenta el oficio sin adornos", "person": "second", "avoid": ["beneficios médicos", "superlativos vacíos"]},
+  "colors": {"background": "#1E2B22", "surface": "#28392D", "text": "#F1EDE4", "muted": "#B5BFB1", "accent": "#E8A6B8", "accent_2": "#D9C27A"},
+  "fonts": {"display": "GFS Didot", "body": "Montserrat", "serif": "GFS Didot", "mono": "JetBrains Mono", "condensed": "Bebas Neue"},
+  "logo_text": "CASA BRISA",
+  "cta": "Pídela por mensaje",
+  "source_label": "Fuente:",
+  "reel": {"tag": "CASA BRISA", "stat_kicker": "DATO", "display_weight": 400, "display_case": "uppercase"}
+}

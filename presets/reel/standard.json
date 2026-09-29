@@ -1,0 +1,39 @@
+{
+  "_doc": "Reglas del reel de contenido (plantilla reel@9). Las lee engines/video/reel9_gate.py; se pueden cambiar con --standard <archivo> en reel9.py. Tiempos en segundos, medidas en px sobre un video de 1080x1920.",
+  "version": 1,
+  "duration_s": [40, 55],
+  "words_per_s": [1.8, 3.6],
+  "hook": {
+    "segments": [
+      {"role": "hook_image", "start": 0.0, "end": 2.5},
+      {"role": "image", "start": 2.5, "end": 3.7},
+      {"role": "image", "start": 3.7, "end": 5.0}
+    ],
+    "tolerance_s": 0.15,
+    "title_over_whole_hook": true,
+    "hook_image_required": true
+  },
+  "cards": {
+    "one_per_script_block": true,
+    "continuous_after_hook": true,
+    "max_gap_s": 0.5,
+    "min_dossier": 0,
+    "bottom_px": 1472,
+    "sequential": {
+      "types": ["lower-third", "stat", "dossier"],
+      "entry_s": 0.45,
+      "exit_s": 0.4,
+      "dossier_entry_s": 0.7,
+      "dossier_exit_s": 0.4,
+      "words_per_s": 3.0,
+      "read_pad_s": 0.6
+    }
+  },
+  "visuals": {
+    "max_static_s": 3.0,
+    "no_repeats_in_reel": true,
+    "no_repeats_in_batch": true,
+    "min_photo_side_px": 720
+  },
+  "music": {"required": false}
+}

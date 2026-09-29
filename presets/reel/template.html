@@ -1,0 +1,418 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8" />
+  <!-- Plantilla de reel de contenido (1080x1920). Lo propio de cada marca entra por engines/video/reel9.py desde su ficha: colores, tipografías, textos y logo. No editar un index.html armado: se regenera. -->
+  <meta name="reel-format" content="/*__FORMAT_STAMP__*/" />
+  <style>
+    /*__BRAND_TOKENS__*/
+  </style>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    [data-composition-id="reel"] {
+      position: relative; width: 1080px; height: 1920px; overflow: hidden;
+      background: var(--bg); font-family: var(--font-display);
+      --accent-06: color-mix(in srgb, var(--accent) 6%, transparent);
+      --accent-20: color-mix(in srgb, var(--accent) 20%, transparent);
+      --accent-32: color-mix(in srgb, var(--accent) 32%, transparent);
+      --accent-40: color-mix(in srgb, var(--accent) 40%, transparent);
+      --accent-45: color-mix(in srgb, var(--accent) 45%, transparent);
+      --accent-60: color-mix(in srgb, var(--accent) 60%, transparent);
+      --bg-00: color-mix(in srgb, var(--bg) 0%, transparent);
+      --bg-15: color-mix(in srgb, var(--bg) 15%, transparent);
+      --bg-32: color-mix(in srgb, var(--bg) 32%, transparent);
+      --bg-55: color-mix(in srgb, var(--bg) 55%, transparent);
+      --bg-85: color-mix(in srgb, var(--bg) 85%, transparent);
+      --bg-86: color-mix(in srgb, var(--bg) 86%, transparent);
+      --bg-88: color-mix(in srgb, var(--bg) 88%, transparent);
+      --bg-92: color-mix(in srgb, var(--bg) 92%, transparent);
+      --bg-94: color-mix(in srgb, var(--bg) 94%, transparent);
+      --bg-97: color-mix(in srgb, var(--bg) 97%, transparent);
+      --bg-98: color-mix(in srgb, var(--bg) 98%, transparent);
+      --muted-70: color-mix(in srgb, var(--muted) 70%, transparent);
+    }
+
+    /* Fondos: un slot por imagen, cortes duros, Ken Burns */
+    .bg {
+      position: absolute; inset: 0; opacity: 0;
+      background-size: cover; background-position: center;
+      will-change: transform, opacity;
+    }
+
+    .scrim-top {
+      position: absolute; top: 0; left: 0; right: 0; height: 420px; z-index: 30;
+      background: linear-gradient(180deg, var(--bg-98) 0%, var(--bg-85) 45%, var(--bg-00) 100%);
+    }
+    .scrim-bottom {
+      position: absolute; bottom: 0; left: 0; right: 0; height: 1040px; z-index: 30;
+      background: linear-gradient(0deg, var(--bg-97) 0%, var(--bg-86) 36%, var(--bg-32) 74%, var(--bg-00) 100%);
+    }
+    .vignette {
+      position: absolute; inset: 0; z-index: 31; pointer-events: none;
+      background: radial-gradient(120% 90% at 50% 42%, rgba(0,0,0,0) 55%, rgba(0,0,0,.55) 100%);
+    }
+
+    /* Esquina de marca */
+    .reticle-corner {
+      position: absolute; top: 70px; left: 60px; z-index: 50;
+      display: flex; align-items: center; gap: 14px;
+    }
+    .reticle-mark {
+      font-family: var(--font-mono); font-size: 26px; color: var(--accent);
+      letter-spacing: 2px; line-height: 1; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+    .reticle-tag {
+      font-family: var(--font-display); font-size: 22px; font-weight: 600;
+      color: var(--text); letter-spacing: 4px; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.8);
+    }
+
+    /* Título del hook (reel@9): texto limpio, sin caja, en una zona fija anclada por abajo en
+       cards.bottom_px (1472). Arriba no pasa de 900 px: si no entra, se achica SOLO el título
+       (fitIntro); el control de maqueta (engines/video/reel9_layout.py) lo verifica. */
+    .intro {
+      position: absolute; left: 60px; right: 60px; bottom: calc(1920px - /*__CARDS_BOTTOM__*/px); z-index: 46; opacity: 0;
+    }
+    /* Hook tipo portada de carrusel : la foto va limpia y solo el tercio de abajo
+       se funde a fondo. scrim-top/scrim-bottom/vignette arrancan en 0 y entran al terminar el hook. */
+    .intro-shade {
+      position: absolute; left: 0; right: 0; top: 820px; bottom: 0; z-index: 44; opacity: 1; pointer-events: none;
+      background: linear-gradient(180deg, var(--bg-00) 0%, var(--bg-55) 7%, var(--bg-85) 15%, var(--bg-92) 45%, var(--bg-98) 100%);
+    }
+    .intro-kicker {
+      font-family: var(--font-body); font-weight: 400; font-size: 30px; letter-spacing: 7px; line-height: 1.2;
+      text-transform: uppercase; color: var(--muted); margin-bottom: 26px; text-shadow: 0 1px 10px rgba(0,0,0,.6);
+    }
+    .intro-kicker:empty { display: none; }
+    .intro-title {
+      font-family: var(--font-display); font-weight: var(--display-weight); font-size: 84px; line-height: var(--title-lh);
+      text-transform: var(--display-case); color: var(--text); text-shadow: 0 2px 22px rgba(0,0,0,.7);
+      overflow-wrap: normal; word-break: normal;
+    }
+    /* Resaltado por palabra: .hl = color de la marca; .mk = marcador (fondo de la marca, letra por contraste).
+       .hl-box es el marcado viejo: se lee como color, sin caja. */
+    .intro-title .hl, .intro-title .hl-box, .intro-title .hl-box .hl-text { color: var(--accent); font-weight: var(--title-em-weight); }
+    .intro-title .mk {
+      background: var(--accent); color: var(--mark-ink); text-shadow: none; padding: 0 .14em; font-weight: var(--title-em-weight);
+      -webkit-box-decoration-break: clone; box-decoration-break: clone;
+    }
+    .intro-sub {
+      font-family: var(--font-body); font-weight: 400; font-size: 34px; line-height: 1.35;
+      color: var(--muted); margin-top: 28px; text-shadow: 0 1px 10px rgba(0,0,0,.6);
+    }
+
+    /* Lower-third */
+    /* reel@8: anclada por abajo; el borde inferior de la tarjeta (la placa de acento) cae en cards.bottom_px del estándar. */
+    .boxwrap { position: absolute; left: 60px; right: 60px; bottom: calc(1920px - /*__CARDS_BOTTOM__*/px); height: 0; z-index: 45; }
+    .cw { position: absolute; left: 0; right: 0; bottom: 16px; opacity: 0; }
+    .slabB { position: absolute; left: -16px; top: 22px; right: 48px; bottom: -16px; background: var(--accent); }
+    .slabD { position: relative; background: var(--bg); padding: 36px 46px; box-shadow: 0 26px 64px rgba(0,0,0,.6); border-left: 6px solid var(--accent); }
+    .slabD .txt {
+      font-family: var(--font-display); font-weight: var(--display-weight); font-size: 50px; line-height: var(--card-lh);
+      text-transform: var(--display-case); color: var(--text); text-shadow: 0 1px 10px rgba(0,0,0,.5);
+    }
+    .slabD .txt .b { color: var(--accent); font-weight: var(--card-em-weight); }
+
+    /* Stat */
+    .stat-wrap { position: absolute; left: 70px; right: 70px; bottom: calc(1920px - /*__CARDS_BOTTOM__*/px); height: 0; z-index: 46; }
+    .stat {
+      position: absolute; left: 0; right: 0; bottom: 0; opacity: 0;
+      background: var(--bg-94); border: 2px solid var(--accent-40); border-radius: 18px; padding: 44px 50px;
+      box-shadow: 0 24px 70px rgba(0,0,0,.55);
+    }
+    .stat .kick { font-family: var(--font-mono); font-weight: 400; font-size: 26px; letter-spacing: 4px; color: var(--accent); text-transform: uppercase; margin-bottom: 18px; }
+    .stat .pct {
+      font-family: var(--font-mono); font-weight: 500; font-size: 92px; line-height: .95; color: var(--text);
+      background: linear-gradient(150deg, var(--accent-20), var(--accent-06)); border: 1px solid var(--accent-32);
+      padding: 6px 20px; border-radius: 10px; display: inline-block;
+    }
+    .stat .label { font-family: var(--font-mono); font-weight: 400; font-size: 38px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; margin-top: 20px; }
+    .stat .pct .stat-num--men { border-bottom: 4px solid var(--accent); padding-bottom: 2px; }
+    .stat .pct .stat-num--women { opacity: .82; }
+    .stat .pct .stat-sep { opacity: .45; font-weight: 300; margin: 0 8px; }
+    .stat .tag { font-family: var(--font-body); font-weight: 500; font-size: 26px; color: var(--muted-70); display: block; margin-top: 8px; letter-spacing: 1px; }
+
+    /* Dossier — retrato citado (diseño fijo; solo colores y fuentes pasan a tokens de la ficha). No tocar
+       geometría ni timeline: solo cambian los datos (asset, caption). */
+    .person { position: absolute; right: 60px; top: 460px; width: 380px; z-index: 40; opacity: 0; will-change: transform, opacity; }
+    .person .p-frame { position: relative; width: 380px; height: 540px; border: 1px solid var(--accent-45); overflow: hidden; }
+    .person .p-img { position: absolute; inset: 0; background-size: cover; background-position: top center; filter: grayscale(1) brightness(.85) contrast(1.2); }
+    .person .p-tint { position: absolute; inset: 0; background: var(--accent); mix-blend-mode: soft-light; opacity: .35; }
+    .person .p-grad { position: absolute; inset: 0; background: linear-gradient(180deg, transparent 55%, var(--bg-85) 100%); }
+    .person .p-tk { position: absolute; background: var(--accent); z-index: 2; }
+    .person .p-tk.h { width: 18px; height: 2px; } .person .p-tk.v { width: 2px; height: 18px; }
+    .person .p-cap { margin-top: 18px; font-family: var(--font-body); font-weight: 700; font-size: 24px; letter-spacing: 4px; color: var(--text); text-transform: uppercase; }
+
+    /* Cierre: velo oscuro fijo detrás del logo, así ningún fondo claro compite con la marca . */
+    .outro-veil { position: absolute; inset: 0; z-index: 58; opacity: 0; pointer-events: none;
+      background: radial-gradient(90% 60% at 50% 62%, var(--bg-94) 0%, var(--bg-88) 55%, var(--bg-85) 100%); }
+    /* Cierre */
+    .lockup { position: absolute; left: 0; right: 0; bottom: calc(1920px - /*__CARDS_BOTTOM__*/px); z-index: 60; text-align: center; opacity: 0; transform-origin: 50% 100%; }
+    .lockup .logo { display: block; margin: 0 auto 36px; height: 120px; width: auto; }
+    .lockup .name {
+      font-family: var(--font-display); font-weight: var(--display-weight); font-size: 76px; line-height: 1;
+      letter-spacing: 6px; color: var(--text); text-transform: uppercase;
+    }
+    .lockup .cta { margin-top: 46px; }
+    .lockup .cta-btn {
+      display: inline-block; font-family: var(--font-body); font-weight: 700; font-size: 42px; color: var(--bg);
+      background: var(--accent); padding: 18px 52px; border-radius: 12px; letter-spacing: 1px; box-shadow: 0 14px 44px var(--accent-32);
+    }
+    .lockup .cta-handle { margin-top: 24px; font-family: var(--font-body); font-weight: 500; font-size: 32px; color: var(--muted); letter-spacing: 2px; }
+
+    /* Split 2x2 */
+    .split-grid {
+      position: absolute; inset: 0; z-index: 20; opacity: 0;
+      display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr;
+      gap: 6px; background: var(--bg);
+    }
+    .split-cell { background-size: cover; background-position: center; }
+    .split-pulse {
+      position: absolute; inset: 18px; z-index: 32; opacity: 0; pointer-events: none;
+      border: 10px solid var(--accent); box-shadow: 0 0 60px var(--accent-60); border-radius: 4px;
+    }
+
+    /* Flash kicker */
+    .flash-kicker {
+      position: absolute; left: 60px; right: 60px; top: 900px; z-index: 47; opacity: 0;
+      text-align: center; font-family: var(--font-mono); font-weight: 500;
+      font-size: 60px; letter-spacing: 5px; color: var(--accent); text-transform: uppercase;
+      text-shadow: 0 0 30px var(--accent-60);
+    }
+  </style>
+</head>
+<body>
+  <div data-composition-id="reel" data-brand="/*__BRAND_ID__*/" data-width="1080" data-height="1920" data-start="0" data-duration="__REEL_DURATION__">
+    <div id="bgseq"></div>
+    <div class="scrim-top"></div>
+    <div class="scrim-bottom"></div>
+    <div class="vignette"></div>
+    <div class="split-grid" id="splitgrid"></div>
+    <div class="split-pulse" id="splitpulse"></div>
+    <div class="flash-kicker" id="flashkicker"></div>
+
+    <div class="reticle-corner">
+      <div class="reticle-mark">┌ ┐<br>└ ┘</div>
+      <div class="reticle-tag" id="brand-tag"></div>
+    </div>
+
+    <div class="intro-shade" id="intro-shade"></div>
+    <div class="intro" id="intro">
+      <div class="intro-kicker" id="intro-kicker"></div>
+      <div class="intro-title" id="intro-title"></div>
+      <div class="intro-sub" id="intro-sub"></div>
+    </div>
+
+    <div id="dossierseq"></div>
+    <div class="boxwrap" id="boxwrap"></div>
+    <div class="stat-wrap" id="statwrap"></div>
+
+    <div class="outro-veil" id="outro-veil"></div>
+    <div class="lockup" id="lockup">
+      <img class="logo" id="brand-logo" alt="" />
+      <div class="name" id="brand-name"></div>
+      <div class="cta">
+        <span class="cta-btn" id="brand-cta"></span>
+        <div class="cta-handle" id="brand-cta-sub"></div>
+      </div>
+    </div>
+
+    <audio id="audio" src="__REEL_AUDIO_SRC__" data-start="0" data-duration="__REEL_DURATION__" data-track-index="0" data-volume="1"></audio>
+
+    <script src="gsap.min.js"></script>
+    <script>
+      /*__TEXT_FIT__*/
+    </script>
+    <script>
+      document.fonts.ready.then(function() {
+        var DATA = /*__REEL_DATA__*/;
+        var BRAND = /*__BRAND__*/;
+        var HOOK = /*__HOOK__*/;
+        var bgseq = document.getElementById("bgseq");
+        var boxwrap = document.getElementById("boxwrap");
+        var statwrap = document.getElementById("statwrap");
+
+        // Textos de marca: salen de la ficha, entran como texto (nunca como HTML).
+        document.getElementById("brand-tag").textContent = BRAND.tag;
+        document.getElementById("brand-name").textContent = BRAND.name;
+        document.getElementById("brand-cta").textContent = BRAND.cta;
+        document.getElementById("brand-cta-sub").textContent = BRAND.cta_sub;
+        var logo = document.getElementById("brand-logo");
+        if (BRAND.logo) { logo.src = BRAND.logo; } else { logo.remove(); }
+        if (BRAND.logo_has_name) document.getElementById("brand-name").remove();  // el logo ya dice el nombre
+
+        // Título y subtítulo del reel: HTML propio de cada video (data.json).
+        document.getElementById("intro-kicker").textContent = DATA.kicker || "";
+        document.getElementById("intro-title").innerHTML = DATA.title;
+        document.getElementById("intro-sub").innerHTML = DATA.subtitle || "";
+
+        if (DATA.split_assets) {
+          var sg = document.getElementById("splitgrid");
+          DATA.split_assets.forEach(function(a) {
+            var cell = document.createElement("div");
+            cell.className = "split-cell";
+            cell.style.backgroundImage = "url('" + a + "')";
+            sg.appendChild(cell);
+          });
+        }
+
+        var bgCounter = 0;
+        DATA.visual_slots.forEach(function(slot) {
+          if (slot.type === "split") return;
+          var d = document.createElement("div");
+          d.className = "bg"; d.id = "bg-" + bgCounter;
+          d.setAttribute("data-role", slot.role || "");
+          slot._bgId = "bg-" + bgCounter;
+          d.style.backgroundImage = "url('" + slot.asset + "')";
+          d.style.zIndex = bgCounter + 1;
+          d.style.transformOrigin = slot.origin || "50% 50%";
+          bgseq.appendChild(d);
+          bgCounter++;
+        });
+
+        var lowerThirdIndex = 0;
+        var statIndex = 0;
+        var dossierIndex = 0;
+        var dossierseq = document.getElementById("dossierseq");
+        DATA.cards.forEach(function(card) {
+          if (card.type === "lower-third") {
+            card.id = "lt-" + lowerThirdIndex;
+            var wrap = document.createElement("div");
+            wrap.id = "cw-" + lowerThirdIndex; wrap.className = "cw";
+            var sb = document.createElement("div"); sb.className = "slabB"; sb.id = "sb-" + lowerThirdIndex;
+            var sd = document.createElement("div"); sd.className = "slabD"; sd.id = "sd-" + lowerThirdIndex;
+            var txt = document.createElement("div"); txt.className = "txt"; txt.innerHTML = card.html;
+            sd.appendChild(txt);
+            wrap.appendChild(sb); wrap.appendChild(sd); boxwrap.appendChild(wrap);
+            lowerThirdIndex++;
+          } else if (card.type === "stat") {
+            card.id = "st-" + statIndex;
+            var st = document.createElement("div");
+            st.id = "stat-" + statIndex; st.className = "stat";
+            var kick = document.createElement("div"); kick.className = "kick";
+            kick.textContent = card.kick || BRAND.stat_kicker;
+            st.appendChild(kick);
+            st.insertAdjacentHTML("beforeend",
+              "<div class='pct'>" + card.val + "</div>" +
+              "<div class='label'>" + card.label + "</div>" +
+              "<span class='tag'>" + (card.tag || "") + "</span>");
+            statwrap.appendChild(st);
+            statIndex++;
+          } else if (card.type === "dossier") {
+            card.id = "ds-" + dossierIndex;
+            var pw = document.createElement("div"); pw.id = "person-" + dossierIndex; pw.className = "person";
+            var pf = document.createElement("div"); pf.className = "p-frame";
+            var pimg = document.createElement("div"); pimg.className = "p-img";
+            pimg.style.backgroundImage = 'url("' + card.asset + '")';
+            var ptint = document.createElement("div"); ptint.className = "p-tint";
+            var pgrad = document.createElement("div"); pgrad.className = "p-grad";
+            pf.appendChild(pimg); pf.appendChild(ptint); pf.appendChild(pgrad);
+            ["h", "v"].forEach(function (k) {
+              var tkTL = document.createElement("span"); tkTL.className = "p-tk " + k; tkTL.style.left = "-1px"; tkTL.style.top = "-1px"; pf.appendChild(tkTL);
+              var tkBR = document.createElement("span"); tkBR.className = "p-tk " + k; tkBR.style.right = "-1px"; tkBR.style.bottom = "-1px"; pf.appendChild(tkBR);
+            });
+            var pcap = document.createElement("div"); pcap.className = "p-cap"; pcap.textContent = card.caption || "";
+            pw.appendChild(pf); pw.appendChild(pcap);
+            dossierseq.appendChild(pw);
+            dossierIndex++;
+          }
+        });
+
+        // Hook: zona fija (INTRO_ZONE_PX de alto); se achica solo el título, desde su tamaño inicial,
+        // hasta INTRO_MIN_PX. Si ni así entra, queda anotado y el control de maqueta rechaza el reel.
+        var INTRO_ZONE_PX = /*__CARDS_BOTTOM__*/ - 900, INTRO_MIN_PX = 52;
+        (function fitIntro() {
+          var box = document.getElementById("intro"), t = document.getElementById("intro-title");
+          var size = parseFloat(getComputedStyle(t).fontSize);
+          function over() { return box.offsetHeight > INTRO_ZONE_PX || t.scrollWidth > t.clientWidth + 1; }
+          while (over() && size > INTRO_MIN_PX) { size -= 2; t.style.fontSize = size + "px"; }
+          window.__introFit = { font_px: size, min_px: INTRO_MIN_PX, height_px: box.offsetHeight,
+                                zone_px: INTRO_ZONE_PX, fits: !over() };
+        })();
+
+        fitTextBlocks([
+          { selector: ".slabD .txt", maxHeight: 280, minFontPx: 32 },
+          { selector: ".stat .pct", maxHeight: 140, minFontPx: 48 },
+          { selector: ".stat .label", maxHeight: 90, minFontPx: 24 },
+        ]);
+
+        window.__timelines = window.__timelines || {};
+        var tl = gsap.timeline({ paused: true });
+
+        // 1. Fondos. Los 3 primeros slots SON el hook del estándar (hook_image → imagen →
+        //    imagen) con corte duro entre tramos; reel9 ya verificó roles y tiempos.
+        var firstShotSet = false;
+        DATA.visual_slots.forEach(function(slot, i) {
+          var dur = slot.end - slot.start;
+          var isLast = (i === DATA.visual_slots.length - 1);
+          if (slot.type === "split") {
+            tl.set("#splitgrid", { opacity: 1 }, slot.start);
+            tl.fromTo("#splitgrid", { scale: 1.0 }, { scale: 1.04, duration: dur + 0.3, ease: "none" }, slot.start);
+            if (!isLast) tl.set("#splitgrid", { opacity: 0 }, slot.end);
+            if (slot.reveal) {
+              tl.fromTo("#splitpulse", { opacity: 0 }, { opacity: 1, duration: 0.08, ease: "power1.in" }, slot.start);
+              tl.to("#splitpulse", { opacity: 0, duration: 0.35, ease: "power2.out" }, slot.start + 0.08);
+            }
+            return;
+          }
+          var sel = "#" + slot._bgId;
+          tl.set(sel, { opacity: 1 }, firstShotSet ? slot.start : 0);
+          firstShotSet = true;
+          tl.fromTo(sel, { scale: slot.scale_start || 1.0 }, { scale: slot.scale_end || 1.05, duration: dur + 0.4, ease: "none" }, slot.start);
+          if (!isLast) tl.set(sel, { opacity: 0 }, slot.end);
+        });
+
+        // 2. Título: encima de los 3 tramos del hook (0 → HOOK.end), sale al terminar el hook.
+        var titleEnd = Math.max(HOOK.end, HOOK.title_end);
+        //    Nunca baja de 1472: entra y sale solo con opacidad (queda siempre dentro de 900–1472). Termina de salir antes de
+        //    que entre la primera tarjeta o retrato.
+        DATA.cards.forEach(function(c) { if (c.anim && c.anim.in < titleEnd) titleEnd = c.anim.in; });
+        tl.fromTo("#intro", { opacity: 0 }, { opacity: 1, duration: 0.35, ease: "power2.out" }, 0.05);
+        tl.to("#intro, #intro-shade", { opacity: 0, duration: 0.25, ease: "power2.in" }, titleEnd - 0.25);
+        tl.set("#intro, #intro-shade", { opacity: 0 }, titleEnd);
+        //    Sombras de las tarjetas: fuera durante el hook, entran con fundido cuando el hook sale.
+        tl.set(".scrim-top, .scrim-bottom, .vignette", { opacity: 0 }, 0);
+        tl.to(".scrim-top, .scrim-bottom, .vignette", { opacity: 1, duration: 0.5, ease: "power1.inOut" }, titleEnd - 0.25);
+
+        // 3. Tarjetas de a una (reel@8): el horario (card.anim) lo calcula reel9 con
+        //    reel9_gate.card_schedule. Entra desde fuera del encuadre por la izquierda, se queda,
+        //    sale hacia la izquierda desvaneciéndose; la siguiente entra cuando esta terminó de salir.
+        var OFF_X = -1120;
+        function slide(sel, a) {
+          tl.fromTo(sel, { x: OFF_X, opacity: 1 }, { x: 0, opacity: 1, duration: a.in_end - a.in, ease: "power3.out" }, a.in);
+          tl.to(sel, { x: OFF_X, opacity: 0, duration: a.out_end - a.out, ease: "power2.in" }, a.out);
+          tl.set(sel, { opacity: 0 }, a.out_end);
+        }
+        DATA.cards.forEach(function(card) {
+          if (card.type === "lower-third") {
+            var idx = card.id.split("-")[1];
+            var w = "#cw-" + idx;
+            slide(w, card.anim);
+          } else if (card.type === "stat") {
+            var stSel = "#stat-" + card.id.split("-")[1];
+            slide(stSel, card.anim);
+          } else if (card.type === "dossier") {
+            var p = "#person-" + card.id.split("-")[1], pFrame = p + " .p-frame", pImg = p + " .p-img", pCap = p + " .p-cap";
+            tl.set(p, { autoAlpha: 1 }, card.start);
+            tl.fromTo(pFrame, { clipPath: "inset(0% 0% 100% 0%)" }, { clipPath: "inset(0% 0% 0% 0%)", duration: 0.7, ease: "power3.inOut" }, card.start);
+            tl.fromTo(pImg, { scale: 1.14 }, { scale: 1.04, duration: 0.9, ease: "power2.out" }, card.start);
+            tl.fromTo(pCap, { y: 12, autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.35, ease: "power2.out" }, card.start + 0.45);
+            tl.to(p, { autoAlpha: 0, y: -18, duration: 0.4, ease: "power2.inOut" }, card.end - 0.34);
+          } else if (card.type === "outro") {
+            tl.fromTo("#outro-veil", { opacity: 0 }, { opacity: 1, duration: 0.45, ease: "power2.out" }, card.start);
+            tl.set("#lockup", { opacity: 1 }, card.start);
+            tl.fromTo("#lockup", { y: -40, scale: 0.9, opacity: 0 }, { y: 0, scale: 1, opacity: 1, duration: 0.65, ease: "power3.out" }, card.start);
+            tl.from(".lockup .cta", { opacity: 0, duration: 0.45, ease: "power2.out" }, card.start + 0.30);
+          } else if (card.type === "flash") {
+            tl.call(function() { document.getElementById("flashkicker").textContent = card.text; }, null, card.start);
+            tl.set("#flashkicker", { opacity: 1 }, card.start);
+            tl.set("#flashkicker", { opacity: 0 }, card.end);
+          }
+        });
+
+        window.__timelines["reel"] = tl;
+      });
+    </script>
+  </div>
+</body>
+</html>
