@@ -665,6 +665,59 @@
         ]
       },
       "files": []
+    },
+    {
+      "name": "wiki-lint",
+      "category": "knowledge",
+      "tier": "module",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/wiki_lint.py",
+          "--wiki",
+          "tests/fixtures/wiki-example/wiki"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "curso-ingest",
+      "category": "knowledge",
+      "tier": "module",
+      "status": "tested",
+      "role": "strategist",
+      "deps": [
+        "python>=3.11"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/course/course.py",
+          "--help"
+        ]
+      },
+      "files": []
     }
   ],
   "roles": [
@@ -746,7 +799,9 @@
         "wiki",
         "task",
         "task-checkpoint",
-        "finish-session"
+        "finish-session",
+        "wiki-lint",
+        "curso-ingest"
       ]
     },
     {

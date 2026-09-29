@@ -7,6 +7,10 @@ files: [references/schema.md]
 
 # wiki — conocimiento que se acumula
 
+Tres modos: **Ingerir** (meter una fuente), **Consultar** (responder desde lo ya destilado) y **Revisar**
+(salud de la wiki). Para un curso completo, usar `curso-ingest`. Que los agentes usen la wiki: en el rol,
+una línea `Leé <página> cuando: <tarea>` por cada página que ayuda a ese tipo de tarea.
+
 Una wiki en markdown que el agente mantiene. Cada fuente se lee una vez y queda destilada; después
 se consulta la wiki en vez de releer las fuentes. La estructura y los formatos están en
 `references/schema.md`: leerlo antes de la primera operación.
@@ -30,7 +34,8 @@ El usuario deja una fuente en `raw/` (o pega un texto o una URL, que se lee con 
 
 ## Revisar (lint)
 
-Buscar y reportar: links `[[...]]` a páginas que no existen, páginas que nadie enlaza, páginas
+Primero correr `python .kit/launch.py wiki-lint` (revisión mecánica, ver la skill `wiki-lint`). Después, a mano,
+buscar y reportar: links `[[...]]` a páginas que no existen, páginas que nadie enlaza, páginas
 fuera del índice, frontmatter incompleto, afirmaciones que se contradicen entre páginas, fuentes en
 `raw/` sin página en `wiki/sources/`. Proponer arreglos; aplicar solo con OK.
 

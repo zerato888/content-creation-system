@@ -40,6 +40,8 @@ COMMANDS = {
     "doctor": ("engines/doctor.py", []),
     "docsizes": ("engines/check_doc_sizes.py", []),
     "lessons": ("engines/lessons_index.py", []),
+    "wiki-lint": ("engines/wiki_lint.py", []),
+    "course": ("engines/course/course.py", []),
 }
 
 
