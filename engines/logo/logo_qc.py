@@ -117,7 +117,8 @@ def brand_color_hits(rows, ch, w, h, colors: dict, step: int, keep) -> list[str]
 def check(kind: str, path: Path, b: dict) -> dict:
     w, h, ch, rows = read_png(path)
     probs, notes = [], []
-    if min(w, h) < MIN_SIDE:
+    # ponytail: a horizontal logotipo is naturally wide; only its long side must reach MIN_SIDE
+    if (min(w, h) if kind == "perfil" else max(w, h)) < MIN_SIDE or min(w, h) < MIN_SIDE // 2:
         probs.append(f"mide {w}x{h}: pedilo de nuevo a 1024x1024 (nunca lo agrandes después)")
     step = max(1, min(w, h) // 256)
     colors = {k: hex_rgb(v) for k, v in b["colors"].items()}

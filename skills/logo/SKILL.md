@@ -23,14 +23,18 @@ propio costo), porque Claude no genera imágenes.
 ## Flujo
 
 1. **Ficha de marca.** Tiene que existir `.kit-personal/brands/<marca>.json` (si no, primero `brand-onboarding`).
-2. **Dos pedidos**, escritos por el dp-cinematographer desde la ficha (nombre exacto con tildes,
-   colores en hex, estilo de la tipografía, lo que la marca nunca usa):
+2. **Ronda 1: 5 propuestas.** El dp-cinematographer (o creative-director) escribe 5 pedidos, cada uno
+   UNA lámina 1536x1024 con **isotipo + nombre juntos** sobre fondo liso. Los 5 tienen que ser
+   ideas distintas de verdad: monograma, letras dibujadas, sello o emblema, marca geométrica,
+   espacio negativo. Nunca "una hoja al lado del nombre" repetida con otro marco. Nada de
+   clipart del rubro (gotas, burbujas, hojita genérica). El miembro elige **una**.
+   **Ronda 2, solo con el ganador:** dos pedidos que copian ese diseño (adjuntá la lámina ganadora
+   como referencia):
    - **perfil**: ícono cuadrado 1:1, 1024x1024, fondo sólido del color `background`, símbolo dentro
-     del 70% central (Instagram lo recorta en círculo), que se lea a 110 px, como máximo iniciales.
-   - **logotipo**: el nombre completo + símbolo opcional, horizontal, 1024x1024, **PNG con fondo
-     transparente real** (canal alfa), nunca fondo blanco ni cuadriculado dibujado.
+     del 70% central (Instagram lo recorta en círculo), que se lea a 110 px.
+   - **logotipo**: el mismo isotipo + nombre, horizontal, **PNG con fondo transparente real** (canal
+     alfa), nunca fondo blanco ni cuadriculado dibujado.
    - Siempre: plano, vectorial, sin mockups, sin sombras 3D, sin texto extra, sin marca de agua.
-   Pedí 2 o 3 variantes de cada uno.
 3. **Generar.** Empieza SIEMPRE el pedido con esta línea (sin ella, Codex a veces "resuelve" dibujando
    el logo con código, y eso no es un logo hecho con IA):
    `STRICT RULE: create this image ONLY with your built-in image generation tool. Do NOT write code, SVG, HTML, Pillow/PIL, ImageMagick or any script to draw it, and do not edit or resize the result. If the image tool is unavailable or fails, stop and say so.`
