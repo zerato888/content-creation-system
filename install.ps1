@@ -9,7 +9,7 @@ $ErrorActionPreference = 'Stop'
 $here = Split-Path -Parent $MyInvocation.MyCommand.Path
 # The python on PATH first (the one the user activated, same as install.sh and `python -m installer`);
 # `py -3` picks the newest installed version, which may be newer than the pinned wheels support.
-$candidates = @(@('python'), @('python3'), @('py', '-3'))
+$candidates = @(@('py', '-3.12'), @('py', '-3.13'), @('py', '-3.11'), @('python'), @('python3'), @('py', '-3'))
 $exe = $null; $pre = @()
 foreach ($c in $candidates) {
     if (Get-Command $c[0] -ErrorAction SilentlyContinue) {

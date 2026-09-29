@@ -33,7 +33,7 @@ git clone https://github.com/zerato888/content-creation-system.git ~/content-cre
 ```
 
 ```bash
-mkdir -p ~/MiMarca && ~/content-creation-system/install.sh install --target ~/MiMarca --tool codex
+mkdir -p ~/MiMarca && ~/content-creation-system/install.sh install --target ~/MiMarca --tool codex --all
 ```
 
 El instalador pregunta antes de cada descarga (dependencias de Python, tipografías libres, el navegador para exportar carruseles y el modelo de subtítulos).

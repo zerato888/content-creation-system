@@ -71,7 +71,15 @@ def detect_silences(video: Path, noise_db: float, min_sil: float) -> list[tuple[
     return out
 
 
+def has_audio(video: Path) -> bool:
+    out = subprocess.run([kit_platform.ffprobe(), "-v", "error", "-select_streams", "a", "-show_entries",
+                          "stream=index", "-of", "csv=p=0", str(video)], capture_output=True, text=True).stdout
+    return bool(out.strip())
+
+
 def cut(video: Path, noise_db=-35.0, min_sil=0.45, pad=0.12) -> Path:
+    if not has_audio(video):
+        raise SystemExit("ERROR: el video no tiene audio; el reel necesita tu voz")
     dur = probe_duration(video)
     keep = keep_segments(detect_silences(video, noise_db, min_sil), dur, pad)
     if not keep:
@@ -99,6 +107,8 @@ def load_broll(plan_path: Path | None, base: Path, dur: float) -> list[dict]:
         f = (base / it["file"]).resolve()
         if not f.is_file():
             raise SystemExit(f"ERROR: no existe el clip de b-roll {it['file']}")
+        if f.suffix.lower() not in (".mp4", ".mov", ".m4v", ".webm"):
+            raise SystemExit(f"ERROR: el b-roll tiene que ser video (mp4/mov), no {f.suffix}: {it['file']}")
         s, e = float(it["start"]), float(it["end"])
         if not 0 <= s < e <= dur + 0.05:
             raise SystemExit(f"ERROR: b-roll {it['file']} fuera del video ({s}-{e}, dura {dur:.2f}s)")
@@ -111,7 +121,7 @@ def filter_graph(broll: list[dict], ass: Path, fonts: Path, music: bool, music_d
     g = [f"[0:v]{fit},fps=30[base]"]
     last = "base"
     for i, b in enumerate(broll, start=1):
-        g.append(f"[{i}:v]{fit},fps=30,trim=0:{b['end'] - b['start']:.3f},setpts=PTS-STARTPTS+{b['start']:.3f}/TB[b{i}]")
+        g.append(f"[{i}:v]{fit},fps=30,trim=duration={b['end'] - b['start']:.3f},setpts=PTS-STARTPTS+{b['start']:.3f}/TB[b{i}]")
         g.append(f"[{last}][b{i}]overlay=eof_action=pass:enable='between(t,{b['start']:.3f},{b['end']:.3f})'[o{i}]")
         last = f"o{i}"
     g.append(f"[{last}]subtitles=filename={cap.filter_path(ass)}:fontsdir={cap.filter_path(fonts)}[v]")
@@ -127,6 +137,8 @@ def build(video: Path, brand: str | None, base_preset: str, hook_preset: str | N
     words = Path(str(video) + ".captions.json")
     if not words.is_file():
         raise SystemExit(f"ERROR: falta {words.name}: primero `captions transcribe {video.name}` y revisá el texto")
+    if not has_audio(video):
+        raise SystemExit("ERROR: el video no tiene audio; el reel necesita tu voz")
     dur = probe_duration(video)
     broll = load_broll(broll_plan, broll_plan.parent if broll_plan else video.parent, dur)
     art, tagged, presets, brand_data = cap.build_from_files(str(words), base_preset, hook_preset, annotated, brand)
@@ -137,7 +149,8 @@ def build(video: Path, brand: str | None, base_preset: str, hook_preset: str | N
                                          font_map, margin_v, brand_data,
                                          font_names={f: n for f, (n, _) in resolved.items()},
                                          font_files={n: f for n, f in resolved.values()})
-    out = out or video.with_name(video.name.replace(".cut", "") .rsplit(".", 1)[0] + ".reel.mp4")
+    stem = video.stem[:-4] if video.stem.endswith(".cut") else video.stem
+    out = out or video.with_name(stem + ".reel.mp4")
     ff = cap.ffmpeg_with_libass()
     with tempfile.TemporaryDirectory() as td:
         ass = Path(td) / "captions.ass"
@@ -163,7 +176,7 @@ def selftest() -> int:
     assert keep_segments([(0.0, 1.0)], 3.0, 0.1) == [(0.9, 3.0)]
     assert keep_segments([(1.0, 1.1)], 3.0, 0.2) == [(0.0, 3.0)]  # padding merges tiny gaps
     g = filter_graph([{"file": Path("x.mp4"), "start": 1.0, "end": 2.0}], Path("a.ass"), Path("f"), True, -22)
-    assert "between(t,1.000,2.000)" in g and "amix" in g and "[1:a]" not in g and "[2:a]" in g
+    assert "trim=duration=1.000" in g and "between(t,1.000,2.000)" in g and "amix" in g and "[1:a]" not in g and "[2:a]" in g
     return 3
 
 

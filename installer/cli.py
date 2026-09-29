@@ -160,6 +160,8 @@ def select(cat: dict, old: dict | None, core_flag: bool, modules: list[str], rep
     want = set(old.get("skills", [])) if old else set()
     if core_flag or not old:
         want |= {n for n, s in skills.items() if s["tier"] == "core"}
+    if "all" in modules:  # --all: every module that passed its test, the whole system
+        modules = [m for m in modules if m != "all"] + [n for n, s in skills.items() if s["tier"] == "module" and s["status"] == "tested"]
     want |= set(modules)
     out = []
     for n in sorted(want):
@@ -717,6 +719,8 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--answers", help="respuestas de onboarding (JSON) para una instalación sin preguntas")
     ap.add_argument("--core", action="store_true", help="instalar el núcleo (por defecto en la primera instalación)")
     ap.add_argument("--module", action="append", default=[], help="sumar un módulo probado (repetible)")
+    ap.add_argument("--all", dest="module", action="append_const", const="all",
+                    help="instalar todo: núcleo + todos los módulos probados (logo, publicar, b-roll con Higgsfield...)")
     ap.add_argument("--tool", action="append", choices=list(TOOL_DIRS), help="claude y/o codex (por defecto ambos)")
     ap.add_argument("--fonts", action="store_true", help="(se mantiene por compatibilidad: las fuentes ya se descargan por defecto)")
     ap.add_argument("--no-fonts", action="store_true", help="no descargar las tipografías libres fijadas")

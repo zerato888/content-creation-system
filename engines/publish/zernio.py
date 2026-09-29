@@ -22,6 +22,7 @@ import sys
 import urllib.error
 import urllib.request
 from datetime import datetime
+from zoneinfo import ZoneInfo, ZoneInfoNotFoundError
 from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
@@ -59,12 +60,17 @@ class Zernio:
                 return r.status, (json.loads(txt) if txt[:1] in ("{", "[") else txt)
         except urllib.error.HTTPError as e:
             return e.code, (e.read().decode("utf-8") if e.fp else "")[:500]
+        except (urllib.error.URLError, TimeoutError, OSError) as e:
+            raise SystemExit(f"ERROR: sin conexión con Zernio ({type(e).__name__}); no se programó nada. Revisá internet y repetí.")
 
     def accounts(self) -> list:
         st, p = self.http("GET", f"{BASE}/accounts")
         if st >= 400:
             raise SystemExit(f"ERROR: Zernio respondió {st}: {p}")
-        return p.get("accounts", p) if isinstance(p, dict) else p
+        acc = p.get("accounts", p) if isinstance(p, dict) else p
+        if not isinstance(acc, list):
+            raise SystemExit("ERROR: Zernio devolvió una respuesta inesperada al pedir las cuentas")
+        return acc
 
     def account_id(self, handle: str, platform: str) -> str:
         want = handle.lower().lstrip("@")
@@ -78,8 +84,8 @@ class Zernio:
     def upload(self, f: Path) -> str:
         ctype = mimetypes.guess_type(f.name)[0] or "application/octet-stream"
         st, m = self.http("POST", f"{BASE}/media", {"filename": f.name, "contentType": ctype})
-        if st >= 400:
-            raise SystemExit(f"ERROR: Zernio no aceptó {f.name} ({st}): {m}")
+        if st >= 400 or not isinstance(m, dict) or not {"uploadUrl", "publicUrl"} <= m.keys():
+            raise SystemExit(f"ERROR: Zernio no aceptó {f.name} ({st}): {str(m)[:300]}")
         st, r = self.http("PUT", m["uploadUrl"], raw=f.read_bytes(), ctype=ctype)
         if st >= 400:
             raise SystemExit(f"ERROR: la subida de {f.name} falló ({st}): {r}")
@@ -97,7 +103,7 @@ def build_payload(caption, media_urls, kind, targets, when, tz, first_comment):
             "platforms": plats, "scheduledFor": when, "timezone": tz, "publishNow": False}
 
 
-def check_inputs(video, images, caption_file, at, platforms):
+def check_inputs(video, images, caption_file, at, platforms, tz="America/Costa_Rica"):
     if bool(video) == bool(images):
         raise SystemExit("ERROR: pasá --video (reel) o --images (carrusel), uno de los dos")
     files = [Path(video)] if video else [Path(p) for p in images]
@@ -110,9 +116,16 @@ def check_inputs(video, images, caption_file, at, platforms):
     if bad:
         raise SystemExit(f"ERROR: plataforma desconocida: {', '.join(sorted(bad))}")
     try:
-        datetime.fromisoformat(at)
+        when = datetime.fromisoformat(at)
+        zone = ZoneInfo(tz)
     except ValueError:
-        raise SystemExit("ERROR: --at va como 2026-10-01T18:00 (hora local de --tz)")
+        raise SystemExit("ERROR: --at va como 2026-10-01T18:00 (hora local de --tz, sin zona pegada)")
+    except ZoneInfoNotFoundError:
+        raise SystemExit(f"ERROR: zona horaria desconocida: {tz} (ej. America/Costa_Rica, America/Mexico_City)")
+    if when.tzinfo is not None:
+        raise SystemExit("ERROR: --at va sin zona (ej. 2026-10-01T18:00); la zona va en --tz")
+    if when.replace(tzinfo=zone) <= datetime.now(zone):
+        raise SystemExit(f"ERROR: {at} ya pasó en {tz}; elegí una fecha futura")
     caption = Path(caption_file).read_text(encoding="utf-8").strip()
     if not caption:
         raise SystemExit("ERROR: el caption está vacío")
@@ -121,7 +134,7 @@ def check_inputs(video, images, caption_file, at, platforms):
 
 def cmd_post(a) -> int:
     platforms = [p.strip() for p in a.platforms.split(",") if p.strip()]
-    files, caption = check_inputs(a.video, a.images, a.caption, a.at, platforms)
+    files, caption = check_inputs(a.video, a.images, a.caption, a.at, platforms, a.tz)
     kind = "video" if a.video else "image"
     print(f"Programar en Zernio: {len(files)} archivo(s) ({'reel' if a.video else 'carrusel'}) · @{a.handle.lstrip('@')} · "
           f"{', '.join(platforms)} · {a.at} ({a.tz})")
