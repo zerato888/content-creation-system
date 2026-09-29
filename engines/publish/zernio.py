@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Schedule a reel or a carousel on Instagram / Facebook / TikTok through Zernio, with YOUR key.
 
-    python .kit/launch.py publish accounts
+    python .kit/launch.py publish accounts        (add --via metricool to use Metricool instead: see metricool.py)
     python .kit/launch.py publish post --handle @tu_cuenta --video reel.mp4 --caption caption.txt \
         --at 2026-10-01T18:00 [--tz America/Costa_Rica] [--platforms instagram,facebook] \
         [--first-comment "¿Qué harías vos?"] [--confirm]
@@ -190,7 +190,27 @@ def selftest() -> int:
     return 3
 
 
+def pop_via(argv: list[str]) -> tuple[str, list[str]]:
+    """--via zernio|metricool (before or after the subcommand); zernio by default."""
+    out, via, i = [], "zernio", 0
+    while i < len(argv):
+        if argv[i] == "--via" and i + 1 < len(argv):
+            via, i = argv[i + 1], i + 2
+        elif argv[i].startswith("--via="):
+            via, i = argv[i][6:], i + 1
+        else:
+            out.append(argv[i])
+            i += 1
+    if via not in ("zernio", "metricool"):
+        raise SystemExit(f"ERROR: --via {via}: usa zernio o metricool")
+    return via, out
+
+
 def main(argv=None) -> int:
+    via, argv = pop_via(list(sys.argv[1:] if argv is None else argv))
+    if via == "metricool":
+        import metricool
+        return metricool.main(argv)
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--selftest", action="store_true")
     sub = ap.add_subparsers(dest="cmd")

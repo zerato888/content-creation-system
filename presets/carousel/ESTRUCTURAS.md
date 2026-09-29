@@ -48,6 +48,23 @@ Pensado para negocios y marcas personales.
 | voz_experta | cita con nombre y cargo | "«El precio sigue al problema» — nombre, cargo." | quote |
 | linea_de_tiempo | 3 a 5 momentos en orden | "Mes 1: … · Mes 3: … · Mes 6: …" | headline (×3) |
 | encuesta_ab | pone al lector a elegir | "¿Precio bajo o precio alto?" | cta |
+| contexto | el hecho verificado, sin opinión | "El jueves cerró la tienda del centro." | headline, body |
+| friccion | el choque entre dos actores o dos ideas | "Ventas quiere descuentos; producción no da abasto." | headline, body |
+| polarizacion | las dos posturas, cada una con su dueño | "A favor: baja el precio (Ana). En contra: baja la calidad (Luis)." | body |
+| plot_twist | el dato que da vuelta la historia | "Quien lo criticó había firmado el contrato." | body |
+| referencia_relatable | algo que todos conocen, con su fuente | "Como en una película que todos vimos: la oferta que no se rechaza." | headline |
+| critica | la objeción más fuerte, atribuida | "Para la auditora, el plan no tiene financiamiento." | quote, body |
+| comparacion_pais | cómo lo resolvió otro lugar o mercado | "Uruguay lo hizo en 2008 y bajó la deuda." | body |
+| que_significa_para_vos | la consecuencia en la vida del lector | "Tu factura sube 40 al mes desde enero." | body, stat |
+| villano_victima | quién gana y quién paga (nunca inventado) | "La empresa cobró; los vecinos siguen sin agua." | headline |
+| doble_estandar | la misma falta con distinto trato | "A uno lo despidieron; al otro lo ascendieron." | body |
+| abogado_del_diablo | la mejor defensa de la postura impopular | "Hay un argumento a favor que casi nadie cuenta." | body, quote |
+| letra_chica | lo que dice el documento en la página 40 | "El artículo 12 permite prorrogarlo sin votar." | body, quote |
+| ironia | la situación absurda, sin burla personal | "La ley anticorrupción se aprobó con votos comprados." | body |
+| meme_frase_viral | la frase que ya circula, con su origen | "«El interés de todos por encima de todo»." | quote |
+| documento | captura real del documento, con fuente | "Oficio 123 del 22 de septiembre." | headline, body |
+| que_viene_ahora | el próximo paso concreto y una pregunta | "La votación es el martes. ¿Pasará?" | cta |
+| tu_turno | pregunta abierta de A o B al lector | "¿Error o acierto?" | cta |
 
 ## Tres estructuras listas (ver los ejemplos en esta carpeta)
 - **Servicios** (`ejemplo-servicios.json`): problema → por qué pasa → cómo lo resuelvo → qué haces tú → prueba → testimonio → oferta.
@@ -60,3 +77,21 @@ El motor no descarga nada: cada imagen es un archivo dentro de la carpeta del pr
 - **Bancos gratis**: Unsplash o Pexels, descargadas a mano.
 - **IA**: la generas aparte (ChatGPT, Gemini) y guardas el archivo.
 - `"image_position": "top"` o `"bottom"` pone la foto en una franja y el texto sobre fondo limpio. `"full"` (por defecto) la pone de fondo con sombra.
+
+## Módulos en el spec (opcional)
+Cada slide puede llevar `"module": "<id>"` (la lista cerrada está en `presets/carousel/modules.json`; un id que no existe es un error). El spec puede llevar `"goal": "comments"` o `"goal": "sales"`.
+Si al menos un slide declara módulo, el motor avisa además de esto:
+- **Tensión:** falta un módulo de choque (`friccion`, `contradiccion`, `polarizacion`, `villano_victima`, `doble_estandar`, `abogado_del_diablo`, `encuesta_ab`, `error_comun`, `mito_realidad`).
+- **Cierre** con `goal: comments`: el último módulo es `tu_turno`, `que_viene_ahora`, `pregunta` o `encuesta_ab` y el texto termina en `?`. Con `goal: sales`: el cierre es `oferta`.
+- **Fotos:** más slides sin foto de los permitidos (1 con 4 o 5 slides, 2 con 6 a 8; la portada no cuenta).
+Siempre (con o sin módulos): ninguna frase de 20 letras o más se repite en dos slides, y la portada no puede ser una cita entre comillas.
+Los avisos no frenan el render. Con `--strict` (o `"strict": true` en el spec) cada aviso es un error.
+
+## Portada con círculo de contexto
+La portada acepta `"circle": "foto.jpg"`: un círculo de 250 px con borde del color de acento arriba a la derecha, con una foto real del hecho (nunca la misma cara del fondo). La foto de fondo se funde al color de la marca en el tercio inferior. El control de calidad frena la portada si el titular toca el círculo.
+
+## Control de fotos
+- **Caras completas** (solo Mac con `pyobjc-framework-Vision` y Pillow; sin eso el motor avisa y sigue): detecta caras, elige el recorte que las deja enteras y frena si alguna queda cortada por el borde visible. `"focus": "30% 20%"` en el slide fija el recorte a mano.
+- **Origen:** cada `foto.jpg` lleva al lado `foto.source.json` con `{"origin": "own|ai|press|stock|other", "source_url": "..."}` (el link es obligatorio salvo en `own` y `ai`). Sin él el motor avisa; con `--strict` frena.
+- **Marca de agua:** `python .kit/launch.py carousel` no la ve sola. Corre `python .kit/engines/carousel/check_watermark.py spec.json --project carpeta`, mira las copias `*.watermark-check.png` una por una, descarta las que tengan marca y anota `"verdict": "OK"` y tu nombre en `watermark.json`. Con `--strict` el motor exige esa revisión y que las fotos no hayan cambiado.
+- **Marca por nombre:** `--brand mi-marca` busca `.kit-personal/brands/mi-marca.json`.
