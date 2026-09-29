@@ -14,12 +14,12 @@ $exe = $null; $pre = @()
 foreach ($c in $candidates) {
     if (Get-Command $c[0] -ErrorAction SilentlyContinue) {
         $extra = @($c | Select-Object -Skip 1)
-        & $c[0] @extra -c "import sys; sys.exit(sys.version_info < (3, 11))" 2>$null
+        & $c[0] @extra -c "import sys; sys.exit(not ((3, 11) <= sys.version_info[:2] <= (3, 13)))" 2>$null
         if ($LASTEXITCODE -eq 0) { $exe = $c[0]; $pre = $extra; break }
     }
 }
 if (-not $exe) {
-    Write-Error "Hace falta Python 3.11 o más nuevo y no lo encontré. Instalalo desde https://www.python.org/downloads/ (marcá 'Add python.exe to PATH') y volvé a correr este comando." -ErrorAction Continue
+    Write-Error "Hace falta Python 3.11, 3.12 o 3.13 y no lo encontré. Instalá Python 3.12 desde https://www.python.org/downloads/ (marcá 'Add python.exe to PATH') y volvé a correr este comando." -ErrorAction Continue
     exit 127
 }
 $env:PYTHONPATH = if ($env:PYTHONPATH) { "$here;$env:PYTHONPATH" } else { $here }

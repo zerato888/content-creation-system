@@ -5,6 +5,8 @@ import base64
 import json
 import shutil
 import subprocess
+import sys
+from pathlib import Path
 
 import pytest
 from test_cc_server import CONFIG, server, set_config  # noqa: F401  (fixture)
@@ -207,8 +209,14 @@ def test_word_edits_are_validated_and_kept(server):
     assert client.post("/api/captions/transcript", {"file": "clip uno.mp4", "words": [{"text": "x", "start": 2, "end": 1}]})[0] == 400
 
 
+def _ffmpeg():
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "engines"))
+    import kit_platform  # same lookup the server uses (prefers keg-only ffmpeg-full)
+    return shutil.which(kit_platform.ffmpeg())
+
+
 def _libass():
-    ff = shutil.which("ffmpeg")
+    ff = _ffmpeg()
     if not ff:
         return False
     out = subprocess.run([ff, "-hide_banner", "-h", "filter=subtitles"], capture_output=True, text=True).stdout
@@ -226,7 +234,7 @@ def test_video_export_needs_libass_and_says_so(server):
             status, _, r = client.post("/api/captions/render", {**body, "format": fmt})
             assert status == 400 and ("libass" in r["error"] or "fuente" in r["error"]), r
         return
-    ff = shutil.which("ffmpeg")
+    ff = _ffmpeg()
     _clip(tmp_path, "real.mp4")  # transcript + placeholder, then a real 6 s clip over the placeholder
     subprocess.run([ff, "-y", "-v", "error", "-f", "lavfi", "-i", "color=c=gray:s=540x960:r=30:d=6",
                     str(tmp_path / ".kit-personal/data/captions/real.mp4")], check=True)

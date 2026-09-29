@@ -10,7 +10,8 @@ DOCS = sorted([*(REPO / "agents").glob("*.md"), *(REPO / "knowledge").glob("*.md
 AGENTS = sorted(p for p in (REPO / "agents").glob("*.md") if p.name != "README.md")
 LINK = re.compile(r"!?\[[^\]]*\]\(([^)\s]+)\)")
 ROLES = {"copywriter", "creative-director", "dp-cinematographer", "editor-video", "fact-checker",
-         "strategist", "motion-designer", "screenwriter", "social-media-manager"}
+         "strategist", "motion-designer", "screenwriter", "social-media-manager",
+         "ui-designer", "revenue-strategist"}
 
 
 @pytest.mark.parametrize("doc", DOCS, ids=lambda p: p.name)

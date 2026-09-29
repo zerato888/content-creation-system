@@ -474,8 +474,10 @@ def cmd_install(root, args, confirm, choose, net, fail_at=None) -> int:
         rc = apply(root, pl, lock, log, "install", args, confirm, fail_at)
         if rc == 0 and not args.dry_run:
             core.install_deps(root, confirm, log)
-            if args.fonts:
+            if not args.no_fonts:
                 core.install_fonts(root, net.fetch, confirm, log)
+            if not args.no_extras:
+                core.install_extras(root, confirm, log)
             if (answers or {}).get("service") is True and not read_manifest(root).get("service"):
                 if service.PLATFORM == "other":
                     print("El servicio siempre encendido solo existe en macOS y Windows; prendelo a mano con serve.")
@@ -716,7 +718,9 @@ def parser() -> argparse.ArgumentParser:
     ap.add_argument("--core", action="store_true", help="instalar el núcleo (por defecto en la primera instalación)")
     ap.add_argument("--module", action="append", default=[], help="sumar un módulo probado (repetible)")
     ap.add_argument("--tool", action="append", choices=list(TOOL_DIRS), help="claude y/o codex (por defecto ambos)")
-    ap.add_argument("--fonts", action="store_true", help="descargar las tipografías libres fijadas")
+    ap.add_argument("--fonts", action="store_true", help="(se mantiene por compatibilidad: las fuentes ya se descargan por defecto)")
+    ap.add_argument("--no-fonts", action="store_true", help="no descargar las tipografías libres fijadas")
+    ap.add_argument("--no-extras", action="store_true", help="no descargar el navegador ni el modelo de transcripción")
     ap.add_argument("--to", help="update: etiqueta o commit de destino (por defecto la última versión)")
     ap.add_argument("--confirm-sha", help="update sin preguntas: el commit exacto que aprobás")
     g = ap.add_mutually_exclusive_group()

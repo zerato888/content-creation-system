@@ -447,3 +447,31 @@ def install_deps(root: Path, confirm, log: Log, *, update: bool = False) -> bool
                 log("deps-node", ".kit/node_modules", "error", e)
                 print("npm ci falló (ver .kit/install.log). El resto del kit funciona.")
     return ok
+
+
+def install_extras(root: Path, confirm, log: Log) -> None:
+    """What a fresh Mac lacks after the venv: ffmpeg (checked, never installed for the user), the
+    carousel browser and the default transcription model, both into the shared kit cache."""
+    from engines import kit_platform  # noqa: E402
+    ff = kit_platform.ffmpeg()
+    if not shutil.which(ff) or "subtitles" not in subprocess.run([ff, "-hide_banner", "-filters"], capture_output=True, text=True).stdout:
+        print("Falta ffmpeg con subtítulos (libass). En Mac: brew install ffmpeg-full  (https://brew.sh). El resto funciona.")
+    bindir = safe_path(root, f"{VENV}/{'Scripts' if os.name == 'nt' else 'bin'}")
+    py = bindir / ("python.exe" if os.name == "nt" else "python")
+    if not py.is_file():
+        return  # no venv: the engines say what is missing when used
+    env = dict(os.environ, PLAYWRIGHT_BROWSERS_PATH=str(kit_platform.cache_root() / "ms-playwright"))
+    steps = [("Descargar el navegador para exportar carruseles (Chromium, ~150 MB)?",
+              [str(py), "-m", "playwright", "install", "chromium"], "deps-chromium"),
+             ("Descargar el modelo de transcripción 'small' para subtítulos (~460 MB)?",
+              [str(py), str(safe_path(root, ".kit/launch.py")), "models", "small", "--yes"], "deps-model")]
+    for q, cmd, tag in steps:
+        if not confirm(q):
+            continue
+        try:
+            subprocess.run(cmd, check=True, env=env)
+            log(tag, cmd[-1])
+        except (OSError, subprocess.CalledProcessError) as e:
+            log(tag, cmd[-1], "error", e)
+            print(f"No se pudo completar ({tag}); ver .kit/install.log. El resto del kit funciona.")
+

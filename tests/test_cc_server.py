@@ -26,7 +26,7 @@ class Client:
         self.host = f"127.0.0.1:{app.port}"
 
     def request(self, method, path, body=None, headers=None, cookie=True, host=None):
-        conn = http.client.HTTPConnection("127.0.0.1", self.app.port, timeout=5)
+        conn = http.client.HTTPConnection("127.0.0.1", self.app.port, timeout=60)  # real renders (libass path) take longer than 5 s
         h = {"Host": host or self.host}
         if cookie and self.cookie:
             h["Cookie"] = self.cookie

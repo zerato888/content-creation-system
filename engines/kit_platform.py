@@ -58,14 +58,26 @@ def find_binary(name: str, env_vars=(), fallbacks=()) -> str | None:
 
 
 _BREW_DIRS = ("/opt/homebrew/bin", "/usr/local/bin")
+# Homebrew's plain ffmpeg ships without libass (no burned-in subtitles); ffmpeg-full has it but is
+# keg-only (not on PATH), so it is looked up first when present.
+_FFMPEG_FULL = ("/opt/homebrew/opt/ffmpeg-full/bin", "/usr/local/opt/ffmpeg-full/bin")
+
+
+def _media_tool(name: str, var: str) -> str:
+    if os.environ.get(var) and Path(os.environ[var]).exists():
+        return os.environ[var]
+    for d in _FFMPEG_FULL:
+        if Path(f"{d}/{name}").exists():
+            return f"{d}/{name}"
+    return find_binary(name, (), [f"{d}/{name}" for d in _BREW_DIRS]) or name
 
 
 def ffmpeg() -> str:
-    return find_binary("ffmpeg", ("KIT_FFMPEG",), [f"{d}/ffmpeg" for d in _BREW_DIRS]) or "ffmpeg"
+    return _media_tool("ffmpeg", "KIT_FFMPEG")
 
 
 def ffprobe() -> str:
-    return find_binary("ffprobe", ("KIT_FFPROBE",), [f"{d}/ffprobe" for d in _BREW_DIRS]) or "ffprobe"
+    return _media_tool("ffprobe", "KIT_FFPROBE")
 
 
 def kit_fonts_dir() -> Path:

@@ -20,7 +20,22 @@ Cuando una skill nombre un rol (por ejemplo `copywriter`), adoptá ese rol de la
 - Si la persona te corrige, anotá la regla en `.kit-personal/lessons.md` (una línea, arriba de todo).
 - Segunda opinión en tareas riesgosas: otro rol del kit. Otra herramienta (Claude Code, Codex, Gemini) solo si está instalada; nunca es obligatoria.
 
-## Reglas fijas
+## Cómo trabajamos (reglas fijas)
+- **Lenguaje simple, siempre.** Frases cortas, cero jerga sin explicar, decir qué pasa y qué cambia para la persona antes que cómo está hecho. Rutas y comandos solo cuando la persona tiene que abrirlos o aprobarlos, tal cual, en un bloque de código. Skill `simple` para traducir; "simple off" lo apaga en la sesión.
+- **Plan primero.** Toda tarea real de 3 pasos o más empieza con un plan corto que abre con `## En simple` (qué se hace, quién lo hace, qué pasa si sale mal) y espera el OK. Skill `kickoff-lite`.
+- **Skill antes que improvisar.** Si una skill del kit cubre la tarea, se usa esa.
+- **Marca antes que creatividad.** Ninguna pieza creativa (imagen, guion, copy, diseño, video) sin la ficha de marca en `.kit-personal/brands/`. Si no existe, primero `brand-onboarding`. Las piezas creativas pasan por su rol (`dp-cinematographer` para imágenes, `copywriter`/`screenwriter` para texto) y por `creative-director`.
+- **Grounding.** Todo texto creativo entregado abre con `Grounding:` y los archivos que de verdad se leyeron. Sin esa línea, se adivinó y se rehace.
+- **Un dueño por dato.** Cada dato vive en un solo archivo; los demás lo citan, nunca lo copian.
+- **Presupuesto de lectura.** Leer la parte que hace falta, no archivos enteros. Un documento que se lee en cada sesión se mantiene chico: al crecer, lo viejo se mueve a `<doc>-archive.md` y queda un puntero.
+- **Lecciones.** Cada corrección de la persona es una regla nueva arriba de `.kit-personal/lessons.md`. Se leen al empezar.
+- **Verificar antes de decir "listo".** Mirar el resultado real (la imagen, el video, el archivo). Decir lo que falló con su motivo.
+- **Entregas.** Se muestran solo las piezas finales: 1 pieza, se muestra; 2 o más, en una sola galería o carpeta. Nunca abrir archivos sueltos en la pantalla de la persona.
+- **Imágenes con IA.** Nunca agrandar una imagen generada: si sale chica o borrosa, se pide de nuevo al motor en mayor resolución.
+- **Pensar a fondo.** Cuando la persona diga "pensá a fondo": reformular el problema, partirlo en pasos, resolver de a uno, marcar lo seguro y lo dudoso, y buscar 2 objeciones a la propia conclusión antes de presentarla.
+- **Cierre.** Todo cierre abre con `## En simple` y dice qué quedó hecho, qué falta y qué tiene que hacer la persona.
+
+## Seguridad y claves
 - Nunca leas `.kit-personal/.env` ni imprimas valores de variables de entorno o claves.
 - Las claves se leen solo con `.kit/engines/kit_secrets.py`, en el momento de usarlas, sin mostrarlas.
 - No adjuntes contenido de archivos locales a un servicio externo si la persona no nombró ese archivo.

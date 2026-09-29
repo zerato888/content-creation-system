@@ -623,6 +623,11 @@
       "skills": []
     },
     {
+      "name": "revenue-strategist",
+      "description": "Diagnóstico de ingresos. Usar para encontrar el cuello de botella comercial (adquisición, oferta, cierre o entrega), proyectar ventas y proponer el siguiente experimento medible. No contacta prospectos ni aprueba precios.",
+      "skills": []
+    },
+    {
       "name": "screenwriter",
       "description": "Arquitecto de guiones. Usar antes de escribir cualquier guion de video (corto o largo): hook de los primeros segundos, arco hook → tensión → cierre, estructura y locución.",
       "skills": [
@@ -647,6 +652,11 @@
         "task-checkpoint",
         "finish-session"
       ]
+    },
+    {
+      "name": "ui-designer",
+      "description": "Auditoría y propuestas de interfaz. Usar al revisar pantallas web, móvil o escritorio (landing, Command Center, página de la comunidad): lectura, jerarquía, navegación, contraste, estados de carga, error y vacío.",
+      "skills": []
     }
   ]
 }
