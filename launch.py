@@ -35,6 +35,8 @@ COMMANDS = {
     "task": ("cc/server/tasks.py", []),
     "lab": ("cc/server/lab.py", []),
     "secrets": ("engines/kit_secrets.py", []),
+    "wiki-lint": ("engines/wiki_lint.py", []),
+    "course": ("engines/course/course.py", []),
 }
 
 
