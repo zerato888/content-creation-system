@@ -31,7 +31,9 @@ propio costo), porque Claude no genera imágenes.
      transparente real** (canal alfa), nunca fondo blanco ni cuadriculado dibujado.
    - Siempre: plano, vectorial, sin mockups, sin sombras 3D, sin texto extra, sin marca de agua.
    Pedí 2 o 3 variantes de cada uno.
-3. **Generar.**
+3. **Generar.** Empieza SIEMPRE el pedido con esta línea (sin ella, Codex a veces "resuelve" dibujando
+   el logo con código, y eso no es un logo hecho con IA):
+   `STRICT RULE: create this image ONLY with your built-in image generation tool. Do NOT write code, SVG, HTML, Pillow/PIL, ImageMagick or any script to draw it, and do not edit or resize the result. If the image tool is unavailable or fails, stop and say so.`
    - **Codex (con tu cuenta de ChatGPT):** escribe `$imagegen` seguido del pedido. Las imágenes
      quedan en tu carpeta de Codex (`generated_images`); cópialas a `assets/logo/` de tu proyecto.
    - **App de ChatGPT:** pega el pedido, descarga como PNG y guárdalo en `assets/logo/`.
@@ -46,6 +48,9 @@ propio costo), porque Claude no genera imágenes.
    coherente con la ficha. Elige uno de cada tipo.
 
 ## Reglas
+
+- Solo cuenta un logo que salió del generador de imágenes. Si ves que Codex escribió código, SVG o
+  un script para dibujarlo, descarta ese archivo y pide de nuevo con la regla del paso 3.
 
 - Nunca agrandes una imagen generada por IA: si sale chica o borrosa, pídela de nuevo a 1024x1024.
 - Si el logotipo sale con fondo blanco, pide otra vez "transparent background PNG". Quitar el
