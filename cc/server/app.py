@@ -469,6 +469,23 @@ def life_delete_goal(app, cfg, body):
     return {"ok": True, **life.delete_goal(str(app.data), body.get("id"), cfg)}
 
 
+def _notes_routes(kind):
+    def read(app, cfg, q):
+        done = _p(q, "done")
+        return {"ok": True, "items": life.list_notes(str(app.data), kind, _p(q, "month"),
+                                                     None if done is None else done == "1")}
+
+    def save(app, cfg, body):
+        return {"ok": True, "item": life.save_note(str(app.data), cfg, kind, body)}
+
+    def complete(app, cfg, body):
+        return {"ok": True, "item": life.complete_note(str(app.data), kind, body.get("id"), bool(body.get("done", True)))}
+
+    def delete(app, cfg, body):
+        return {"ok": True, **life.delete_note(str(app.data), kind, body.get("id"))}
+    return read, save, complete, delete
+
+
 # ---- advanced production
 def lab_productions(app, cfg, q):
     brand = _p(q, "brand")
@@ -609,6 +626,14 @@ POST_ROUTES = {
     "/api/captions/transcript": ("subtitulos", cs_transcript_post),
     "/api/captions/render": ("subtitulos", cs_render), "/api/captions/save-preset": ("subtitulos", cs_save_preset),
 }
+
+for _kind in life.NOTEBOOKS:  # /api/life/journal, /api/life/reminders, /api/life/ideas (+ /complete, /delete)
+    _read, _save, _complete, _delete = _notes_routes(_kind)
+    GET_ROUTES[f"/api/life/{_kind}"] = ("vida", _read)
+    POST_ROUTES[f"/api/life/{_kind}"] = ("vida", _save)
+    POST_ROUTES[f"/api/life/{_kind}/delete"] = ("vida", _delete)
+    if _kind != "journal":
+        POST_ROUTES[f"/api/life/{_kind}/complete"] = ("vida", _complete)
 
 
 # ============================================================ HTTP layer

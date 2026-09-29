@@ -39,6 +39,20 @@ function recommendations(recs) {
   return box;
 }
 
+const HEALTH = { ok: "Todo en orden", degraded: "Hay avisos", failed: "Algo falla" };
+
+function healthCard(h) {
+  const box = card("Salud del sistema", "Estado");
+  if (h.error) return box.append(errorLine("Salud no disponible", h.error)), box;
+  box.append(el("p", `lead health health--${h.overall}`, HEALTH[h.overall] || h.overall));
+  const bad = (h.sources || []).filter((x) => x.status !== "ok");
+  if (!bad.length) return box.append(el("p", "muted", `${(h.sources || []).length} revisiones al día.`)), box;
+  const ul = el("ul", "plain-list");
+  bad.forEach((x) => ul.append(el("li", "", `${x.label}: ${x.error || x.status}`)));
+  box.append(ul);
+  return box;
+}
+
 function recordings(data, reload) {
   const box = card("Tus videos", "Vistas a las 48 horas");
   if (data.error) return box.append(errorLine("Videos no disponibles", data.error)), box;
@@ -74,16 +88,16 @@ function hookWinner(data) {
 
 export async function render(root, ctx) {
   const brand = ctx.creatorBrand;
-  const [summary, guiones, items, tasks, recs, recs48, winner] = await Promise.all([
+  const [summary, guiones, items, tasks, recs, recs48, winner, health] = await Promise.all([
     safe(api("/api/creator/summary")), safe(api("/api/guiones")),
     brand ? safe(api(`/api/lab/items?brand=${encodeURIComponent(brand.id)}`)) : Promise.resolve({ items: [] }),
     brand ? safe(api(`/api/tasks?ecosystem=${encodeURIComponent(brand.id)}`)) : Promise.resolve({ tasks: [] }),
-    safe(api("/api/recommendations")), safe(api("/api/creator/recordings")), safe(api("/api/creator/hook-winner")),
+    safe(api("/api/recommendations")), safe(api("/api/creator/recordings")), safe(api("/api/creator/hook-winner")), safe(api("/api/v2/health")),
   ]);
   const reload = () => render(root, ctx);
   const grid = el("div", "grid grid--2");
   grid.append(streakCard(summary), nextStep(guiones, items, tasks, ctx), recordings(recs48, reload), hookWinner(winner),
-    recommendations(recs));
+    recommendations(recs), healthCard(health));
   const head = masthead(["Inicio"], brand ? brand.name : "Tu espacio de creador", "Tu semana de un vistazo");
   if (!brand) grid.prepend(el("p", "empty", "Todavía no configuraste ninguna marca. Pedile a tu agente: «agregá mi marca personal»."));
   root.replaceChildren(head, grid);

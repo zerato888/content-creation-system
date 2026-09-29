@@ -19,7 +19,8 @@ from cc.config import config
 _LOCK = threading.Lock()  # ponytail: one global lock; single-user local tool
 AREA_FIXED, AREA_SHOPPING = "Pagos Fijos", "Compras"
 UI_AREAS = (AREA_FIXED, AREA_SHOPPING)
-EXPORT_TABLES = {"tasks": "life_tasks", "habit_log": "habit_log", "income_manual": "income_manual"}
+EXPORT_TABLES = {"tasks": "life_tasks", "habit_log": "habit_log", "income_manual": "income_manual",
+                 "journal": "life_journal", "reminders": "life_reminders", "ideas": "life_ideas"}
 SCHEMA = """
 CREATE TABLE IF NOT EXISTS fixed_payment_exclusions (title TEXT PRIMARY KEY);
 CREATE TABLE IF NOT EXISTS milestone_exclusions (title TEXT PRIMARY KEY);
@@ -63,6 +64,18 @@ CREATE TABLE IF NOT EXISTS life_goals (
     due_date TEXT,
     created_at TEXT NOT NULL,
     updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS life_journal (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, date TEXT NOT NULL, mood INTEGER, text TEXT NOT NULL,
+    created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS life_reminders (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, title TEXT NOT NULL, due_date TEXT, due_time TEXT, notes TEXT,
+    done INTEGER NOT NULL DEFAULT 0, created_at TEXT NOT NULL, updated_at TEXT NOT NULL
+);
+CREATE TABLE IF NOT EXISTS life_ideas (
+    id INTEGER PRIMARY KEY AUTOINCREMENT, text TEXT NOT NULL, done INTEGER NOT NULL DEFAULT 0,
+    created_at TEXT NOT NULL, updated_at TEXT NOT NULL
 );
 CREATE TABLE IF NOT EXISTS income_history_monthly (period TEXT PRIMARY KEY, total REAL NOT NULL);
 """
@@ -462,3 +475,111 @@ def export_csv(root, table):
         writer.writerows({k: ("'" + v if isinstance(v, str) and v[:1] in "=+-@" else v) for k, v in r.items()}
                          for r in rows)
     return buf.getvalue()
+
+
+# ------------------------------------------------------------------ journal / reminders / ideas
+# Three small notebooks with the same shape: list, save (create or edit by id), done, delete.
+# ponytail: one generic helper per operation; each kind only declares its text field and extras.
+NOTEBOOKS = {
+    "journal": {"table": "life_journal", "main": "text", "extra": ("date", "mood"), "order": "date DESC, id DESC"},
+    "reminders": {"table": "life_reminders", "main": "title", "extra": ("due_date", "due_time", "notes"),
+                  "order": "done, (due_date IS NULL), due_date, due_time, id"},
+    "ideas": {"table": "life_ideas", "main": "text", "extra": (), "order": "done, id DESC"},
+}
+
+
+def _kind(kind):
+    if kind not in NOTEBOOKS:
+        raise ValueError("tipo inválido")
+    return NOTEBOOKS[kind]
+
+
+def _clean_note(kind, body, cfg=None):
+    spec = _kind(kind)
+    out = {}
+    if spec["main"] in body:
+        out[spec["main"]] = _str(body[spec["main"]], spec["main"], 20000 if kind == "journal" else 500)
+    for field in spec["extra"]:
+        if field in body:
+            value = body[field]
+            if field in ("date", "due_date"):
+                value = _date(value or None)
+            elif field == "due_time":
+                value = None if not value else _time(value)
+            elif field == "mood":
+                value = None if value in (None, "") else _mood(value)
+            else:
+                value = _str(value, field, 5000)
+            out[field] = value
+    return out
+
+
+def _time(value):
+    dt.time.fromisoformat(value)
+    return value[:5]
+
+
+def _mood(value):
+    if isinstance(value, bool) or not isinstance(value, int) or not 1 <= value <= 5:
+        raise ValueError("mood debe ser 1 a 5")
+    return value
+
+
+def list_notes(root, kind, month=None, done=None):
+    spec = _kind(kind)
+    where, args = [], []
+    if month:
+        where.append("date LIKE ?" if kind == "journal" else "due_date LIKE ?")
+        args.append(f"{month}%")
+    if done is not None and kind != "journal":
+        where.append("done = ?")
+        args.append(1 if done else 0)
+    q = f"SELECT * FROM {spec['table']}" + (" WHERE " + " AND ".join(where) if where else "")
+    with _Conn(root) as conn:
+        return [dict(r) for r in conn.execute(f"{q} ORDER BY {spec['order']}", args)]
+
+
+def save_note(root, cfg, kind, body):
+    spec, note_id = _kind(kind), body.get("id")
+    fields = _clean_note(kind, body)
+    if spec["main"] in fields and not (fields[spec["main"]] or "").strip():
+        raise ValueError(f"{spec['main']} requerido")
+    now = _now()
+    with _LOCK, _Conn(root) as conn:
+        if note_id:
+            if conn.execute(f"SELECT id FROM {spec['table']} WHERE id = ?", (note_id,)).fetchone() is None:
+                raise FileNotFoundError(note_id)
+            if fields:
+                cols = ", ".join(f"{k}=?" for k in fields)
+                conn.execute(f"UPDATE {spec['table']} SET {cols}, updated_at=? WHERE id=?",
+                             (*fields.values(), now, note_id))
+        else:
+            if not (fields.get(spec["main"]) or "").strip():
+                raise ValueError(f"{spec['main']} requerido")
+            if kind == "journal":
+                fields.setdefault("date", config.today(cfg).isoformat())
+                fields["date"] = fields["date"] or config.today(cfg).isoformat()
+            cols = ", ".join((*fields, "created_at", "updated_at"))
+            marks = ", ".join("?" * (len(fields) + 2))
+            note_id = conn.execute(f"INSERT INTO {spec['table']} ({cols}) VALUES ({marks})",
+                                   (*fields.values(), now, now)).lastrowid
+        return dict(conn.execute(f"SELECT * FROM {spec['table']} WHERE id = ?", (note_id,)).fetchone())
+
+
+def complete_note(root, kind, note_id, done=True):
+    spec = _kind(kind)
+    if kind == "journal":
+        raise ValueError("el diario no se marca como hecho")
+    with _LOCK, _Conn(root) as conn:
+        if conn.execute(f"SELECT id FROM {spec['table']} WHERE id = ?", (note_id,)).fetchone() is None:
+            raise FileNotFoundError(note_id)
+        conn.execute(f"UPDATE {spec['table']} SET done=?, updated_at=? WHERE id=?", (1 if done else 0, _now(), note_id))
+        return dict(conn.execute(f"SELECT * FROM {spec['table']} WHERE id = ?", (note_id,)).fetchone())
+
+
+def delete_note(root, kind, note_id):
+    spec = _kind(kind)
+    with _LOCK, _Conn(root) as conn:
+        if conn.execute(f"DELETE FROM {spec['table']} WHERE id = ?", (note_id,)).rowcount == 0:
+            raise FileNotFoundError(note_id)
+    return {"id": note_id, "deleted": True}

@@ -2,6 +2,8 @@
 // Shell: the menu and the views come from GET /api/config (active brands + toggles).
 // Nothing about any brand is written here. Router by hash: #vista or #marca/<id>.
 import { api, button, el, setLocale, toast } from "./lib.js";
+import { openComposer } from "./components/composer.js";
+import { mountPalette, taskEntries } from "./components/palette.js";
 
 const VIEWS = {
   inicio: { label: "Inicio", load: () => import("./views/inicio.js") },
@@ -27,6 +29,12 @@ const nav = document.getElementById("nav");
 const view = document.getElementById("view");
 const warnings = document.getElementById("warnings");
 const modules = document.getElementById("modules");
+
+const palette = mountPalette(async () => [
+  ...menu().map(([hash, label]) => ({ type: "Ir a", label, meta: "", run: () => ctx.go(hash) })),
+  { type: "Acción", label: "Agregar tarea", meta: "Nueva tarea", run: addTask },
+  ...(await taskEntries(goToTask)),
+]);
 
 const ctx = {
   cfg: null,
@@ -62,6 +70,18 @@ function menu() {
   });
   return items;
 }
+
+// Where a task lives: a brand's board, or Vida Personal.
+const places = () => [...ctx.brands.map((b) => [b.id, b.name]), ...(ctx.enabled("vida") ? [["vida", "Vida Personal"]] : [])];
+const goToTask = (eco) => {
+  if (eco === "vida") return ctx.go("vida");
+  ctx.setCreatorBrand(eco);
+  ctx.go("tablero");
+};
+const addTask = () => {
+  if (!places().length) return toast("Primero agregá una marca o prendé Vida Personal.", "error");
+  openComposer({ places: places(), onCreated: () => route() });
+};
 
 function renderNav(current) {
   nav.replaceChildren(...menu().map(([hash, label]) => {
@@ -108,7 +128,11 @@ function renderModules() {
     panel.append(row);
   });
   box.append(panel);
-  modules.replaceChildren(box);
+  const add = button("+ Tarea", "btn btn--small", addTask);
+  const search = button("Buscar ⌘K", "btn btn--small btn--quiet", () => palette.open());
+  search.setAttribute("aria-label", "Buscar (Ctrl o Cmd más K)");
+  modules.replaceChildren(el("div", "rail-tools"), box);
+  modules.firstChild.append(search, add);
 }
 
 function applyConfig({ config, active_brands: active, logos }) {

@@ -36,10 +36,19 @@ CREATE TABLE IF NOT EXISTS recordings (
 UNIQUE = {"script_file": "rec_script", "task_code": "rec_task", "request_key": "rec_request"}
 
 
+_INIT = threading.Lock()  # first-run migration must not race: 3 parallel requests on an empty install
+
+
 def _conn(root):
     os.makedirs(root, exist_ok=True)
-    conn = sqlite3.connect(os.path.join(root, "creator.db"))
+    conn = sqlite3.connect(os.path.join(root, "creator.db"), timeout=10)
     conn.row_factory = sqlite3.Row
+    with _INIT:
+        _migrate(conn)
+    return conn
+
+
+def _migrate(conn):
     conn.executescript(SCHEMA)
     cols = {r["name"] for r in conn.execute("PRAGMA table_info(recordings)")}
     for col, index in UNIQUE.items():
@@ -50,7 +59,6 @@ def _conn(root):
         except sqlite3.IntegrityError:
             pass  # an old db already holds duplicates: add_recording still checks before inserting
     conn.commit()
-    return conn
 
 
 def _existing(conn, keys):
