@@ -31,3 +31,6 @@ blockquote { font-family: var(--font-serif); font-size: 76px; line-height: 1.15;
 .media.band-top { inset: 150px 0 auto 0; height: 470px; }  /* below the header: logo/kicker never sit on the photo */
 .media.band-bottom { inset: auto 0 0 0; height: 560px; }
 .band-bottom .body { justify-content: flex-start; padding: 48px 0 0; margin-bottom: 520px; }
+.s-cover .shade { background: linear-gradient(180deg, transparent 45%, var(--brand-background) 84%); }  /* the photo melts into the background in the lower third */
+.circle { position: absolute; right: 80px; top: 170px; width: 250px; height: 250px; border-radius: 50%;
+  border: 6px solid var(--brand-accent); background-size: cover; background-position: center; z-index: 1; }

@@ -3,8 +3,14 @@
 (1080x1350) -> optional PNG via Playwright. Offline; never downloads anything.
 
 Usage:
-  python carousel.py SPEC.json [--brand brand.json] [--out DIR] [--project DIR] [--html-only]
+  python carousel.py SPEC.json [--brand brand.json|nombre] [--out DIR] [--project DIR] [--html-only] [--strict]
   python carousel.py --selftest
+
+Optional slide fields (all text): `module` (narrative role, see presets/carousel/modules.json), `image`,
+`image_position` (full|top|bottom), `focus` ("30% 20%": which part of the photo stays visible) and, on the
+cover, `circle` (a small context photo). Optional spec fields: `goal` ("comments" or "sales").
+`--strict` turns every advice into an error and also demands a .source.json per photo and an approved
+watermark review (check_watermark.py).
 """
 from __future__ import annotations
 
@@ -20,6 +26,7 @@ from pathlib import Path
 from string import Template
 
 sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+sys.path.insert(0, str(Path(__file__).resolve().parent))  # faces, check_watermark
 import brand as brandmod  # noqa: E402
 import kit_platform  # noqa: E402
 
@@ -32,6 +39,12 @@ IMAGE_EXT = {".jpg", ".jpeg", ".png", ".webp"}
 IMAGE_POSITIONS = {"full", "top", "bottom"}  # top/bottom: photo in a band, text on a clean background
 MAX_SLIDES = 20
 MAX_TEXT = 600
+POS = re.compile(r"^(?:left|center|right|\d{1,3}%)(?:\s+(?:top|center|bottom|\d{1,3}%))?$")
+BANDS = {"full": (1080, 1350), "top": (1080, 470), "bottom": (1080, 560)}  # visible box of each photo, px
+CIRCLE = (250, 250)
+MODULES = json.loads((PRESETS / "modules.json").read_text(encoding="utf-8"))
+MODULE_IDS = {m["id"] for m in MODULES["modules"]}
+QUOTE_OPEN, QUOTE_CLOSE = "«\"“'‘", "»\"”'’"
 
 
 class SpecError(ValueError):
@@ -50,7 +63,15 @@ def validate_spec(spec) -> list[dict]:
         for k in REQUIRED[s["type"]]:
             if not isinstance(s.get(k), str) or not s[k].strip():
                 raise SpecError(f"slide {i} ({s['type']}): '{k}' is required text")
+        if s.get("module") and s["module"] not in MODULE_IDS:
+            raise SpecError(f"slide {i}: módulo desconocido '{s['module']}' (ver presets/carousel/modules.json)")
+        if s.get("focus") and not (POS.match(s["focus"]) and all(int(n) <= 100 for n in re.findall(r"(\d{1,3})%", s["focus"]))):
+            raise SpecError(f"slide {i}: focus inválido '{s['focus']}' (ej. '30% 20%' o 'center top')")
+        if s.get("circle") and s["type"] != "cover":
+            raise SpecError(f"slide {i}: 'circle' solo va en la portada")
         pos = s.get("image_position", "full")
+        if s["type"] == "cover" and pos != "full":
+            raise SpecError(f"slide {i}: la portada lleva la foto a pantalla completa (image_position 'full')")
         if pos not in IMAGE_POSITIONS:
             raise SpecError(f"slide {i}: image_position must be one of {sorted(IMAGE_POSITIONS)}")
         if pos != "full" and not s.get("image"):
@@ -63,9 +84,14 @@ def validate_spec(spec) -> list[dict]:
     return slides
 
 
-def structure_warnings(slides: list[dict]) -> list[str]:
+TEXT_KEYS = ("title", "text", "subtitle", "quote")
+REPEAT_MIN = 20
+
+
+def structure_warnings(slides: list[dict], goal: str | None = None) -> list[str]:
     """Narrative rules from presets/carousel/ESTRUCTURAS.md. Advice, not errors: a member's
-    carousel still renders, the engine just says what to improve."""
+    carousel still renders, the engine just says what to improve. Module rules (polarity, closing,
+    photos) only apply when at least one slide declares a `module`."""
     out = []
     if not 4 <= len(slides) <= 8:
         out.append(f"{len(slides)} slides: lo recomendado es de 4 a 8")
@@ -77,13 +103,45 @@ def structure_warnings(slides: list[dict]) -> list[str]:
         if slides[i]["type"] == slides[i - 1]["type"] and slides[i]["type"] != "headline":
             out.append(f"slides {i} y {i + 1} son del mismo tipo ('{slides[i]['type']}')")
     seen = {}
-    for i, s in enumerate(slides, 1):  # the same sentence twice reads as filler
-        for k in ("title", "text", "subtitle", "quote"):
-            key = _norm(s.get(k, ""))
-            if len(key) >= 20:
-                if key in seen and seen[key] != i:
-                    out.append(f"slides {seen[key]} y {i} repiten el mismo texto")
-                seen.setdefault(key, i)
+    for i, s in enumerate(slides, 1):  # any 20+ character run repeated in two slides reads as filler
+        for k in TEXT_KEYS:
+            w = _norm(s.get(k, "")).split()
+            for a in range(len(w)):
+                for b in range(a + 1, len(w) + 1):
+                    win = " ".join(w[a:b])
+                    if len(win) >= REPEAT_MIN:
+                        j = seen.setdefault(win, i)
+                        if j != i:
+                            out.append(f"slides {j} y {i} repiten el mismo texto: «{win}»")
+                        break
+    out = list(dict.fromkeys(out))
+    h = (slides[0].get("title") or "").strip()
+    if len(h) > 1 and h[:1] in QUOTE_OPEN and h[-1:] in QUOTE_CLOSE:
+        out.append("la portada es una cita entre comillas: la cita va en el slide 2 y la portada lleva un titular propio")
+    mods = [s.get("module") for s in slides]
+    if any(mods):
+        out += module_warnings(slides, mods, goal)
+    elif goal == "comments" and not slides[-1].get("text", "").strip().endswith("?"):
+        out.append("el objetivo es comentarios: el último slide debería terminar en una pregunta")
+    return out
+
+
+def module_warnings(slides: list[dict], mods: list, goal: str | None) -> list[str]:
+    out = []
+    if not set(mods) & set(MODULES["polarity"]):
+        out.append("sin tensión: usa al menos un módulo de choque (" + ", ".join(MODULES["polarity"][:5]) + "…)")
+    last = mods[-1]
+    if goal == "comments":
+        if last not in MODULES["closing_comments"]:
+            out.append("objetivo comentarios: el cierre debe ser un módulo de " + ", ".join(MODULES["closing_comments"]))
+        if not slides[-1].get("text", "").strip().endswith("?"):
+            out.append("objetivo comentarios: el último slide debe terminar en pregunta ('?')")
+    elif goal == "sales" and last not in MODULES["closing_sales"]:
+        out.append("objetivo ventas: el cierre debe ser el módulo 'oferta'")
+    bare = [i + 1 for i, s in enumerate(slides) if i and not s.get("image")]
+    cap = (len(slides) + 2) // 4  # 4-5 slides: 1 without photo, 6-8: 2
+    if bare and len(bare) > cap:
+        out.append(f"{len(bare)} slides sin foto {bare}: con {len(slides)} slides el máximo es {cap} (la portada no cuenta)")
     return out
 
 
@@ -106,6 +164,82 @@ def safe_image(path: str, project: Path) -> Path:
     if not p.is_file():
         raise SpecError(f"image not found: {path}")
     return p
+
+
+def image_files(spec: dict, project: Path) -> list[Path]:
+    """Every photo the spec uses (slide photos and cover circles), confined to the project."""
+    out = []
+    for s in spec["slides"]:
+        for k in ("image", "circle"):
+            if s.get(k):
+                p = safe_image(s[k], project)
+                if p not in out:
+                    out.append(p)
+    return out
+
+
+SOURCE_ORIGINS = {"own", "ai", "press", "stock", "other"}
+
+
+def source_problems(files: list[Path]) -> list[str]:
+    """Each photo `x.jpg` needs `x.source.json`: {"origin": "own|ai|press|stock|other", "source_url"?, "credit"?}.
+    `own` and `ai` need no link; the rest must say where the photo came from."""
+    out = []
+    for f in files:
+        sf = f.with_name(f.stem + ".source.json")
+        try:
+            d = json.loads(sf.read_text(encoding="utf-8"))
+        except (OSError, ValueError):
+            out.append(f"{f.name}: falta {sf.name} con el origen de la foto")
+            continue
+        if not isinstance(d, dict) or d.get("origin") not in SOURCE_ORIGINS:
+            out.append(f"{sf.name}: 'origin' debe ser uno de {sorted(SOURCE_ORIGINS)}")
+        elif d["origin"] not in ("own", "ai") and not str(d.get("source_url", "")).strip():
+            out.append(f"{sf.name}: falta 'source_url' (de dónde salió la foto)")
+    return out
+
+
+def face_check(spec: dict, project: Path) -> tuple[dict, list[str], list[str]]:
+    """(auto focus by 'slide:field', problems, notes). Finds faces (macOS Vision, optional), picks the
+    crop that keeps every head whole, and reports faces the visible edge would cut. Without a
+    detector it only leaves a note: it never fails an install or a render."""
+    import faces
+    auto, bad, notes = {}, [], []
+    if not faces.available():
+        return auto, bad, ["no hay detector de caras en este equipo (solo macOS con pyobjc): "
+                           "revisa a ojo que ninguna cara quede cortada"]
+    for i, s in enumerate(spec["slides"], 1):
+        for key, box, circle in ((("image", BANDS[s.get("image_position", "full")], False), ("circle", CIRCLE, True))):
+            if not s.get(key):
+                continue
+            try:
+                path = safe_image(s[key], project)
+                found, wh = faces.detect_faces(path), faces.image_size(path)
+            except (SpecError, faces.DetectorError, OSError, ValueError) as e:
+                notes.append(f"slide {i}: no pude revisar las caras de {s[key]} ({str(e)[:60]})")
+                continue
+            manual = faces.parse_pos(s["focus"]) if s.get("focus") and key == "image" else None
+            pos = manual or faces.auto_focal(wh, box, found)
+            if pos and not manual:
+                auto[f"{i}:{key}"] = faces.css_pos(pos)
+            cut = faces.cut_faces(found, faces.window(wh, box, pos or (50, 50)), circle)
+            if cut:
+                bad.append(f"slide {i} ({key} {s[key]}): {len(cut)} cara(s) cortada(s) por el borde"
+                           + (" con el foco manual" if manual else "; cambia la foto o pon 'focus'"))
+    return auto, bad, notes
+
+
+FIT = {"h1": (128, ((40, 1), (70, .82), (100, .69), (999, .56))),
+       "h2": (92, ((40, 1), (70, .82), (100, .69), (999, .56))),
+       "cta": (110, ((50, 1), (90, .82), (140, .69), (999, .56)))}
+
+
+def fit(kind: str, text: str) -> str:
+    """Inline font-size for long headlines (short ones keep the stylesheet size). The QC still
+    blocks whatever does not fit; this only avoids failing on merely long text."""
+    base, steps = FIT[kind]
+    k = next(f for n, f in steps if len(text) <= n)
+    return "" if k == 1 else f' style="font-size:{int(base * k)}px"'
 
 
 def esc(text: str, highlight: str = "") -> str:
@@ -154,9 +288,9 @@ def inner_html(s: dict, b: dict) -> str:
     g = lambda k: esc(s.get(k, ""))  # noqa: E731
     label = f'<div class="label">{g("label")}</div>' if s.get("label") else ""
     if t == "cover":
-        return f'{label}<h1>{esc(s["title"], hl)}</h1><p class="sub">{g("subtitle")}</p>'
+        return f'{label}<h1{fit("h1", s["title"])}>{esc(s["title"], hl)}</h1><p class="sub">{g("subtitle")}</p>'
     if t == "headline":
-        return f'{label}<h2>{esc(s["title"], hl)}</h2><p>{g("text")}</p>'
+        return f'{label}<h2{fit("h2", s["title"])}>{esc(s["title"], hl)}</h2><p>{g("text")}</p>'
     if t == "body":
         return f'{label}<p>{esc(s["text"], hl)}</p>'
     if t == "quote":
@@ -166,25 +300,33 @@ def inner_html(s: dict, b: dict) -> str:
     if t == "source":
         return f'<div class="label">{esc(b["source_label"])}</div><p class="source">{g("text")}</p>'
     cta_line = s.get("follow") or b["handle"]
-    return f'<div class="cta">{esc(s["text"], hl)}</div><p class="follow">{esc(cta_line)}</p>'
+    return f'<div class="cta"{fit("cta", s["text"])}>{esc(s["text"], hl)}</div><p class="follow">{esc(cta_line)}</p>'
 
 
-def build_html(spec: dict, b: dict, project: Path) -> list[str]:
+def build_html(spec: dict, b: dict, project: Path, auto_focal: dict | None = None) -> list[str]:
     slides = validate_spec(spec)
     tmpl = Template((PRESETS / "slide.html").read_text(encoding="utf-8"))
     css = (PRESETS / "slide.css").read_text(encoding="utf-8")
     faces, vars_ = font_faces(b), brandmod.css_vars(b)
     pages = []
+    auto_focal = auto_focal or {}
     for i, s in enumerate(slides, 1):
         if s.get("image"):
             uri = safe_image(s["image"], project).as_uri().replace("'", "%27")
             pos = s.get("image_position", "full")
             shade = '<div class="shade"></div>' if pos == "full" else ""
-            media = f'<div class="media band-{pos}" style="background-image:url(\'{uri}\')"></div>{shade}'
+            f = s.get("focus") or auto_focal.get(f"{i}:image")
+            focus = f";background-position:{html.escape(f)}" if f else ""
+            media = f'<div class="media band-{pos}" style="background-image:url(\'{uri}\'){focus}"></div>{shade}'
         elif s["type"] in ("cover", "headline", "cta"):
             media = '<div class="media panel"></div>'  # no image: brand-colored panel
         else:
             media = ""
+        if s.get("circle"):  # context circle: a real photo of the fact, never the same face as the background
+            cu = safe_image(s["circle"], project).as_uri().replace("'", "%27")
+            cf = auto_focal.get(f"{i}:circle")
+            media += (f'<div class="circle" style="background-image:url(\'{cu}\')'
+                      f'{";background-position:" + html.escape(cf) if cf else ""}"></div>')
         pages.append(tmpl.substitute(
             lang=esc(b["language"]), title=esc(spec.get("title", b["name"])), fontfaces=faces,
             vars=vars_, css=css, type=s["type"] + (f" band-{s['image_position']}" if s.get("image_position", "full") != "full" else ""), media=media, logo=esc(b["logo_text"]),
@@ -236,6 +378,14 @@ QC_JS = """() => {
     ctx.font = `${cs.fontWeight} ${cs.fontSize} ${cs.fontFamily}`;
     const up = Math.max(...[...'ÁÉÍÓÚÑÜ'].filter(c => t.includes(c)).map(c => ctx.measureText(c).actualBoundingBoxAscent));
     if (lh - up < 6) probs.push(`"${el.tagName.toLowerCase()}": una tilde choca con la línea de arriba (sube line-height)`);
+  }
+  const circ = document.querySelector('.circle');
+  if (circ) {
+    const c = circ.getBoundingClientRect();
+    for (const bx of boxes) {
+      const w = Math.min(bx.r, c.right) - Math.max(bx.l, c.left), h = Math.min(bx.b, c.bottom) - Math.max(bx.t, c.top);
+      if (w > 1 && h > 1) probs.push(`"${bx.name}" toca el círculo de contexto (acorta el texto)`);
+    }
   }
   const texts = {};
   for (const el of els) {
@@ -337,6 +487,17 @@ def selftest() -> int:
     return 0
 
 
+def brand_path(arg: str | None, project: Path) -> str | None:
+    """--brand as a path, or as a bare name found in .kit-personal/brands/<name>.json (project, then cwd)."""
+    if not arg or arg.endswith(".json") or Path(arg).is_file():
+        return arg
+    for root in (project, Path.cwd()):
+        p = root / ".kit-personal" / "brands" / f"{arg}.json"
+        if p.is_file():
+            return str(p)
+    raise SpecError(f"no encuentro la marca '{arg}' (busqué .kit-personal/brands/{arg}.json)")
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description="Render a branded carousel (HTML, optional PNG).")
     ap.add_argument("spec", nargs="?")
@@ -344,21 +505,38 @@ def main(argv=None) -> int:
     ap.add_argument("--out")
     ap.add_argument("--project", default=".", help="folder the images must live in (default: cwd)")
     ap.add_argument("--html-only", action="store_true")
+    ap.add_argument("--strict", action="store_true", help="avisos = errores; exige .source.json y revisión de marca de agua")
     ap.add_argument("--selftest", action="store_true")
     a = ap.parse_args(argv)
     if a.selftest:
         return selftest()
     if not a.spec:
         ap.error("spec is required")
-    spec_path = Path(a.spec)
+    spec_path, project = Path(a.spec), Path(a.project)
     try:
         spec = json.loads(spec_path.read_text(encoding="utf-8"))
-        pages = build_html(spec, brandmod.load_brand(a.brand), Path(a.project))
+        brand = brandmod.load_brand(brand_path(a.brand, project))
+        validate_spec(spec)
+        auto, cut, notes = face_check(spec, project)
+        pages = build_html(spec, brand, project, auto)
     except (OSError, ValueError) as e:
         print(f"carousel: {e}", file=sys.stderr)
         return 2
-    for w in structure_warnings(spec["slides"]):
-        print(f"carousel: aviso: {w} (ver presets/carousel/ESTRUCTURAS.md)", file=sys.stderr)
+    strict = a.strict or spec.get("strict") is True
+    advice = structure_warnings(spec["slides"], spec.get("goal"))
+    files = image_files(spec, project)
+    if strict:
+        from check_watermark import problems as wm_problems
+        advice += source_problems(files) + (wm_problems(files, spec_path.parent) if files else [])
+    for w in advice:
+        print(f"carousel: {'ERROR' if strict else 'aviso'}: {w} (ver presets/carousel/ESTRUCTURAS.md)", file=sys.stderr)
+    for n in notes:
+        print(f"carousel: nota: {n}", file=sys.stderr)
+    if cut:
+        print("carousel: ERROR: caras cortadas\n  " + "\n  ".join(cut), file=sys.stderr)
+        return 2
+    if strict and advice:
+        return 2
     out = Path(a.out) if a.out else spec_path.parent / (spec_path.stem + "-carousel")
     paths = write_html(pages, out)
     if not a.html_only:

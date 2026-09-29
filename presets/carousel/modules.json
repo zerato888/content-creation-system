@@ -1,0 +1,185 @@
+{
+ "schema_version": 1,
+ "polarity": [
+  "friccion",
+  "contradiccion",
+  "polarizacion",
+  "villano_victima",
+  "doble_estandar",
+  "abogado_del_diablo",
+  "encuesta_ab",
+  "error_comun",
+  "mito_realidad"
+ ],
+ "closing_comments": [
+  "tu_turno",
+  "que_viene_ahora",
+  "pregunta",
+  "encuesta_ab"
+ ],
+ "closing_sales": [
+  "oferta"
+ ],
+ "modules": [
+  {
+   "id": "problema",
+   "group": "base"
+  },
+  {
+   "id": "contexto",
+   "group": "base"
+  },
+  {
+   "id": "friccion",
+   "group": "base"
+  },
+  {
+   "id": "contradiccion",
+   "group": "base"
+  },
+  {
+   "id": "polarizacion",
+   "group": "base"
+  },
+  {
+   "id": "plot_twist",
+   "group": "base"
+  },
+  {
+   "id": "referencia_relatable",
+   "group": "base"
+  },
+  {
+   "id": "critica",
+   "group": "base"
+  },
+  {
+   "id": "antes_despues",
+   "group": "base"
+  },
+  {
+   "id": "comparacion_pais",
+   "group": "base"
+  },
+  {
+   "id": "mito_realidad",
+   "group": "base"
+  },
+  {
+   "id": "que_significa_para_vos",
+   "group": "base"
+  },
+  {
+   "id": "villano_victima",
+   "group": "tension"
+  },
+  {
+   "id": "lo_que_nadie_dice",
+   "group": "tension"
+  },
+  {
+   "id": "doble_estandar",
+   "group": "tension"
+  },
+  {
+   "id": "abogado_del_diablo",
+   "group": "tension"
+  },
+  {
+   "id": "encuesta_ab",
+   "group": "tension"
+  },
+  {
+   "id": "dato_que_no_cuadra",
+   "group": "sorpresa"
+  },
+  {
+   "id": "letra_chica",
+   "group": "sorpresa"
+  },
+  {
+   "id": "ya_paso_antes",
+   "group": "sorpresa"
+  },
+  {
+   "id": "ironia",
+   "group": "sorpresa"
+  },
+  {
+   "id": "traducido_a_tu_bolsillo",
+   "group": "cercania"
+  },
+  {
+   "id": "la_escena",
+   "group": "cercania"
+  },
+  {
+   "id": "meme_frase_viral",
+   "group": "cercania"
+  },
+  {
+   "id": "voz_experta",
+   "group": "autoridad"
+  },
+  {
+   "id": "documento",
+   "group": "autoridad"
+  },
+  {
+   "id": "linea_de_tiempo",
+   "group": "autoridad"
+  },
+  {
+   "id": "que_viene_ahora",
+   "group": "cierre"
+  },
+  {
+   "id": "tu_turno",
+   "group": "cierre"
+  },
+  {
+   "id": "error_comun",
+   "group": "negocio"
+  },
+  {
+   "id": "por_que_pasa",
+   "group": "negocio"
+  },
+  {
+   "id": "como_lo_resuelvo",
+   "group": "negocio"
+  },
+  {
+   "id": "pasos",
+   "group": "negocio"
+  },
+  {
+   "id": "dato",
+   "group": "negocio"
+  },
+  {
+   "id": "historia",
+   "group": "negocio"
+  },
+  {
+   "id": "como_se_usa",
+   "group": "negocio"
+  },
+  {
+   "id": "prueba",
+   "group": "negocio"
+  },
+  {
+   "id": "frase",
+   "group": "negocio"
+  },
+  {
+   "id": "oferta",
+   "group": "negocio"
+  },
+  {
+   "id": "pregunta",
+   "group": "negocio"
+  }
+ ]
+}

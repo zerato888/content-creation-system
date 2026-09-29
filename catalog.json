@@ -643,12 +643,17 @@
         "python>=3.11"
       ],
       "paid_services": [
-        "Zernio (tu cuenta)"
+        "Zernio (tu cuenta)",
+        "Metricool (tu cuenta)"
       ],
       "network": [
         {
           "service": "Zernio",
           "data": "el reel o las imágenes, el caption y la fecha, con tu clave"
+        },
+        {
+          "service": "Metricool",
+          "data": "el reel o las imágenes, el caption y la fecha, con tu clave y tu marca"
         }
       ],
       "support": {
