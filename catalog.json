@@ -81,6 +81,65 @@
       "files": []
     },
     {
+      "name": "reel",
+      "category": "content-video",
+      "tier": "core",
+      "status": "tested",
+      "role": "editor-video",
+      "deps": [
+        "python>=3.11",
+        "ffmpeg with libass",
+        "faster-whisper (or whisper.cpp)"
+      ],
+      "paid_services": [],
+      "network": [],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/video/reel.py",
+          "--selftest"
+        ]
+      },
+      "files": []
+    },
+    {
+      "name": "broll-higgsfield",
+      "category": "content-video",
+      "tier": "module",
+      "status": "tested",
+      "role": "dp-cinematographer",
+      "deps": [],
+      "paid_services": [
+        "Higgsfield (créditos de tu cuenta)"
+      ],
+      "network": [
+        {
+          "service": "Higgsfield",
+          "data": "los prompts de cada toma de b-roll, con tu cuenta"
+        }
+      ],
+      "support": {
+        "claude": true,
+        "codex": true,
+        "windows": true,
+        "mac": true
+      },
+      "smoke": {
+        "argv": [
+          "python",
+          "engines/video/reel.py",
+          "--selftest"
+        ]
+      },
+      "files": []
+    },
+    {
       "name": "carousel-news",
       "category": "content-carousel",
       "tier": "core",
@@ -600,14 +659,16 @@
       "description": "Diseño de la imagen. Usar antes de generar o buscar cualquier imagen o video: shot lists, planificación de B-roll, storyboards, dirección de arte y prompts visuales por escena.",
       "skills": [
         "broll-plan",
-        "reference-clone"
+        "reference-clone",
+        "broll-higgsfield"
       ]
     },
     {
       "name": "editor-video",
       "description": "Armado y mezcla de video. Usar antes de cortar, poner capas, subtítulos, música o exportar: convierte material aprobado en una pieza terminada y revisada.",
       "skills": [
-        "captions"
+        "captions",
+        "reel"
       ]
     },
     {

@@ -21,12 +21,12 @@ def event() -> dict:
         return {}
 
 
-def read(rel: str) -> str:
+def read(rel: str, limit: int | None = None) -> str:
     p = ROOT / rel
     try:
         if p.is_symlink() or not p.is_file():
             return ""
-        return p.read_text(encoding="utf-8", errors="replace")[:CAP * 4]
+        return p.read_text(encoding="utf-8", errors="replace")[:limit or CAP * 4]
     except OSError:
         return ""
 

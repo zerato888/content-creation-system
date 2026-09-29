@@ -57,7 +57,7 @@ def suggestions(prompt: str) -> list:
     if not asked:
         return []
     try:
-        cat = json.loads(read(".kit/catalog.json") or "{}")
+        cat = json.loads(read(".kit/catalog.json", 2_000_000) or "{}")  # read whole: a cut catalog parses as nothing
     except ValueError:
         cat = {}
     have, scored = installed(), []
