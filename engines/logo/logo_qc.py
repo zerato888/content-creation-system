@@ -126,7 +126,9 @@ def check(kind: str, path: Path, b: dict) -> dict:
             probs.append(f"no es cuadrado ({w}x{h}): pedilo 1:1")
         corners = [pixel(rows, ch, x, y) for x, y in ((2, 2), (w - 3, 2), (2, h - 3), (w - 3, h - 3))]
         bg = corners[0]
-        if any(dist(c, bg) > BG_TOL for c in corners):
+        if min(c[3] for c in corners) < 250:  # transparent corners all "match" each other: check alpha first
+            probs.append("el fondo es transparente: la foto de perfil necesita fondo sólido del color de la marca (pedí 'solid opaque background')")
+        elif any(dist(c, bg) > BG_TOL for c in corners):
             probs.append("el fondo no es de un solo color: pedí fondo sólido del color de la marca")
         cx, cy, r = w / 2, h / 2, CIRCLE_SAFE * min(w, h)
         out = sum(1 for x, y in sample(w, h, step)

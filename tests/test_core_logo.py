@@ -50,3 +50,8 @@ def test_small_image_is_rejected_not_upscaled(tmp_path):
 def test_not_a_png(tmp_path):
     (tmp_path / "x.jpg").write_bytes(b"\xff\xd8\xff\xe0")
     assert logo_qc.main(["perfil", str(tmp_path / "x.jpg")]) == 2
+
+
+def test_profile_with_transparent_background_fails(tmp_path):
+    logo_qc.write_png(tmp_path / "t.png", N, N, lambda x, y: (*AC, 255) if math.hypot(x - N / 2, y - N / 2) < 300 else (0, 0, 0, 0))
+    assert any("transparente" in p for p in logo_qc.check("perfil", tmp_path / "t.png", B)["problemas"])
