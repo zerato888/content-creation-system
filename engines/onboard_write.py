@@ -71,6 +71,11 @@ HOOKS = {
     "session_start_summary": {"claude": ("SessionStart", "startup"), "codex": ("SessionStart", None)},
     "knowledge_router": {"claude": ("UserPromptSubmit", None), "codex": ("UserPromptSubmit", None)},
     "post_compact_reminder": {"claude": ("SessionStart", "compact"), "codex": None},  # Codex: no compact event
+    "simple_mode": {"claude": ("UserPromptSubmit", None), "codex": ("UserPromptSubmit", None)},
+    "plan_plain_language": {"claude": ("PreToolUse", "ExitPlanMode"), "codex": None},  # Codex: no plan-exit event
+    "grounding_track": {"claude": ("PostToolUse", "Read"), "codex": None},  # Codex: no Read event
+    "brand_gate": {"claude": ("PreToolUse", "Bash"), "codex": ("PreToolUse", None)},
+    "no_open_headless": {"claude": ("PreToolUse", "Bash"), "codex": ("PreToolUse", None)},
 }
 SAFE_HOOKS = ("block_sudo", "session_start_summary")
 KIT_HOOK_MARK = ".kit/hooks/"

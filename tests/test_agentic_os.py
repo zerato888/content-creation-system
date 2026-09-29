@@ -85,7 +85,7 @@ def test_hooks_are_stdlib_python_with_no_owner_lists():
     for p in (REPO / "hooks").glob("*.py"):
         src = p.read_text(encoding="utf-8")
         imports = set(re.findall(r"^(?:from|import) ([a-zA-Z_]+)", src, re.M))
-        assert imports <= {"json", "re", "sys", "unicodedata", "pathlib", "_common"}, (p.name, imports)
+        assert imports <= {"json", "re", "sys", "os", "time", "unicodedata", "pathlib", "_common"}, (p.name, imports)
         assert "/" + "Users/" not in src and "C:\\" not in src
 
 

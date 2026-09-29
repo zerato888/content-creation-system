@@ -9,6 +9,8 @@
     python .kit/launch.py transcribe ...   # engines/video/transcribe.py
     python .kit/launch.py models small     # download a pinned Whisper model (asks first)
     python .kit/launch.py carousel ... | logo ... | task ... | lab ... | secrets ...
+    python .kit/launch.py doctor           # what works and what is missing, in plain words
+    python .kit/launch.py docsizes | lessons   # reading budget / lessons index
 
 Whatever Python starts it, the command runs with the project's own environment
 (.kit/venv, where the installer put faster-whisper, tzdata, ...). Without .kit/venv it
@@ -35,6 +37,9 @@ COMMANDS = {
     "task": ("cc/server/tasks.py", []),
     "lab": ("cc/server/lab.py", []),
     "secrets": ("engines/kit_secrets.py", []),
+    "doctor": ("engines/doctor.py", []),
+    "docsizes": ("engines/check_doc_sizes.py", []),
+    "lessons": ("engines/lessons_index.py", []),
 }
 
 

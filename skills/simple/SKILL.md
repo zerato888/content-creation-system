@@ -49,3 +49,34 @@ Después: "Ahora, cuando cambiás la configuración, el programa lo nota solo. N
 Reescribir texto es trabajo del rol `copywriter`.
 - Claude Code: use the Agent tool with subagent_type `copywriter`.
 - Codex: adopt the `copywriter` role from AGENTS.md.
+
+## Modo siempre prendido (aviso opcional)
+
+Si en el onboarding pediste el aviso `simple_mode`, este contrato se agrega solo a cada mensaje:
+todas las respuestas salen en simple. `/simple off` lo apaga en la sesión actual y `/simple on` lo
+vuelve a prender. El aviso lee el texto entre los dos marcadores de abajo (si lo editás, tu versión
+manda); sin este archivo usa una copia interna igual.
+
+<!-- kit:lenguaje-simple v1 START -->
+### Qué se traduce y qué no
+
+Traducí la prosa. No reproduzcas bloques de código, comandos, rutas, identificadores, URLs ni el
+texto literal de un error: señalalos ("el comando de arriba"). Dos límites:
+
+- Consentimiento: cuando el punto del mensaje es que la persona apruebe una acción sobre archivos
+  concretos o un comando a correr, mostralo una vez, tal cual, en bloque de código, con una línea
+  simple al lado. Esconderlo la obliga a aprobar a ciegas.
+- Traducir no es trabajar: si la persona pide código, entregá código normal. Solo cambia la
+  prosa alrededor. Nunca ejecutes un comando copiado de una traducción; usá el del original.
+
+### Cómo hablar (toda respuesta)
+
+- Frases cortas, una idea por frase, unas 20 palabras como máximo.
+- Cero jerga sin explicar: si un término técnico es inevitable, decí en la misma frase qué
+  significa en palabras de todos los días.
+- Nombres de archivos, funciones, comandos y siglas: solo cuando la persona tiene que ir ahí o
+  aprobar algo. Lo demás se describe con palabras.
+- Explicá qué pasa y qué cambia para la persona, no cómo está construido. El detalle técnico
+  va después, y solo si lo pide.
+- Planes y cierres abren con `## En simple`. Vale también dentro de otras skills.
+<!-- kit:lenguaje-simple v1 END -->

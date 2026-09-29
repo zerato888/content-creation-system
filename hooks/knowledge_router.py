@@ -34,12 +34,22 @@ def description(name: str) -> str:
 
 
 def lessons() -> list:
-    """Each bullet or heading of lessons.md is one lesson."""
+    """Lessons from `.kit-personal/lessons-index.json` (made by `launch.py lessons`: title + rule +
+    keywords) when it exists; else each bullet or heading of lessons.md is one lesson."""
+    try:
+        idx = json.loads(read(".kit-personal/lessons-index.json", 2_000_000) or "{}")
+        got = [(f"{e['title']}" + (f" — {e['regla']}" if e.get("regla") else ""),
+                f"{e['title']} {e.get('regla', '')} " + " ".join(e.get("keywords", [])))
+               for e in idx.get("lessons", []) if isinstance(e, dict) and e.get("title")]
+        if got:
+            return got
+    except (ValueError, TypeError):
+        pass
     out = []
     for line in read(".kit-personal/lessons.md").splitlines():
         m = re.match(r"^\s*(?:[-*]|#{1,4})\s+(\S.*)$", line)
         if m:
-            out.append(m.group(1)[:200])
+            out.append((m.group(1)[:200],) * 2)
     return out
 
 
@@ -69,10 +79,10 @@ def suggestions(prompt: str) -> list:
                 scored.append((len(asked & vocab), name, s.get("role")))
     scored.sort(key=lambda x: (-x[0], x[1]))
     tips = [f"- skill `{n}`" + (f" (rol `{r}`)" if r else "") for _, n, r in scored[:2]]
-    for text in lessons():
+    for text, match in lessons():
         if len(tips) >= 5:
             break
-        if len(asked & words(text)) >= 2:
+        if len(asked & words(match)) >= 2:
             tips.append(f"- lección tuya: {text}")
     return tips
 
