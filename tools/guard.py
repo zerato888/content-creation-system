@@ -397,10 +397,11 @@ def run_gitleaks(root: Path, files: list[str], repo: bool, require: bool, f: Fin
             dst = Path(tmp) / rel
             dst.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(src, dst)
-    cmds = [[exe, "dir", "--no-banner", "--redact", "--exit-code", "1", tmp]]
+    cfg = ["--config", str(root / ".gitleaks.toml")] if (root / ".gitleaks.toml").is_file() else []
+    cmds = [[exe, "dir", "--no-banner", "--redact", "--exit-code", "1", *cfg, tmp]]
     if repo and subprocess.run(["git", "-C", str(root), "rev-parse", "--verify", "-q", "HEAD"],
                                capture_output=True).returncode == 0:
-        cmds.append([exe, "git", "--no-banner", "--redact", "--exit-code", "1", str(root)])
+        cmds.append([exe, "git", "--no-banner", "--redact", "--exit-code", "1", *cfg, str(root)])
     for cmd in cmds:
         r = subprocess.run(cmd, capture_output=True, text=True, encoding="utf-8", errors="replace")
         if r.returncode == 1:

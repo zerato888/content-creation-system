@@ -1,0 +1,8 @@
+# kit-manifest.json lists every file with its sha256; names such as engines/kit_secrets.py next to a
+# 64-hex hash look like a generic API key to gitleaks. The manifest holds only hashes, never secrets.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "release manifest: file hashes only"
+paths = ['''kit-manifest\.json''']
