@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Trae datos públicos de redes con Apify, con TU token (opcional; sin token el kit funciona igual).
 
-    python .kit/launch.py apify posts @cuenta [-n 20]        # posts/reels recientes de un perfil de Instagram
-    python .kit/launch.py apify profile @cuenta              # seguidores, bio
-    python .kit/launch.py apify hashtag tema [-n 20]         # posts de un hashtag
-    python .kit/launch.py apify run <actor> '<json>' [--confirm]   # cualquier actor de la tienda de Apify
+    python3 .kit/launch.py apify posts @cuenta [-n 20]        # posts/reels recientes de un perfil de Instagram
+    python3 .kit/launch.py apify profile @cuenta              # seguidores, bio
+    python3 .kit/launch.py apify hashtag tema [-n 20]         # posts de un hashtag
+    python3 .kit/launch.py apify run <actor> '<json>' [--confirm]   # cualquier actor de la tienda de Apify
 
 Guardar el token una vez (Apify > Settings > API & Integrations):
     Mac:      security add-generic-password -s content-kit -a APIFY_TOKEN -w

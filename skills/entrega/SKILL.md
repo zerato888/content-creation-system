@@ -18,13 +18,13 @@ Motor: `.kit/engines/gallery/gallery.py`. Es una página local: no usa cuentas n
 1. Juntar solo las piezas **finales** en UNA carpeta (imágenes, videos `.mp4`, audios `.mp3`/`.m4a`). Pruebas y borradores no.
 2. Abrir la galería:
    ```
-   python .kit/launch.py gallery serve out/entrega --title "Entrega del lunes"
+   python3 .kit/launch.py gallery serve out/entrega --title "Entrega del lunes"
    ```
    Imprime una dirección `http://127.0.0.1:...` y abre el navegador. La dirección solo funciona en esta máquina y cambia cada vez. Si el navegador no abre, pasarle la dirección a la persona.
 3. La persona marca **Aprobar** o **Rechazar** y escribe un comentario por pieza. Se guarda solo.
 4. Cuando diga que terminó, leer las decisiones y actuar sobre ellas:
    ```
-   python .kit/launch.py gallery read out/entrega
+   python3 .kit/launch.py gallery read out/entrega
    ```
    Devuelve `{"pieza.png": {"status": "aprobado|rechazado|", "comment": "..."}}`. Lo rechazado se rehace con su comentario; lo aprobado sigue. Lo que quedó sin marcar se pregunta, no se supone.
 5. Cerrar la galería (Ctrl+C) y anotar qué se aprobó.
@@ -34,4 +34,4 @@ Motor: `.kit/engines/gallery/gallery.py`. Es una página local: no usa cuentas n
 - Video pesado: hacer una copia liviana solo para revisar; el original no se toca.
 - Las decisiones viven en `decisiones.json` dentro de esa carpeta; no se editan a mano.
 - Para mandar una pieza al celular: skill `telegram`.
-- `python .kit/launch.py gallery list <carpeta>` muestra qué piezas detecta (formatos: png, jpg, webp, gif, mp4, mov, webm, mp3, m4a, wav).
+- `python3 .kit/launch.py gallery list <carpeta>` muestra qué piezas detecta (formatos: png, jpg, webp, gif, mp4, mov, webm, mp3, m4a, wav).

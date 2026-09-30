@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Genera UNA imagen con la herramienta de imágenes que la persona ya tenga. Reemplaza los .sh de la bóveda.
 
-    python .kit/launch.py imagegen "prompt" --dest out [--ref foto.png ...] [--provider auto|codex|agy]
+    python3 .kit/launch.py imagegen "prompt" --dest out [--ref foto.png ...] [--provider auto|codex|agy]
                                    [--bg any|dark|light] [--retries 2]
 
 Proveedores (auto = el primero que esté instalado):

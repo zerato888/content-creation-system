@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Baja una imagen de internet y verifica que sea una imagen real y de tamaño usable (sin dependencias).
 
-    python .kit/launch.py fetch-image <url> <destino> [--min-side 720]
+    python3 .kit/launch.py fetch-image <url> <destino> [--min-side 720]
 
 Sale con código 1 y el motivo si no baja, no es imagen o es demasiado chica. Nunca la reescala.
 """

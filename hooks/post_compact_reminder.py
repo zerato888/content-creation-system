@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """SessionStart after a context compaction (Claude Code, matcher "compact"): remind the model
 where the working state lives, so it re-reads instead of guessing."""
+from __future__ import annotations
 from _common import ROOT, run, say
 
 

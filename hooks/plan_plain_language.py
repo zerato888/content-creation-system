@@ -3,6 +3,7 @@
 """PreToolUse (ExitPlanMode, solo Claude Code): avisa si el plan no abre con `## En simple` o si esa
 sección trae jerga. Avisa, nunca bloquea (siempre sale 0). Solo juzga la apertura; el detalle técnico
 de abajo queda libre. Lee el plan más nuevo de ~/.claude/plans (si tiene menos de una hora)."""
+from __future__ import annotations
 import re
 import sys
 import time

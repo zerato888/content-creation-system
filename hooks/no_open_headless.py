@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """PreToolUse (terminal): en corridas desatendidas (KIT_HEADLESS=1) frena `open` / `start` / `xdg-open`,
 que abren ventanas que nadie va a cerrar. Sin esa variable no hace nada."""
+from __future__ import annotations
 import os
 import re
 import sys

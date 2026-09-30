@@ -43,8 +43,8 @@ propio costo), porque Claude no genera imágenes.
    - **App de ChatGPT:** pega el pedido, descarga como PNG y guárdalo en `assets/logo/`.
    - **Higgsfield o Magnific:** mismo pedido, descarga en PNG.
 4. **Control de calidad** (obligatorio, antes de usar la imagen):
-   `python .kit/launch.py logo perfil assets/logo/perfil.png --brand .kit-personal/brands/<marca>.json`
-   `python .kit/launch.py logo logotipo assets/logo/logotipo.png --brand .kit-personal/brands/<marca>.json`
+   `python3 .kit/launch.py logo perfil assets/logo/perfil.png --brand .kit-personal/brands/<marca>.json`
+   `python3 .kit/launch.py logo logotipo assets/logo/logotipo.png --brand .kit-personal/brands/<marca>.json`
    Revisa tamaño, cuadrado, fondo sólido, que el símbolo no toque el borde del círculo, fondo
    transparente real y que aparezcan los colores de la marca. Si falla, agrega el motivo que
    imprime al pedido y genera de nuevo.
@@ -60,4 +60,4 @@ propio costo), porque Claude no genera imágenes.
 - Si el logotipo sale con fondo blanco, pide otra vez "transparent background PNG". Quitar el
   fondo con otra herramienta está permitido: no cambia el tamaño.
 - Guarda el logo elegido en `assets/logo/` y úsalo en carruseles y videos.
-- Control sin conexión: `python .kit/launch.py logo --selftest`.
+- Control sin conexión: `python3 .kit/launch.py logo --selftest`.

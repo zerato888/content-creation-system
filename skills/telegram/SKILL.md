@@ -23,12 +23,12 @@ Motor: `.kit/engines/telegram/tg_send.py`. Usa el bot de la persona; el token y 
    security add-generic-password -s content-kit -a TELEGRAM_CHAT_ID -w
    ```
    Windows: `cmdkey /generic:content-kit:TELEGRAM_BOT_TOKEN /user:kit /pass` y lo mismo con `TELEGRAM_CHAT_ID`.
-4. Comprobar (solo dice si están, nunca los muestra): `python .kit/launch.py telegram check`
+4. Comprobar (solo dice si están, nunca los muestra): `python3 .kit/launch.py telegram check`
 
 ## Flujo
-1. Prueba, no envía nada: `python .kit/launch.py telegram file out/reel.mp4 "Reel de prueba"`
+1. Prueba, no envía nada: `python3 .kit/launch.py telegram file out/reel.mp4 "Reel de prueba"`
 2. Mostrar a la persona qué se va a mandar y esperar su OK.
-3. Enviar: el mismo comando con `--confirm`. Un aviso de texto: `python .kit/launch.py telegram text "Listo el lote"`.
+3. Enviar: el mismo comando con `--confirm`. Un aviso de texto: `python3 .kit/launch.py telegram text "Listo el lote" --confirm` (sin `--confirm` solo muestra qué mandaría).
 
 ## Reglas
 - Nunca `--confirm` sin el OK de la persona para esa pieza.

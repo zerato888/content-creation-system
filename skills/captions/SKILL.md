@@ -23,13 +23,13 @@ Esta tarea es del rol `editor-video`.
 - Python 3.11+ y el entorno del kit (`.kit/venv`).
 - ffmpeg **con libass** (el filtro `subtitles`). Si el ffmpeg del sistema no lo trae, apuntar `KIT_FFMPEG` a uno que sí. El motor lo verifica y avisa antes de renderizar.
 - Un motor de Whisper: `faster-whisper` en `.kit/venv` (recomendado) o `whisper.cpp` en el PATH.
-- El modelo de Whisper (por defecto `small`, versión fijada con hash) se descarga **una sola vez**, con tu permiso, a la caché compartida del kit: `python .kit/launch.py models small` dice el tamaño y la carpeta antes de bajar nada. Si falta, transcribir avisa con ese comando; nunca descarga solo. Las fuentes OFL van a `.kit/fonts/` en la instalación. Nada de esto sale de tu máquina durante el uso: la transcripción y el render son 100% locales. Modelos más grandes que `small` solo con `--allow-large-model`.
+- El modelo de Whisper (por defecto `small`, versión fijada con hash) se descarga **una sola vez**, con tu permiso, a la caché compartida del kit: `python3 .kit/launch.py models small` dice el tamaño y la carpeta antes de bajar nada. Si falta, transcribir avisa con ese comando; nunca descarga solo. Las fuentes OFL van a `.kit/fonts/` en la instalación. Nada de esto sale de tu máquina durante el uso: la transcripción y el render son 100% locales. Modelos más grandes que `small` solo con `--allow-large-model`.
 
 ## Flujo
 
 1. **Transcribir.**
    ```
-   python .kit/launch.py captions transcribe "<video>" --lang es
+   python3 .kit/launch.py captions transcribe "<video>" --lang es
    ```
    Escribe `<video>.captions.json` y muestra el texto agrupado en bloques. Solo acepta archivos locales: rechaza URLs, playlists (`.m3u8`, `.m3u`) y listas de concat.
 
@@ -37,7 +37,7 @@ Esta tarea es del rol `editor-video`.
 
 3. **Elegir preset.** Listar con:
    ```
-   python .kit/launch.py captions list
+   python3 .kit/launch.py captions list
    ```
    - `base-*`: diálogo normal (una o dos líneas, con o sin caja de fondo, con palabra destacada).
    - `hook-*`: frase de apertura con tipografía más dramática; el bloque entero queda en pantalla junto.
@@ -48,7 +48,7 @@ Esta tarea es del rol `editor-video`.
 
 5. **Renderizar.**
    ```
-   python .kit/launch.py captions render "<video>.captions.json" --base-preset base-bold-left [--hook-preset hook-serif-escalation] [--annotated-text texto.txt] --margin-v-frac 0.2
+   python3 .kit/launch.py captions render "<video>.captions.json" --base-preset base-bold-left [--hook-preset hook-serif-escalation] [--annotated-text texto.txt] --margin-v-frac 0.2
    ```
    Produce `<video>.captions.mov` (y el `.ass` al lado). Corregir el JSON y re-renderizar toma segundos; no hace falta transcribir de nuevo.
 
@@ -63,5 +63,5 @@ Esta tarea es del rol `editor-video`.
 
 - Las fuentes se pasan a libass de forma explícita (`fontsdir=` + un `fonts.conf` generado), así que no hace falta instalarlas en el sistema. Si falta una fuente del kit, el motor usa la alternativa del sistema declarada en `.kit/presets/captions/font-map.default.json` y lo avisa; si tampoco está, se frena.
 - Si una línea no entra en el ancho, se achica sola solo esa línea.
-- Autoprueba sin ffmpeg ni Whisper: `python .kit/launch.py captions --selftest`.
+- Autoprueba sin ffmpeg ni Whisper: `python3 .kit/launch.py captions --selftest`.
 - LUTs de color opcionales para el video base: `.kit/presets/luts/`.

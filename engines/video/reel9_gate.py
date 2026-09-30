@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Control de un reel de contenido ANTES de armarlo: lee data.json y presets/reel/standard.json.
 
-    python .kit/launch.py reel9 check <carpeta-del-reel> [--standard reglas.json] [--batch <otro-reel> ...]
+    python3 .kit/launch.py reel9 check <carpeta-del-reel> [--standard reglas.json] [--batch <otro-reel> ...]
 
 Devuelve la lista de fallas (vacía = se puede armar) y deja el resultado en <reel>/.reel-gate.json.
 Un dato que falta es una falla con su motivo, nunca un pase silencioso. Solo stdlib (+ ffprobe

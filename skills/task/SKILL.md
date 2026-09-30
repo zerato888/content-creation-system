@@ -12,11 +12,11 @@ Center). Esta skill no guarda nada por su cuenta: corre el programa de tareas de
 carpeta del proyecto.
 
 ```
-python .kit/launch.py task list [--ecosystem <marca>] [--status open]
-python .kit/launch.py task add "Grabar intro del video" --ecosystem <marca> [--priority high] [--due-date 2026-10-01] [--area hito]
-python .kit/launch.py task move CAN-3 <otra-marca>
-python .kit/launch.py task close CAN-3            # --reopen para reabrir
-python .kit/launch.py task stale --days 14        # tareas quietas hace mucho
+python3 .kit/launch.py task list [--ecosystem <marca>] [--status open]
+python3 .kit/launch.py task add "Grabar intro del video" --ecosystem <marca> [--priority high] [--due-date 2026-10-01] [--area hito]
+python3 .kit/launch.py task move CAN-3 <otra-marca>
+python3 .kit/launch.py task close CAN-3            # --reopen para reabrir
+python3 .kit/launch.py task stale --days 14        # tareas quietas hace mucho
 ```
 
 (En Windows, `python`; en Mac puede ser `python3`.) La salida es JSON: resumila en lenguaje simple,

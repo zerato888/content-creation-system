@@ -9,7 +9,7 @@ files:
 # onboard
 
 Entrevista en español (o en el idioma que pida la persona) que termina en UNA llamada a
-`python .kit/launch.py onboard`. Ese script es el único que escribe: vos nunca editás
+`python3 .kit/launch.py onboard`. Ese script es el único que escribe: vos nunca editás
 `CLAUDE.md`, `AGENTS.md`, `.gitignore`, `.claude/settings.json` ni `.kit-personal/` a mano.
 
 ## Delegación
@@ -58,14 +58,16 @@ preguntar, omití `tools` en el JSON: el script detecta solo cuál está y gener
 - `toggles`: qué prender además de lo básico (`agentic`, `produccion_avanzada`, `biblioteca`,
   `metricas`, `marcas_extra`, `subtitulos`); `vida` viene prendido.
 - `creator`: `weekly_goal` (videos por semana, 3 por defecto) y `grace_days`.
-- `hooks`: avisos automáticos, **apagados salvo que la persona los pida**. Ofrecé solo los dos
-  seguros: `block_sudo` (frena comandos con permisos de administrador) y `session_start_summary`
-  (al empezar muestra `.kit-personal/hot.md`). Existen también `knowledge_router` (sugiere skill,
-  rol y lecciones según el pedido) y `post_compact_reminder` (solo Claude Code): nombralos solo si
-  pregunta. Se escriben únicamente para las herramientas instaladas: en Claude Code dentro de
-  `.claude/settings.json` (sin pisar lo que ya haya) y en Codex en `.codex/hooks.json`. **En Codex
-  hay un paso más:** abrir Codex en el proyecto, escribir `/hooks` y aprobar los del kit; hasta
-  entonces no corren. `"hooks": []` los quita; sin la clave `hooks`, no se toca nada.
+- `hooks`: avisos automáticos. **Si el kit se instaló con `--all`, los recomendados ya están prendidos**
+  (`block_sudo`, `session_start_summary`, `knowledge_router`, `simple_mode`, `plan_plain_language`,
+  `grounding_track`, `no_open_headless`): no los vuelvas a preguntar, solo recordale el paso de Codex de abajo.
+  Si no, ofrecé esos siete como recomendados (qué hace cada uno está en `.kit/onboarding/questions.yaml`).
+  `brand_gate` (frena carruseles, reels y logos sin ficha de marca) y `post_compact_reminder` (solo Claude
+  Code) se prenden solo si la persona los pide. Se escriben para las herramientas instaladas: en Claude Code
+  dentro de `.claude/settings.json` y en Codex en `.codex/hooks.json`. **En Codex:** escribir ese archivo
+  necesita correr el onboarding fuera del modo seguro (pedí permiso para ese comando), y después hay un paso
+  más: escribir `/hooks` y aprobar los del kit; hasta entonces no corren. `"hooks": []` los quita; sin la
+  clave `hooks`, no se toca nada.
 - `service`: si quiere el Command Center siempre encendido. Explicá antes: se registra en la
   computadora (LaunchAgent en Mac, tarea al iniciar sesión en Windows), arranca solo, se reinicia si
   se cae y se quita al desinstalar. Si dice que sí, después del paso 3 corré
@@ -85,7 +87,7 @@ mandarlo. Tu perfil queda en `.kit-personal/`, que git ignora.
 Armá este JSON con las respuestas (JSON es también YAML válido) y pasalo por la entrada estándar:
 
 ```
-python .kit/launch.py onboard --answers - --dry-run <<'EOF_ANSWERS'
+python3 .kit/launch.py onboard --answers - --dry-run <<'EOF_ANSWERS'
 {"path": "guiado", "name": "Ana", "projects": [{"name": "canal", "description": "Videos cortos de cocina"}],
  "goals": ["Publicar 3 videos por semana"], "audience": "Personas que cocinan en casa",
  "languages": ["es"], "budget": "cero", "services": {"openai": false, "elevenlabs": false},
@@ -97,7 +99,7 @@ python .kit/launch.py onboard --answers - --dry-run <<'EOF_ANSWERS'
 EOF_ANSWERS
 ```
 
-En PowerShell: `'<json en una línea>' | python .kit/launch.py onboard --answers - --dry-run`.
+En PowerShell: `'<json en una línea>' | python3 .kit/launch.py onboard --answers - --dry-run`.
 
 1. Primero con `--dry-run`: mostrá la lista de archivos que cambiaría y pedí confirmación.
 2. Después, la misma llamada sin `--dry-run`.
@@ -116,13 +118,13 @@ en Claude Code una regla que prohíbe leer `.kit-personal/.env`.
 Si tiene servicios pagos, recomendá el llavero del sistema:
 - macOS: `security add-generic-password -s content-kit -a NOMBRE_DE_VARIABLE -w` (pide la clave sin mostrarla).
 - Windows: `cmdkey /generic:content-kit:NOMBRE_DE_VARIABLE /user:kit /pass` (idem).
-- Verificar sin mostrar: `python .kit/launch.py secrets check NOMBRE_DE_VARIABLE`.
+- Verificar sin mostrar: `python3 .kit/launch.py secrets check NOMBRE_DE_VARIABLE`.
 
-Si insiste en un archivo: `.kit-personal/.env` (ignorado por git). Vos nunca lo leés.
+Las claves van solo en el llavero: el kit no lee archivos `.env`. Si la persona pega una clave en el chat, decile que la borre de ahí y que la guarde con el comando de arriba.
 
 ## Paso 5 — abrir el Command Center
-`python .kit/launch.py serve` imprime un enlace de un solo uso (vence en 60 s). Si quedó
-como servicio, pedí el enlace con `python .kit/launch.py open --browser`.
+`python3 .kit/launch.py serve` imprime un enlace de un solo uso (vence en 60 s). Si quedó
+como servicio, pedí el enlace con `python3 .kit/launch.py open --browser`.
 
 ## Paso 6 — primera tarea gratis
 Proponé una tarea que no cuesta nada, con lo instalado. Por ejemplo: "pasame un tema y armamos 5

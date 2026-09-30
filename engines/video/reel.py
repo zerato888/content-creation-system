@@ -1,10 +1,10 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Reel from a talking-head recording, without a video editor.
 
-    python .kit/launch.py reel cut <video> [--noise -35] [--min-silence 0.45] [--pad 0.12]
+    python3 .kit/launch.py reel cut <video> [--noise -35] [--min-silence 0.45] [--pad 0.12]
         -> <video>.cut.mp4 + <video>.cut_plan.json   (silences removed; original untouched)
-    python .kit/launch.py captions transcribe <video>.cut.mp4 --lang es   (review the text!)
-    python .kit/launch.py reel build <video>.cut.mp4 --brand B --base-preset P --margin-v-frac 0.2
+    python3 .kit/launch.py captions transcribe <video>.cut.mp4 --lang es   (review the text!)
+    python3 .kit/launch.py reel build <video>.cut.mp4 --brand B --base-preset P --margin-v-frac 0.2
         [--hook-preset H] [--broll plan.json] [--music bed.mp3 --music-db -22] [--out reel.mp4]
         -> 1080x1920 H.264 with burned captions, b-roll cutaways over the voice, flat music bed.
 

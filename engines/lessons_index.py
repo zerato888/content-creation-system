@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Índice de lecciones: `.kit-personal/lessons.md` -> `.kit-personal/lessons-index.json`.
 
-    python .kit/launch.py lessons [--root DIR]
+    python3 .kit/launch.py lessons [--root DIR]
 
 Cada lección es un encabezado (`## 2026-05-01 — título`, con o sin fecha) o un punto de lista; el
 texto de abajo aporta la regla (`**Regla:** ...`) y las palabras clave. El aviso `knowledge_router`

@@ -8,10 +8,10 @@ a `permissions.deny` rule in `.claude/settings.json`. Rejects secret-looking
 free text. Never asks for, stores or prints secret values.
 
 Usage (from the project root):
-  python .kit/engines/onboard_write.py --answers answers.json [--dry-run]
-  python .kit/engines/onboard_write.py --answers -  < answers.json
-  python .kit/engines/onboard_write.py --render        # re-render blocks only
-  python .kit/launch.py onboard --answers -            # same, with the kit's own Python (.kit/venv)
+  python3 .kit/engines/onboard_write.py --answers answers.json [--dry-run]
+  python3 .kit/engines/onboard_write.py --answers -  < answers.json
+  python3 .kit/engines/onboard_write.py --render        # re-render blocks only
+  python3 .kit/launch.py onboard --answers -            # same, with the kit's own Python (.kit/venv)
 
 A rerun MERGES: only the fields present in the new answers change; everything else
 (brands, Vida Personal, toggles set from the Command Center...) is kept. `--reset`
@@ -629,7 +629,7 @@ def build_cc(a: dict, base: dict | None = None, supplied=None, notes: list | Non
             # no timezone database here (Windows without tzdata): the name has the right shape, keep it
             if notes is not None:
                 notes.append(f"timezone {tz!r}: esta computadora no tiene la base de zonas horarias para "
-                             "comprobarla; la guardo igual. Usá `python .kit/launch.py` (trae tzdata).")
+                             "comprobarla; la guardo igual. Usá `python3 .kit/launch.py` (trae tzdata).")
         else:
             errs.append(f"timezone: {tz!r} no existe (ejemplo: America/Mexico_City)")
     if errs:
@@ -662,6 +662,17 @@ def fence(text: str, label: str) -> str:
             f"~~~text\n{t}\n~~~")
 
 
+def roles_index(roles_md: str) -> str:
+    """Codex reads AGENTS.md only up to 32 KiB: list the roles here, their full text lives in .kit/roles.md."""
+    names = re.findall(r"^### ([a-z0-9][a-z0-9-]*)\s*$", roles_md, flags=re.M)
+    if not names:
+        return roles_md.strip()
+    lines = [f"- `{n}`" for n in names]
+    return ("Antes de trabajar como un rol, leé su sección completa (`### <rol>`) en `.kit/roles.md`: "
+            "ahí están su misión, su método, su vara de calidad y el conocimiento que tiene que consultar.\n\n"
+            + "\n".join(lines))
+
+
 def render_instructions(tool: str, profile: str | None, goals: str | None, roles_md: str,
                         skills: list[str], templates: Path = TEMPLATES) -> str:
     tmpl = (templates / ("CLAUDE.md.tmpl" if tool == "claude" else "AGENTS.md.tmpl")).read_text(encoding="utf-8")
@@ -673,7 +684,7 @@ def render_instructions(tool: str, profile: str | None, goals: str | None, roles
         "{{profile}}": fence(profile, "Perfil") if profile else
         "Todavía no hay perfil. Pedí: \"hagamos el onboarding\" (skill `onboard`).",
         "{{goals}}": fence(goals, "Objetivos") if goals else "(sin objetivos cargados)",
-        "{{roles}}": roles_md.strip() or "(sin roles instalados)",
+        "{{roles}}": (roles_md.strip() if tool == "claude" else roles_index(roles_md)) or "(sin roles instalados)",
     }
     for k, v in vals.items():
         tmpl = tmpl.replace(k, v)
@@ -682,11 +693,18 @@ def render_instructions(tool: str, profile: str | None, goals: str | None, roles
 
 def hook_command(tool: str, name: str, root: Path | None = None) -> str:
     py = "python" if os.name == "nt" else "python3"
+    venv_rel = ".kit/venv/Scripts/python.exe" if os.name == "nt" else ".kit/venv/bin/python"
+    # The kit's own Python (3.11-3.13) when it exists: a fresh Mac's python3 is Apple's 3.9 and the hooks need 3.10+
+    has_venv = root is not None and (Path(root) / venv_rel).is_file()
     if tool == "claude":  # Claude Code sets CLAUDE_PROJECT_DIR for every hook, wherever the session started
-        return f'{py} "$CLAUDE_PROJECT_DIR/{KIT_HOOK_MARK}{name}.py"'
+        exe = f'"$CLAUDE_PROJECT_DIR/{venv_rel}"' if has_venv else py
+        return f'{exe} "$CLAUDE_PROJECT_DIR/{KIT_HOOK_MARK}{name}.py"'
     # Codex runs hooks from the session's working directory, maybe a subfolder: absolute path, quoted
     p = (Path(root) / ".kit" / "hooks" / f"{name}.py").as_posix()
-    return f'{py} "{p}"' if os.name == "nt" else f"{py} {shlex.quote(p)}"
+    exe = (Path(root) / venv_rel).as_posix() if has_venv else py
+    if os.name == "nt":
+        return f'"{exe}" "{p}"' if has_venv else f'{py} "{p}"'
+    return f"{shlex.quote(exe)} {shlex.quote(p)}"
 
 
 def _merge_hooks(data: dict, tool: str, hooks: list[str], where: str, root: Path | None = None) -> None:

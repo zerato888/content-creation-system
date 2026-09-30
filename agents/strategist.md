@@ -1,7 +1,7 @@
 ---
 name: strategist
 description: Socio de pensamiento estratégico. Usar para elegir temas y ángulos, investigar audiencia, evaluar una idea nueva o un cambio de rumbo, y decidir qué conviene producir antes de escribir nada.
-skills: [onboard, trend-research, web-research, kickoff-lite, wiki, wiki-lint, curso-ingest, task, task-checkpoint, finish-session]
+skills: [onboard, web-research, kickoff-lite, wiki, wiki-lint, curso-ingest, task, task-checkpoint, finish-session]
 ---
 
 # strategist

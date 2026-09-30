@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """PostToolUse (Read, solo Claude Code): anota cuándo se leyó la ficha de una marca
 (`.kit-personal/brands/*.json`) o el perfil. `brand_gate` usa esa anotación. Nunca bloquea."""
+from __future__ import annotations
 import time
 from pathlib import Path
 

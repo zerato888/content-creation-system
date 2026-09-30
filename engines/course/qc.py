@@ -9,7 +9,7 @@ Avisa (no frena): el arranque no menciona nada del título.
 Escribe <carpeta>/qc.json. Salida 1 si alguna falla: esas lecciones quedan "pendientes".
 La duración se toma de un video/audio hermano (mismo nombre) si ffprobe está disponible.
 
-Uso: python .kit/launch.py course qc <carpeta_transcripts>
+Uso: python3 .kit/launch.py course qc <carpeta_transcripts>
 """
 from __future__ import annotations
 

@@ -1,12 +1,12 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Reel de contenido armado desde un guion: voz + imágenes + tu marca (plantilla reel@9).
 
-    python .kit/launch.py reel9 check  <reel> [--batch <otro-reel> ...]      # control de datos, no arma nada
-    python .kit/launch.py reel9 build  <reel> --brand <ficha.json> [--batch ...] [--skip-layout]
-    python .kit/launch.py reel9 layout <reel>                                # control de maqueta, cuadro por cuadro
-    python .kit/launch.py reel9 mix    <reel> --voice voz.mp3 [--music musica.mp3] [--music-db -17]
-    python .kit/launch.py reel9 render <reel> [--out reel.mp4] [--fps 30]
-    python .kit/launch.py reel9 fetch-gsap --yes                             # baja la librería de animación (con permiso)
+    python3 .kit/launch.py reel9 check  <reel> [--batch <otro-reel> ...]      # control de datos, no arma nada
+    python3 .kit/launch.py reel9 build  <reel> --brand <ficha.json> [--batch ...] [--skip-layout]
+    python3 .kit/launch.py reel9 layout <reel>                                # control de maqueta, cuadro por cuadro
+    python3 .kit/launch.py reel9 mix    <reel> --voice voz.mp3 [--music musica.mp3] [--music-db -17]
+    python3 .kit/launch.py reel9 render <reel> [--out reel.mp4] [--fps 30]
+    python3 .kit/launch.py reel9 fetch-gsap --yes                             # baja la librería de animación (con permiso)
 
 <reel> es una carpeta con data.json (contrato: skills/reel-contenido/SKILL.md), vo.txt (el texto de la voz),
 el audio (audio.src) y las imágenes DENTRO de la carpeta. La voz la trae la persona: su grabación o la que
@@ -246,7 +246,7 @@ def gsap_path(explicit=None) -> Path:
     lock = json.loads(GSAP_LOCK.read_text(encoding="utf-8"))
     p = kit_platform.cache_root() / "gsap" / lock["file"]
     _need(p.is_file() and _sha(p.read_bytes()) == lock["sha256"],
-          "falta la librería de animación (GSAP). Bajala con permiso: python .kit/launch.py reel9 fetch-gsap --yes")
+          "falta la librería de animación (GSAP). Bajala con permiso: python3 .kit/launch.py reel9 fetch-gsap --yes")
     return p
 
 

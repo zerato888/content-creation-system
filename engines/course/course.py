@@ -2,10 +2,10 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Ingesta de cursos: transcribir lecciones, controlar calidad, armar índice y conectar a los agentes.
 
-  python .kit/launch.py course transcribe VIDEO SALIDA.md "Título de la lección" [--lang es]
-  python .kit/launch.py course qc CARPETA_TRANSCRIPTS
-  python .kit/launch.py course index CARPETA_TRANSCRIPTS --course "Nombre" [--project .]
-  python .kit/launch.py course connect connect.json
+  python3 .kit/launch.py course transcribe VIDEO SALIDA.md "Título de la lección" [--lang es]
+  python3 .kit/launch.py course qc CARPETA_TRANSCRIPTS
+  python3 .kit/launch.py course index CARPETA_TRANSCRIPTS --course "Nombre" [--project .]
+  python3 .kit/launch.py course connect connect.json
 
 Las lecciones de una carpeta son `modulo/NN-slug.md` (título en la 1ª línea, líneas `[mm:ss] texto`).
 `index` solo incluye las lecciones que pasaron el control (qc.json); las otras quedan pendientes.

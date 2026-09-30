@@ -6,7 +6,7 @@ Backend chain (first one available wins):
   -> whisper.cpp CLI (`whisper-cli` / `whisper-cpp` / `main` on PATH).
 Models live in the shared kit cache (kit_platform.whisper_model_dir()) and are ONLY the
 pinned artifacts of models.lock.json (repo + revision + SHA-256 per file), downloaded with
-consent (`python .kit/launch.py models small`, which says the size and the folder first).
+consent (`python3 .kit/launch.py models small`, which says the size and the folder first).
 Backends get a local path, never a model name they could download on their own; a model
 that is not downloaded yet is a clear error, not a surprise download. Default model is
 `small`; larger models need an explicit allow_large / --allow-large-model.
@@ -137,7 +137,7 @@ def local_model(backend: str, model: str) -> Path:
     if missing:
         raise BackendMissing(f"{backend} sin modelo: falta {', '.join(missing)} en la caché compartida. "
                              f"Descargalo una vez (~{_mb(entry)} MB, con tu permiso): "
-                             f"python .kit/launch.py models {model} --backend {backend}")
+                             f"python3 .kit/launch.py models {model} --backend {backend}")
     return d if backend == "faster-whisper" else d / entry["files"][0]["name"]
 
 

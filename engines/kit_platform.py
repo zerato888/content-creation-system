@@ -198,7 +198,7 @@ def whisper_transcribe(audio, lang=None):
     """Word-timestamp Whisper, output shape
     {"segments": [{"text", "start", "end", "words": [{"word", "start", "end"}]}]}.
     Delegates to engines/video/transcribe.py: only pinned models already downloaded with consent
-    (`python .kit/launch.py models small`), never an automatic download."""
+    (`python3 .kit/launch.py models small`), never an automatic download."""
     import importlib.util
     spec = importlib.util.spec_from_file_location("kit_transcribe", Path(__file__).resolve().parent / "video" /
                                                   "transcribe.py")

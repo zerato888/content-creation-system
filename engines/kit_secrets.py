@@ -10,7 +10,7 @@
 
 Values are never printed, logged or written. The CLI only says whether a secret
 exists and where it came from:
-  python .kit/engines/kit_secrets.py check OPENAI_API_KEY
+  python3 .kit/engines/kit_secrets.py check OPENAI_API_KEY
 Engines call get_secret(NAME). Load this file by path (importlib) or append
 .kit/engines to sys.path; never prepend it, or it shadows the stdlib `secrets`.
 """

@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Manda una pieza (o un texto) a tu celular con TU bot de Telegram. Reemplaza a tg-send.sh.
 
-    python .kit/launch.py telegram text "mensaje"
-    python .kit/launch.py telegram file pieza.mp4 ["pie de foto"] [--confirm]
-    python .kit/launch.py telegram check
+    python3 .kit/launch.py telegram text "mensaje"
+    python3 .kit/launch.py telegram file pieza.mp4 ["pie de foto"] [--confirm]
+    python3 .kit/launch.py telegram check
 
 Una sola vez (la clave y el chat nunca van en archivos del proyecto; el llavero los guarda):
   1. En Telegram hablá con @BotFather, creá un bot y copiá el token.
@@ -118,6 +118,7 @@ def main(argv=None) -> int:
     sub.add_parser("check")
     t = sub.add_parser("text")
     t.add_argument("message")
+    t.add_argument("--confirm", action="store_true")
     f = sub.add_parser("file")
     f.add_argument("path")
     f.add_argument("caption", nargs="?", default="")
@@ -128,6 +129,9 @@ def main(argv=None) -> int:
             print(f"{n}: {kit_secrets.lookup(n)[1]}")
         return 0
     if a.cmd == "text":
+        if not a.confirm:
+            print(f"Prueba: mandaría a tu Telegram: {a.message[:120]}. Si está bien, repetí con --confirm.")
+            return 0
         Bot().call("sendMessage", {"text": a.message})
         print("ok")
         return 0

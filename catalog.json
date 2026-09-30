@@ -1,5 +1,5 @@
 {
-  "version": "0.1.0",
+  "version": "0.7.0",
   "skills": [
     {
       "name": "brand-onboarding",
@@ -856,7 +856,7 @@
       "name": "sistema-de-marca",
       "category": "brand",
       "tier": "module",
-      "status": "untested",
+      "status": "tested",
       "role": "creative-director",
       "deps": [
         "python>=3.11"
@@ -991,7 +991,6 @@
       "description": "Socio de pensamiento estratégico. Usar para elegir temas y ángulos, investigar audiencia, evaluar una idea nueva o un cambio de rumbo, y decidir qué conviene producir antes de escribir nada.",
       "skills": [
         "onboard",
-        "trend-research",
         "web-research",
         "kickoff-lite",
         "wiki",

@@ -5,7 +5,7 @@
 Busca: enlaces [[slug]] rotos, páginas huérfanas (nadie las enlaza), páginas fuera de index.md,
 frontmatter incompleto y páginas viejas (aviso, no falla).
 
-Uso: python .kit/launch.py wiki-lint [--wiki wiki] [--stale-days 180]
+Uso: python3 .kit/launch.py wiki-lint [--wiki wiki] [--stale-days 180]
 Salida 0 si no hay problemas (las viejas solo avisan), 1 si los hay.
 """
 from __future__ import annotations

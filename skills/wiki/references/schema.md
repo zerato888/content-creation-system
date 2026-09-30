@@ -81,5 +81,5 @@ El registro de todos los cursos vive en `.kit-personal/cursos.md`. Ver la skill 
 
 ## Revisar
 
-`python .kit/launch.py wiki-lint` revisa enlaces rotos, huérfanas, fuera del índice, frontmatter y
+`python3 .kit/launch.py wiki-lint` revisa enlaces rotos, huérfanas, fuera del índice, frontmatter y
 páginas viejas. Solo reporta; los arreglos se proponen y se aplican con OK.

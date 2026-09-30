@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Schedule a reel or a carousel on Instagram / Facebook / TikTok through Metricool, with YOUR account.
 
-    python .kit/launch.py publish --via metricool accounts
-    python .kit/launch.py publish --via metricool post --images out/slide-*.png --caption caption.txt \
+    python3 .kit/launch.py publish --via metricool accounts
+    python3 .kit/launch.py publish --via metricool post --images out/slide-*.png --caption caption.txt \
         --at 2026-10-01T18:00 [--tz America/Costa_Rica] [--platforms instagram,facebook] \
         [--first-comment "¿Qué harías vos?"] [--blog-id 123456] [--confirm]
-    python .kit/launch.py publish --via metricool post --video reel.mp4 --caption caption.txt --at ...
+    python3 .kit/launch.py publish --via metricool post --video reel.mp4 --caption caption.txt --at ...
 
 Without --confirm nothing is sent and no key is read: it prints exactly what would be scheduled.
 Three values live in the kit secrets store (never in files of the project):
@@ -214,6 +214,21 @@ def selftest() -> int:
     return 3
 
 
+def default_tz() -> str:
+    """The person's zone from the onboarding (.kit-personal/cc.config.json), else Costa Rica."""
+    for base in (Path.cwd(), *Path.cwd().parents):
+        cfg = base / ".kit-personal" / "cc.config.json"
+        if cfg.is_file():
+            try:
+                tz = json.loads(cfg.read_text(encoding="utf-8")).get("timezone")
+                if isinstance(tz, str) and tz:
+                    return tz
+            except ValueError:
+                pass
+            break
+    return "America/Costa_Rica"
+
+
 def main(argv=None) -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--selftest", action="store_true")
@@ -225,13 +240,15 @@ def main(argv=None) -> int:
     p.add_argument("--images", nargs="+")
     p.add_argument("--caption", required=True, help="archivo de texto con el caption")
     p.add_argument("--at", required=True, help="fecha y hora local: 2026-10-01T18:00")
-    p.add_argument("--tz", default="America/Costa_Rica")
+    p.add_argument("--tz", default=None, help="zona horaria (por defecto la de tu onboarding)")
     p.add_argument("--platforms", default="instagram")
     p.add_argument("--first-comment")
     p.add_argument("--blog-id", help="marca de Metricool para esta corrida (por defecto METRICOOL_BLOG_ID)")
     p.add_argument("--again", action="store_true", help="repetir una pieza que ya se programó")
     p.add_argument("--confirm", action="store_true", help="enviar de verdad (sin esto es una prueba)")
     a = ap.parse_args(argv)
+    if getattr(a, "tz", "x") is None:
+        a.tz = default_tz()
     if a.selftest:
         print(f"metricool selftest OK ({selftest()} casos)")
         return 0

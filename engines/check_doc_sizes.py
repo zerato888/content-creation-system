@@ -2,8 +2,8 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Presupuesto de lectura: avisa cuando un documento que se lee al arrancar es demasiado grande.
 
-    python .kit/launch.py docsizes [--root DIR] [PATRON ...]
-    python .kit/launch.py docsizes --rotate ARCHIVO.md [--keep 15]
+    python3 .kit/launch.py docsizes [--root DIR] [PATRON ...]
+    python3 .kit/launch.py docsizes --rotate ARCHIVO.md [--keep 15]
 
 Por qué: la herramienta de lectura corta a ~25.000 tokens; un documento que la pasa se lee a
 medias sin que nadie lo note. Qué se vigila: los patrones que pases, o si no pasás ninguno los de
@@ -111,7 +111,7 @@ def main(argv=None) -> int:
         print(f"[OK] {len(rows)} documento(s) dentro del presupuesto de lectura.")
     for rel, size, v in bad:
         print(f"[{'FALLA' if v == 'fail' else 'AVISO'}] {rel}: {size // 1000} KB. "
-              f"Rotalo: python .kit/launch.py docsizes --rotate {rel}")
+              f"Rotalo: python3 .kit/launch.py docsizes --rotate {rel}")
     return code
 
 

@@ -5,6 +5,7 @@
 Blocks with exit code 2 and a reason on stderr (both Claude Code and Codex show it to the model).
 Anything unexpected -> exit 0 (fail-open).
 """
+from __future__ import annotations
 import re
 import sys
 

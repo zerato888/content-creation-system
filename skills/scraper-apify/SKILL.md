@@ -24,10 +24,10 @@ Apify **cobra por resultado** (del orden de unos pocos dólares cada mil). Cada 
 
 ## Comandos
 ```
-python .kit/launch.py apify posts @cuenta -n 30 --confirm --out analisis/cuenta.json
-python .kit/launch.py apify profile @cuenta --confirm
-python .kit/launch.py apify hashtag tema -n 20 --confirm
-python .kit/launch.py apify run autor/actor '{"clave": "valor"}' --confirm
+python3 .kit/launch.py apify posts @cuenta -n 30 --confirm --out analisis/cuenta.json
+python3 .kit/launch.py apify profile @cuenta --confirm
+python3 .kit/launch.py apify hashtag tema -n 20 --confirm
+python3 .kit/launch.py apify run autor/actor '{"clave": "valor"}' --confirm
 ```
 La salida es un arreglo JSON. Campos útiles de `posts`: `type`, `caption`, `url`, `likesCount`, `commentsCount`, `videoViewCount`, `timestamp`.
 

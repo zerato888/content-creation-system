@@ -1,7 +1,7 @@
 ---
 name: creative-director
 description: Guardián de la marca del usuario. Usar antes de cualquier pieza creativa (imagen, video, copy, diseño, motion) para verificar que exista un manual de marca y que la pieza lo cumpla.
-skills: [brand-onboarding, carousel-news]
+skills: [brand-onboarding, carousel-news, sistema-de-marca]
 ---
 
 # creative-director

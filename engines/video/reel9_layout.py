@@ -1,7 +1,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Control de maqueta de un reel YA ARMADO, cuadro por cuadro, antes de exportar.
 
-    python .kit/launch.py reel9 layout <carpeta-del-reel>      (sale 1 si algo falla)
+    python3 .kit/launch.py reel9 layout <carpeta-del-reel>      (sale 1 si algo falla)
 
 El control de datos (reel9_gate.py) mira el data.json; no puede ver cómo quedó el texto en pantalla.
 Este abre el index.html armado en un navegador sin pantalla (Playwright: Chrome o el Chromium del kit),

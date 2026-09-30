@@ -1,9 +1,9 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Galería local de revisión: mirás las piezas de una carpeta y marcás aprobar / rechazar con un comentario.
 
-    python .kit/launch.py gallery serve <carpeta> [--title "Entrega"] [--port 0] [--no-open]
-    python .kit/launch.py gallery read  <carpeta>      # imprime las decisiones (JSON) para que el agente las lea
-    python .kit/launch.py gallery list  <carpeta>      # imprime las piezas que se ven
+    python3 .kit/launch.py gallery serve <carpeta> [--title "Entrega"] [--port 0] [--no-open]
+    python3 .kit/launch.py gallery read  <carpeta>      # imprime las decisiones (JSON) para que el agente las lea
+    python3 .kit/launch.py gallery list  <carpeta>      # imprime las piezas que se ven
 
 Las decisiones se guardan en <carpeta>/decisiones.json:
     {"pieza.png": {"status": "aprobado" | "rechazado" | "", "comment": "texto"}}

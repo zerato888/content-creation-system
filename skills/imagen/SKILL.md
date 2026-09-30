@@ -28,7 +28,7 @@ Si la persona no tiene ninguna, decírselo claro y recomendar Codex. Nunca insta
 2. Si hay personas reales o un estilo a sostener, juntar las **imágenes de referencia** (`--ref`). El motor escribe cada ruta dentro del prompt y el agente las abre; no se pasan por otra vía.
 3. Generar (elige solo el proveedor instalado, primero Codex, después `agy`):
    ```
-   python .kit/launch.py imagegen "prompt" --dest out/imagenes --ref referencia.png --bg dark
+   python3 .kit/launch.py imagegen "prompt" --dest out/imagenes --ref referencia.png --bg dark
    ```
    `--bg dark|light` pide fondo oscuro o claro; `--provider codex|agy` fuerza uno.
 4. Mirar el resultado antes de entregarlo. Si el motor avisa `intento N: blank/extreme/dark/light`, la imagen salió mal y lo reintentó (hasta 2 veces); si el último intento sigue mal, decírselo a la persona.
@@ -40,7 +40,7 @@ Si la persona no tiene ninguna, decírselo claro y recomendar Codex. Nunca insta
 - Con una imagen mala, arreglar el **prompt o las referencias**, no cambiar de motor ni inventar explicaciones.
 - Una pieza única donde manda la calidad: Codex (tarda 4 a 10 minutos con referencias). Un lote de 5 o más piezas: Magnific o Higgsfield, porque la espera de Codex se acumula.
 - Retrato de una persona real: usar SU foto como referencia y no cambiarle la edad ni los rasgos.
-- Imagen de internet en vez de generarla: `python .kit/launch.py fetch-image <url> <destino> --min-side 720` (verifica que sea imagen real y no chica). Si trae marca de agua, descartarla.
+- Imagen de internet en vez de generarla: `python3 .kit/launch.py fetch-image <url> <destino> --min-side 720` (verifica que sea imagen real y no chica). Si trae marca de agua, descartarla.
 - El chequeo de brillo usa Pillow si está instalado (`pip install pillow`); sin él, no reintenta por brillo pero todo lo demás funciona.
 
 ## Qué sale de tu máquina

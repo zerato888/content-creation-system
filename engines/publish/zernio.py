@@ -1,11 +1,11 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Schedule a reel or a carousel on Instagram / Facebook / TikTok through Zernio, with YOUR key.
 
-    python .kit/launch.py publish accounts        (add --via metricool to use Metricool instead: see metricool.py)
-    python .kit/launch.py publish post --handle @tu_cuenta --video reel.mp4 --caption caption.txt \
+    python3 .kit/launch.py publish accounts        (add --via metricool to use Metricool instead: see metricool.py)
+    python3 .kit/launch.py publish post --handle @tu_cuenta --video reel.mp4 --caption caption.txt \
         --at 2026-10-01T18:00 [--tz America/Costa_Rica] [--platforms instagram,facebook] \
         [--first-comment "¿Qué harías vos?"] [--confirm]
-    python .kit/launch.py publish post --handle @tu_cuenta --images out/slide-*.png --caption c.txt --at ...
+    python3 .kit/launch.py publish post --handle @tu_cuenta --images out/slide-*.png --caption c.txt --at ...
 
 Without --confirm nothing is sent: it prints exactly what would be scheduled (dry run).
 The key is read once, only when needed, from the kit secrets store (name ZERNIO_API_KEY). Save it once:
@@ -206,6 +206,21 @@ def pop_via(argv: list[str]) -> tuple[str, list[str]]:
     return via, out
 
 
+def default_tz() -> str:
+    """The person's zone from the onboarding (.kit-personal/cc.config.json), else Costa Rica."""
+    for base in (Path.cwd(), *Path.cwd().parents):
+        cfg = base / ".kit-personal" / "cc.config.json"
+        if cfg.is_file():
+            try:
+                tz = json.loads(cfg.read_text(encoding="utf-8")).get("timezone")
+                if isinstance(tz, str) and tz:
+                    return tz
+            except ValueError:
+                pass
+            break
+    return "America/Costa_Rica"
+
+
 def main(argv=None) -> int:
     via, argv = pop_via(list(sys.argv[1:] if argv is None else argv))
     if via == "metricool":
@@ -221,11 +236,13 @@ def main(argv=None) -> int:
     p.add_argument("--images", nargs="+")
     p.add_argument("--caption", required=True, help="archivo de texto con el caption")
     p.add_argument("--at", required=True, help="fecha y hora local: 2026-10-01T18:00")
-    p.add_argument("--tz", default="America/Costa_Rica")
+    p.add_argument("--tz", default=None, help="zona horaria (por defecto la de tu onboarding)")
     p.add_argument("--platforms", default="instagram")
     p.add_argument("--first-comment")
     p.add_argument("--confirm", action="store_true", help="enviar de verdad (sin esto es una prueba)")
     a = ap.parse_args(argv)
+    if getattr(a, "tz", "x") is None:
+        a.tz = default_tz()
     if a.selftest:
         print(f"publish selftest OK ({selftest()} casos)")
         return 0

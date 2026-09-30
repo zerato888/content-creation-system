@@ -201,8 +201,8 @@ def compute(src: Path, root: Path, old: dict | None, *, core_flag=False, modules
     installed = sorted({g.split(":", 1)[1] for _, g in desired.values()})
     roles_md = []
     for r in cat["roles"]:
-        if not set(r["skills"]) & set(installed):
-            continue
+        if r["skills"] and not set(r["skills"]) & set(installed):
+            continue  # a role with no skills of its own (ui-designer, revenue-strategist...) is always there
         rp = src / "agents" / f"{r['name']}.md"
         if rp.is_symlink() or not rp.is_file():
             pl.report.append(f"rol {r['name']}: falta agents/{r['name']}.md en la fuente")
@@ -456,6 +456,27 @@ def apply(root: Path, pl: Plan, lock: Lock, log: Log, command: str, args, confir
 
 # ---------------------------------------------------------------- commands
 
+def enable_recommended_hooks(root: Path, tools: list, log) -> None:
+    """--all = the whole system: the recommended hooks are switched on here, in the terminal, because inside
+    Codex the sandbox cannot write .codex/hooks.json (the onboarding would silently leave them off)."""
+    hooks = list(ow.SAFE_HOOKS)
+    files = {}
+    if "claude" in tools:
+        s = ow.merged_settings(ow._read(root, ".claude/settings.json"), hooks, root)
+        if s is not None:
+            files[".claude/settings.json"] = s
+    if "codex" in tools:
+        s = ow.merged_codex_hooks(ow._read(root, ".codex/hooks.json"), hooks, root)
+        if s is not None:
+            files[".codex/hooks.json"] = s
+    for rel, data in files.items():
+        ow.atomic_write(ow.make_parents(root, rel), data)
+        log("hooks", rel)
+    if files:
+        print("Avisos automáticos recomendados prendidos: " + ", ".join(hooks) + "." +
+              (" En Codex, la primera vez escribí /hooks y aprobalos." if "codex" in tools else ""))
+
+
 def cmd_install(root, args, confirm, choose, net, fail_at=None) -> int:
     src = Path(os.path.realpath(args.source or REPO_ROOT))
     answers = None
@@ -480,6 +501,8 @@ def cmd_install(root, args, confirm, choose, net, fail_at=None) -> int:
                 core.install_fonts(root, net.fetch, confirm, log)
             if not args.no_extras:
                 core.install_extras(root, confirm, log)
+            if "all" in (args.module or []):
+                enable_recommended_hooks(root, read_manifest(root).get("tools") or args.tool or [], log)
             if (answers or {}).get("service") is True and not read_manifest(root).get("service"):
                 if service.PLATFORM == "other":
                     print("El servicio siempre encendido solo existe en macOS y Windows; prendelo a mano con serve.")

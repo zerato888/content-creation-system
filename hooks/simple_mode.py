@@ -6,6 +6,7 @@
 text between the kit markers in the installed `simple` skill (so the person can edit it); without
 it, the built-in copy below. State (the "off" marks) lives in `.kit-personal/.state/`, ignored by git.
 """
+from __future__ import annotations
 import re
 
 from _common import ROOT, event, read, run, say

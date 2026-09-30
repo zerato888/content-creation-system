@@ -6,6 +6,7 @@ Reads only what is installed in this project: `.kit/catalog.json` (skills and ro
 installed skill's SKILL.md description, and the person's `.kit-personal/lessons.md`. There is
 no built-in keyword list: matching is plain word overlap. Prints at most a few short lines.
 """
+from __future__ import annotations
 import json
 import re
 import unicodedata

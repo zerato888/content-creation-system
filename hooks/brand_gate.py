@@ -8,6 +8,7 @@ Si además `grounding_track` está activo (Claude Code), exige haber leído una 
 45 minutos: no se genera "de memoria". En Codex ese aviso no ve las lecturas, así que ahí solo
 cuenta la existencia de la ficha. Salida de emergencia: variable KIT_NO_GATE=1.
 """
+from __future__ import annotations
 import os
 import re
 import sys

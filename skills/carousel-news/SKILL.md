@@ -31,7 +31,7 @@ Todo corre en tu máquina: no se sube nada ni se descarga nada. Publicar queda f
    - `cta`: `text`, `follow` (si falta, se usa el `handle` de la marca), `image`
    Todos aceptan `kicker`. Los campos son texto; máximo 600 caracteres por campo y 20 slides.
 6. **Render HTML** (revisión rápida en el navegador):
-   `python .kit/launch.py carousel mi-carrusel.json --brand .kit-personal/brands/<marca>.json --html-only`
+   `python3 .kit/launch.py carousel mi-carrusel.json --brand .kit-personal/brands/<marca>.json --html-only`
 7. **PNG:** mismo comando sin `--html-only`. Antes de guardar cada PNG se corre un control de calidad: si una fuente no cargó, una palabra no entra, un texto se sale o se encima con otro, o una tilde choca con la línea de arriba, ese slide no se guarda y el comando dice qué corregir (sale con código 3). Necesita Playwright y Chromium en la caché compartida del kit; si faltan, el script dice cómo instalarlos. Usá `--out CARPETA` para elegir dónde quedan y `--project CARPETA` si tus imágenes viven en otra carpeta del proyecto.
 8. **Revisión.** Delegá al creative-director con los PNG: legibilidad, jerarquía, colores de marca, texto cortado. Corregí el spec y volvé a renderizar.
 
@@ -40,12 +40,12 @@ Todo corre en tu máquina: no se sube nada ni se descarga nada. Publicar queda f
 - Todo el texto se escapa: lo que escribas se muestra tal cual, nunca se ejecuta.
 - Las imágenes fuera de la carpeta del proyecto, URLs o formatos distintos a jpg/png/webp se rechazan.
 - Las tipografías salen de tu brand.json y tienen que estar en la carpeta de fuentes del kit (el instalador descarga las libres). Si una fuente usada no está, el PNG no se genera: así nunca sale un carrusel con otra letra sin que lo sepas. No hay fuentes web.
-- Chequeo sin conexión: `python .kit/launch.py carousel --selftest`.
+- Chequeo sin conexión: `python3 .kit/launch.py carousel --selftest`.
 
 ## Módulos, objetivo y controles extra (opcional, para carruseles más fuertes)
 - **`module` por slide** (ver la lista en `presets/carousel/modules.json` y la guía en `presets/carousel/ESTRUCTURAS.md`): si algún slide lo declara, el motor avisa cuando falta tensión (un slide que choque), cuando el cierre no sirve al objetivo o cuando hay demasiados slides sin foto.
 - **`goal`** en el spec: `comments` (el cierre es un módulo de cierre y termina en `?`) o `sales` (el cierre es `oferta`).
 - **Portada:** puede llevar un `circle` (círculo de contexto de 250 px con borde de acento). El titular nunca es una cita entre comillas. Si el titular toca el círculo, el control frena la portada.
 - **Fotos:** cada foto lleva su `<nombre>.source.json` con `origin: own|ai|press|stock|other` (con `source_url` salvo en `own` y `ai`). `focus: "30% 20%"` fija el recorte a mano. En Mac, si está instalado `pyobjc-framework-Vision`, el motor detecta caras y frena si una queda cortada; sin detector solo deja una nota.
-- **`--strict`** (o `"strict": true` en el spec): convierte los avisos en errores y exige las fuentes y la revisión de marca de agua (`python .kit/engines/carousel/check_watermark.py spec.json --project carpeta`).
+- **`--strict`** (o `"strict": true` en el spec): convierte los avisos en errores y exige las fuentes y la revisión de marca de agua (`python3 .kit/engines/carousel/check_watermark.py spec.json --project carpeta`).
 - **`--brand nombre`** busca `.kit-personal/brands/nombre.json`.

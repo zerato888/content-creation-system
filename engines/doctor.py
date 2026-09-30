@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """Revisión de salud del kit, en lenguaje simple: qué anda, qué falta y cómo arreglarlo.
 
-    python .kit/launch.py doctor [--root DIR]
+    python3 .kit/launch.py doctor [--root DIR]
 
 Revisa: Python 3.11 a 3.13, el entorno del proyecto (venv), ffmpeg con soporte de subtítulos
 (libass; en Mac, ffmpeg-full), el navegador de Playwright, el modelo de Whisper, las fuentes,
@@ -66,7 +66,7 @@ def check_whisper(cache=None):
     if d.is_dir() and (any(d.rglob("model.bin")) or any(d.rglob("ggml-*.bin"))):
         return OK, "modelo de Whisper descargado (transcripción)", ""
     return WARN, "falta el modelo de Whisper (transcripción y captions)", \
-        "Descargalo una vez, con tu permiso: python .kit/launch.py models small"
+        "Descargalo una vez, con tu permiso: python3 .kit/launch.py models small"
 
 
 def check_fonts(fonts_dir=None, lock=None):
@@ -99,7 +99,7 @@ def check_keys(services=None, lookup=kit_secrets.lookup):
     if have:
         return OK, "claves presentes: " + ", ".join(sorted(have)) + " (no se muestran)", ""
     return WARN, "no hay ninguna clave de servicios guardada", \
-        "Solo hace falta si usás un servicio pago: python .kit/launch.py secrets"
+        "Solo hace falta si usás un servicio pago: python3 .kit/launch.py secrets"
 
 
 def check_skills(root, kit=KIT):

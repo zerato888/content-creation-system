@@ -25,21 +25,21 @@ Motor: `.kit/engines/video/reel9.py`. Todo corre en tu computadora; solo se baja
 1. **Carpeta del reel.** Crear una carpeta con `data.json`, `vo.txt`, el audio y las imágenes DENTRO (en `assets/`). Si una imagen está afuera, el armado la copia adentro.
 2. **Mezclar la voz con la música (opcional).** La música va a un volumen fijo y bajo, sin subidas ni bajadas:
    ```
-   python .kit/launch.py reel9 mix "<carpeta>" --voice voz.mp3 --music musica.mp3 --music-db -17
+   python3 .kit/launch.py reel9 mix "<carpeta>" --voice voz.mp3 --music musica.mp3 --music-db -17
    ```
    Sale `audio_mix.m4a`; ponerlo en `audio.src` del `data.json` con la duración real. Sin música, usar la voz sola en `audio.src`.
 3. **Control de datos** (no arma nada, dice qué falta):
    ```
-   python .kit/launch.py reel9 check "<carpeta>"
+   python3 .kit/launch.py reel9 check "<carpeta>"
    ```
 4. **Armar** (control de datos, reglas de la plantilla y control de maqueta):
    ```
-   python .kit/launch.py reel9 build "<carpeta>" --brand .kit-personal/brands/<marca>.json
+   python3 .kit/launch.py reel9 build "<carpeta>" --brand .kit-personal/brands/<marca>.json
    ```
-   La primera vez pide la librería GSAP: `python .kit/launch.py reel9 fetch-gsap --yes` (baja unos 70 KB y verifica el hash). Si algo falla, no queda `index.html`: se arregla lo que dice y se repite.
+   La primera vez pide la librería GSAP: `python3 .kit/launch.py reel9 fetch-gsap --yes` (baja unos 70 KB y verifica el hash). Si algo falla, no queda `index.html`: se arregla lo que dice y se repite.
 5. **Exportar el video** (1080×1920, unos minutos, no mover el equipo):
    ```
-   python .kit/launch.py reel9 render "<carpeta>" --out reel.mp4
+   python3 .kit/launch.py reel9 render "<carpeta>" --out reel.mp4
    ```
 6. **Revisar antes de entregar.** Mirar 3 cuadros (portada, una tarjeta, el cierre) y escuchar el audio completo. Entregar solo el reel final.
 
@@ -75,4 +75,4 @@ Motor: `.kit/engines/video/reel9.py`. Todo corre en tu computadora; solo se baja
 - La voz siempre se revisa a oído entera antes de entregar; el kit no juzga la emoción del guion.
 - Nunca agrandar una imagen para que "entre": pedir una más grande.
 - Las reglas (duraciones, líneas, tiempos) están en `presets/reel/standard.json`; se pueden cambiar con `--standard`.
-- Chequeo sin conexión: `python .kit/launch.py reel9 --selftest`.
+- Chequeo sin conexión: `python3 .kit/launch.py reel9 --selftest`.

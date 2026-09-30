@@ -19,6 +19,7 @@ Whatever Python starts it, the command runs with the project's own environment
 (.kit/venv, where the installer put faster-whisper, tzdata, ...). Without .kit/venv it
 runs with the current Python and says so.
 """
+from __future__ import annotations
 import os
 import runpy
 import subprocess

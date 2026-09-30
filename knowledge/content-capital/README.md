@@ -15,9 +15,7 @@ Curso y comunidad en Whop (`whop.com/sellyourknowledge`), comprado por el autor 
 ## Key Facts
 
 - **Reproductor**: Mux, con subtítulos autogenerados en 12 idiomas (incluido español).
-- **Extracción verificada** (2026-09-25): se lee la pista de subtítulos que ya carga el reproductor, dentro de la sesión de Brave de el autor del kit, y se toman capturas fijas del reproductor en los momentos señalados. No se descarga video.
 - **Herramientas propias del curso**, fuera de Whop: GPTs "Guiones by Rama", "Guiones Rama (Lite)", "Calendario de Contenido" y "Secuencias de Stories by R…", más un Notion de ángulos ganadores ("el Skool").
-- **Carpeta privada** (texto completo + capturas): `~/Documents/Deliverables/General/docs/Content-Capital/`.
 
 ## Mapa del curso
 

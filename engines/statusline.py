@@ -4,7 +4,7 @@
 historial de la sesión, no una estimación). Python estándar: anda en Mac, Linux y Windows.
 
 Activar (una vez), en `.claude/settings.json` del proyecto o en el global:
-  "statusLine": {"type": "command", "command": "python .kit/engines/statusline.py"}
+  "statusLine": {"type": "command", "command": "python3 .kit/engines/statusline.py"}
 Ventana por defecto 200000 tokens; para otra, variable KIT_CTX_WINDOW (ej. 1000000).
 Solo Claude Code (Codex no tiene barra de estado configurable).
 """

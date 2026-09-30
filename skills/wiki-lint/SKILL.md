@@ -7,7 +7,7 @@ files: []
 
 # wiki-lint — revisar la wiki
 
-1. Correr `python .kit/launch.py wiki-lint` (opciones: `--wiki <carpeta>`, `--stale-days 180`).
+1. Correr `python3 .kit/launch.py wiki-lint` (opciones: `--wiki <carpeta>`, `--stale-days 180`).
 2. Leer el resultado. Cada línea dice qué página y qué pasa:
    - `ENLACE ROTO`: un `[[slug]]` apunta a una página que no existe. Crear la página o quitar el enlace.
    - `HUÉRFANA`: nadie la enlaza. Enlazarla desde una página relacionada.

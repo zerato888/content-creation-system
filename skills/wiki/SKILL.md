@@ -34,7 +34,7 @@ El usuario deja una fuente en `raw/` (o pega un texto o una URL, que se lee con 
 
 ## Revisar (lint)
 
-Primero correr `python .kit/launch.py wiki-lint` (revisión mecánica, ver la skill `wiki-lint`). Después, a mano,
+Primero correr `python3 .kit/launch.py wiki-lint` (revisión mecánica, ver la skill `wiki-lint`). Después, a mano,
 buscar y reportar: links `[[...]]` a páginas que no existen, páginas que nadie enlaza, páginas
 fuera del índice, frontmatter incompleto, afirmaciones que se contradicen entre páginas, fuentes en
 `raw/` sin página en `wiki/sources/`. Proponer arreglos; aplicar solo con OK.

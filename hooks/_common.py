@@ -4,6 +4,7 @@
 Every hook is fail-open: any error -> exit 0 and no output, so a broken hook never blocks work.
 Installed at TARGET/.kit/hooks/, so the project root is two levels up from this file.
 """
+from __future__ import annotations
 import json
 import sys
 from pathlib import Path

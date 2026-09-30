@@ -2,6 +2,7 @@
 # SPDX-License-Identifier: LicenseRef-PolyForm-Noncommercial-1.0.0
 """SessionStart: show .kit-personal/hot.md (the short "where we are" note that finish-session
 keeps), fenced as the person's own notes, not instructions. Silent when there is none."""
+from __future__ import annotations
 from _common import CAP, read, run, say
 
 
