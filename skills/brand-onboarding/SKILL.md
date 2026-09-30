@@ -20,9 +20,10 @@ sacar colores, tipografías ni voz.
    Montserrat, Bebas Neue, Instrument Serif, Anton, JetBrains Mono), estilo de imagen y lo que nunca se usa.
 4. **Voz:** 3 adjetivos, registro, palabras que siempre y nunca se usan.
 5. **Contenido y posicionamiento:** pilares, formatos, plataformas, referentes y diferencias.
-6. **Salida:** armar el `brand.json` (abajo) y mostrarlo al usuario. El usuario lo guarda en
-   `.kit-personal/brands/<nombre>.json` (carpeta personal, fuera de git). Opcional: un documento
-   de marca en texto con `references/output_templates.md`.
+6. **Salida:** armar el `brand.json` (abajo), mostrarlo al usuario y, cuando lo apruebe, guardarlo vos
+   con `python3 .kit/launch.py brand save <nombre-corto> <archivo.json>` (o `-` para leerlo por stdin).
+   Valida los campos y lo escribe en `.kit-personal/brands/<nombre>.json` (carpeta personal, fuera de git);
+   si ya existe, no lo pisa sin `--replace`. Opcional: un documento de marca en texto con `references/output_templates.md`.
 
 ## Campos del brand.json
 

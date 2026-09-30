@@ -91,5 +91,39 @@ def css_vars(brand: dict) -> str:
     return ":root {\n" + "\n".join(lines) + "\n}\n"
 
 
+def save_brand(name: str, data: dict, replace: bool = False, project: Path | None = None) -> Path:
+    """Validate strictly and write .kit-personal/brands/<name>.json. Raises ValueError with what to fix."""
+    if not re.fullmatch(r"[a-z0-9][a-z0-9-]{0,40}", name):
+        raise ValueError("el nombre corto va en minúsculas, números y guiones (ej. mi-marca)")
+    errs = []
+    if data.get("schema_version") != SCHEMA_VERSION:
+        errs.append(f"schema_version tiene que ser {SCHEMA_VERSION}")
+    if not isinstance(data.get("name"), str) or not data["name"].strip():
+        errs.append("falta name")
+    for k, v in (data.get("colors") or {}).items():
+        if k not in DEFAULTS["colors"] or not isinstance(v, str) or not _HEX.match(v):
+            errs.append(f"colors.{k}: usá #RRGGBB y uno de {', '.join(DEFAULTS['colors'])}")
+    if "person" in (data.get("voice") or {}) and data["voice"]["person"] not in ("first", "second", "third"):
+        errs.append("voice.person: first, second o third")
+    if errs:
+        raise ValueError("; ".join(errs))
+    out = (project or KIT_ROOT.parent) / ".kit-personal" / "brands" / f"{name}.json"
+    if out.exists() and not replace:
+        raise ValueError(f"{out.name} ya existe; confirmá con la persona y repetí con --replace")
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    return out
+
+
 if __name__ == "__main__":
-    print(json.dumps(load_brand(sys.argv[1] if len(sys.argv) > 1 else None), ensure_ascii=False, indent=2))
+    a = sys.argv[1:]
+    if a[:1] == ["save"]:
+        if len(a) < 3:
+            sys.exit("uso: brand save <nombre-corto> <archivo.json | -> [--replace]")
+        try:
+            raw = sys.stdin.read() if a[2] == "-" else Path(a[2]).read_text(encoding="utf-8")
+            print("Guardada en", save_brand(a[1], json.loads(raw), "--replace" in a))
+        except (ValueError, OSError) as e:
+            sys.exit(f"brand save: {e}")
+    else:
+        print(json.dumps(load_brand(a[0] if a else None), ensure_ascii=False, indent=2))

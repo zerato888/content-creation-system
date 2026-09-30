@@ -99,7 +99,7 @@ def check_keys(services=None, lookup=kit_secrets.lookup):
     if have:
         return OK, "claves presentes: " + ", ".join(sorted(have)) + " (no se muestran)", ""
     return WARN, "no hay ninguna clave de servicios guardada", \
-        "Solo hace falta si usás un servicio pago: python3 .kit/launch.py secrets"
+        "Solo hace falta si usás un servicio pago. Guardala en el llavero (macOS: security add-generic-password -s content-kit -a NOMBRE_DE_LA_CLAVE -w; Windows: cmdkey /generic:content-kit:NOMBRE_DE_LA_CLAVE /user:kit /pass) y revisala con: python3 .kit/launch.py secrets check NOMBRE_DE_LA_CLAVE"
 
 
 def check_skills(root, kit=KIT):

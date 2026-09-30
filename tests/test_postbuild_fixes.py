@@ -570,3 +570,62 @@ def test_network_error_has_its_own_message(src, proj, capsys):
     rc = cli.main(["update", "--target", str(proj), "--yes", "--confirm-sha", SHA], net=Offline(src))
     err = capsys.readouterr().err
     assert rc == 4 and "Error de red" in err and "sistema de archivos" not in err
+
+
+# ---------------------------------------------------------------- v0.7.2
+def _hooks_project(tmp_path, **manifest):
+    (tmp_path / ".kit/hooks").mkdir(parents=True)
+    (tmp_path / ".kit/manifest.json").write_text(json.dumps({"format": 1, "tools": ["claude"], **manifest}), encoding="utf-8")
+    return tmp_path
+
+
+def test_update_turns_hooks_on_once_and_then_respects_the_person(tmp_path):
+    from kit_helpers import cli
+    root = _hooks_project(tmp_path)
+    m = cli.read_manifest(root)
+    cli.hooks_on_update(root, m, lambda *a: None)
+    s = json.loads((root / ".claude/settings.json").read_text(encoding="utf-8"))
+    assert "block_sudo" in json.dumps(s["hooks"]) and cli.read_manifest(root)["hooks_decided"] is True
+    (root / ".claude/settings.json").write_text("{}", encoding="utf-8")  # the person turned them off
+    cli.hooks_on_update(root, cli.read_manifest(root), lambda *a: None)
+    assert json.loads((root / ".claude/settings.json").read_text(encoding="utf-8")) == {}
+
+
+def test_update_leaves_hooks_the_person_already_wired(tmp_path):
+    from kit_helpers import cli
+    root = _hooks_project(tmp_path)
+    (root / ".claude").mkdir()
+    mine = {"hooks": {"Stop": [{"hooks": [{"type": "command", "command": 'x ".kit/hooks/block_sudo.py"'}]}]}}
+    (root / ".claude/settings.json").write_text(json.dumps(mine), encoding="utf-8")
+    cli.hooks_on_update(root, cli.read_manifest(root), lambda *a: None)
+    assert json.loads((root / ".claude/settings.json").read_text(encoding="utf-8")) == mine
+    assert cli.read_manifest(root)["hooks_decided"] is True
+
+
+def test_contrast_flags_unreadable_text_only():
+    import io
+    from PIL import Image
+    sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "engines" / "carousel"))
+    import carousel
+    buf = io.BytesIO()
+    Image.new("RGB", (200, 100), (230, 240, 245)).save(buf, "PNG")  # near-white background
+    box = {"l": 10, "t": 10, "r": 190, "b": 90}
+    bad = carousel.contrast_problems([{**box, "name": "sub", "color": "rgb(170, 220, 240)"}], buf.getvalue())
+    ok = carousel.contrast_problems([{**box, "name": "sub", "color": "rgb(20, 20, 20)"}], buf.getvalue())
+    assert len(bad) == 1 and "sub" in bad[0] and ok == []
+
+
+def test_brand_save_validates_and_never_overwrites_silently(tmp_path):
+    sys.path.insert(0, str(REPO / "engines"))
+    import brand
+    good = {"schema_version": 1, "name": "Mi Marca", "colors": {"accent": "#E4572E"}}
+    out = brand.save_brand("mi-marca", good, project=tmp_path)
+    assert json.loads(out.read_text(encoding="utf-8")) == good and out.parent.name == "brands"
+    with pytest.raises(ValueError, match="--replace"):
+        brand.save_brand("mi-marca", good, project=tmp_path)
+    brand.save_brand("mi-marca", good, replace=True, project=tmp_path)
+    for bad in ({**good, "colors": {"accent": "red"}}, {**good, "voice": {"person": "x"}}, {"name": "x"}):
+        with pytest.raises(ValueError):
+            brand.save_brand("otra", bad, project=tmp_path)
+    with pytest.raises(ValueError):
+        brand.save_brand("../x", good, project=tmp_path)

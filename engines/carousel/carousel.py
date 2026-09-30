@@ -207,7 +207,7 @@ def face_check(spec: dict, project: Path) -> tuple[dict, list[str], list[str]]:
     auto, bad, notes = {}, [], []
     if not faces.available():
         return auto, bad, ["no hay detector de caras en este equipo (solo macOS con pyobjc): "
-                           "revisa a ojo que ninguna cara quede cortada"]
+                           "revisa a ojo que ninguna cara quede cortada. Para activarlo en Mac: .kit/venv/bin/python -m pip install pyobjc-framework-Vision"]
     for i, s in enumerate(spec["slides"], 1):
         for key, box, circle in ((("image", BANDS[s.get("image_position", "full")], False), ("circle", CIRCLE, True))):
             if not s.get(key):
@@ -398,8 +398,44 @@ QC_JS = """() => {
     if (!face || face.status !== 'loaded')
       probs.push(`la fuente "${fam}" no cargó (se vería con otra); instala las fuentes del kit`);
   }
-  return {probs, texts};
+  const items = boxes.map((bx, i) => ({name: bx.name, l: bx.l, t: bx.t, r: bx.r, b: bx.b,
+    color: getComputedStyle(els[i]).color}));
+  return {probs, texts, items};
 }"""
+
+MIN_CONTRAST = 3.0  # WCAG minimum for large text; every carousel text is large on a phone
+CLEAN_CSS = "*{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important}"
+
+
+def _lum(rgb) -> float:
+    c = [v / 255 for v in rgb[:3]]
+    c = [v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
+    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+
+
+def contrast_problems(items: list[dict], clean_png: bytes) -> list[str]:
+    """Text color vs the median pixel behind each text box. `clean_png` is the slide rendered with the text hidden,
+    so what is under the letters is exactly what was there. ponytail: optional; skipped without Pillow."""
+    try:
+        import io
+        import re
+        from PIL import Image
+    except ImportError:
+        return []
+    im = getattr(Image, "open")(io.BytesIO(clean_png)).convert("RGB")
+    out = []
+    for it in items:
+        m = re.match(r"rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?", it["color"])
+        box = tuple(max(0, int(v)) for v in (it["l"], it["t"], it["r"], it["b"]))
+        if not m or box[2] <= box[0] or box[3] <= box[1] or float(m.group(4) or 1) < 0.5:
+            continue
+        small = im.crop(box).resize((24, 24))
+        px = sorted(_lum(small.getpixel((x, y))) for x in range(24) for y in range(24))
+        bg, fg = px[len(px) // 2], _lum([float(m.group(i)) for i in (1, 2, 3)])
+        ratio = (max(bg, fg) + 0.05) / (min(bg, fg) + 0.05)
+        if ratio < MIN_CONTRAST:
+            out.append(f'"{it["name"]}": el texto casi no se lee sobre el fondo (contraste {ratio:.1f}:1, mínimo {MIN_CONTRAST:g}:1)')
+    return out
 
 
 class QCError(RuntimeError):
@@ -464,6 +500,12 @@ def render_png(html_paths: list[Path]) -> list[Path]:
                 png.unlink(missing_ok=True)
                 continue
             page.screenshot(path=str(png), clip={"x": 0, "y": 0, "width": W, "height": H})
+            page.add_style_tag(content=CLEAN_CSS)
+            probs = contrast_problems(qc["items"], page.screenshot(clip={"x": 0, "y": 0, "width": W, "height": H}))
+            if probs:
+                failed[p.name] = probs
+                png.unlink(missing_ok=True)
+                continue
             pngs.append(png)
         browser.close()
     if failed:

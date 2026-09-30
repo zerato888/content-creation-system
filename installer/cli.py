@@ -276,6 +276,8 @@ def compute(src: Path, root: Path, old: dict | None, *, core_flag=False, modules
                    "user_owned": sorted(r for r in kept if r in desired)}
     if (old or {}).get("service"):
         pl.manifest["service"] = old["service"]
+    if (old or {}).get("hooks_decided"):
+        pl.manifest["hooks_decided"] = True
     # files as [{path, sha256}] rather than {path: hash}: a "secrets.py": "<hex>" pair looks like a leak to gitleaks
     disk = {**pl.manifest, "files": [{"path": r, "sha256": h} for r, h in sorted(new_files.items())]}
     mdata = (json.dumps(disk, indent=1, sort_keys=True) + "\n").encode("utf-8")
@@ -472,9 +474,25 @@ def enable_recommended_hooks(root: Path, tools: list, log) -> None:
     for rel, data in files.items():
         ow.atomic_write(ow.make_parents(root, rel), data)
         log("hooks", rel)
+    write_manifest_key(root, "hooks_decided", True)  # from now on, update respects what the person does with them
     if files:
         print("Avisos automáticos recomendados prendidos: " + ", ".join(hooks) + "." +
               (" En Codex, la primera vez escribí /hooks y aprobalos." if "codex" in tools else ""))
+
+
+def hooks_on_update(root: Path, m: dict, log) -> None:
+    """Installs made before v0.7.2 never got the recommended hooks on update. Once per project: if none of the
+    kit hooks is wired yet, switch them on; if the person already wired some, leave them alone."""
+    if m.get("hooks_decided") or not safe_path(root, ".kit/hooks").is_dir():
+        return
+    tools = m.get("tools") or []
+    wired = any(ow.KIT_HOOK_MARK in (ow._read(root, rel) or b"").decode("utf-8", "ignore")
+                for rel in (".claude/settings.json", ".codex/hooks.json"))
+    if wired:
+        write_manifest_key(root, "hooks_decided", True)
+    else:
+        enable_recommended_hooks(root, tools, log)
+        print("Si no los querés, sacá las líneas de .kit/hooks de .claude/settings.json; update no las vuelve a poner.")
 
 
 def cmd_install(root, args, confirm, choose, net, fail_at=None) -> int:
@@ -541,6 +559,7 @@ def cmd_update(root, args, confirm, choose, net, fail_at=None) -> int:
             return rc
         # the new code needs the new lock: reconcile .kit/venv, or go back to the old code + old venv
         if core.install_deps(root, confirm, log, update=True):
+            hooks_on_update(root, read_manifest(root) or {}, log)
             return 0
         if pl.ops:
             rb, _ = rollback_plan(root)

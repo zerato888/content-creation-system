@@ -37,6 +37,7 @@ COMMANDS = {
     "carousel": ("engines/carousel/carousel.py", []),
     "reel": ("engines/video/reel.py", []),
     "publish": ("engines/publish/zernio.py", []),
+    "brand": ("engines/brand.py", []),
     "logo": ("engines/logo/logo_qc.py", []),
     "task": ("cc/server/tasks.py", []),
     "lab": ("cc/server/lab.py", []),
