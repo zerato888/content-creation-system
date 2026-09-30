@@ -55,7 +55,10 @@ def test_fresh_install_golden(src, proj, who):
     env = (proj / ".kit-personal/.env.example").read_text(encoding="utf-8")
     assert all("=" not in ln or ln.endswith("=") for ln in env.splitlines() if not ln.startswith("#"))
     agents = norm((proj / "AGENTS.md").read_text(encoding="utf-8"))
-    assert "## Roles" in agents and "### writer" in agents and ".kit/knowledge/guide.md" in agents
+    roles = norm((proj / ".kit/roles.md").read_text(encoding="utf-8"))
+    # Codex reads AGENTS.md only up to 32 KiB: it keeps an index, the full roles live in .kit/roles.md
+    assert "## Roles" in agents and "- `writer`" in agents and ".kit/roles.md" in agents
+    assert "### writer" in roles and ".kit/knowledge/guide.md" in roles
     for f in ("CLAUDE.md", "AGENTS.md"):
         got = norm((proj / f).read_text(encoding="utf-8"))
         golden = FIX / "golden" / f"{who}-{f}"

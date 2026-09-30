@@ -359,7 +359,7 @@ def check_catalog(root: Path, f: Findings) -> None:
             f.add("catalog", "catalog.json", None, f"skill '{n}' has no skills/{n}/SKILL.md")
         if s["role"] not in roles:
             f.add("catalog", "catalog.json", None, f"skill '{n}' names unknown role '{s['role']}'")
-        elif n not in roles[s["role"]]["skills"]:
+        elif n not in roles[s["role"]]["skills"] and s.get("status") == "tested":  # untested ones are never installed
             f.add("catalog", "catalog.json", None, f"role '{s['role']}' does not list skill '{n}'")
         argv = s["smoke"]["argv"]
         if argv[0] not in SMOKE_EXECUTABLES:

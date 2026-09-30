@@ -221,7 +221,7 @@ def test_f07_launcher_used_by_service_skill_and_instructions(proj):
     for rel in ("skills/onboard/SKILL.md", "onboarding/CLAUDE.md.tmpl", "onboarding/AGENTS.md.tmpl",
                 "skills/captions/SKILL.md"):
         text = (REPO / rel).read_text(encoding="utf-8")
-        assert "python .kit/launch.py" in text and "python .kit/cc/server/app.py" not in text, rel
+        assert "python3 .kit/launch.py" in text and "python .kit/cc/server/app.py" not in text, rel
         assert "python .kit/engines/video/captions.py" not in text, rel
 
 
