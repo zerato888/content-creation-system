@@ -407,35 +407,42 @@ MIN_CONTRAST = 3.0  # WCAG minimum for large text; every carousel text is large 
 CLEAN_CSS = "*{color:transparent!important;-webkit-text-fill-color:transparent!important;text-shadow:none!important}"
 
 
-def _lum(rgb) -> float:
-    c = [v / 255 for v in rgb[:3]]
-    c = [v / 12.92 if v <= 0.03928 else ((v + 0.055) / 1.055) ** 2.4 for v in c]
-    return 0.2126 * c[0] + 0.7152 * c[1] + 0.0722 * c[2]
+# Runs in the page (no Pillow needed): text color vs the median pixel behind each text box.
+CONTRAST_JS = """async ({png, items, min}) => {
+  const img = new Image();
+  img.src = 'data:image/png;base64,' + png;
+  await img.decode();
+  const cv = document.createElement('canvas');
+  cv.width = img.width; cv.height = img.height;
+  const ctx = cv.getContext('2d', {willReadFrequently: true});
+  ctx.drawImage(img, 0, 0);
+  const lum = (r, g, b) => [r, g, b].map(v => { v /= 255; return v <= 0.03928 ? v / 12.92 : ((v + 0.055) / 1.055) ** 2.4; })
+    .reduce((s, v, i) => s + v * [0.2126, 0.7152, 0.0722][i], 0);
+  const out = [];
+  for (const it of items) {
+    const m = it.color.match(/rgba?\\(([\\d.]+),\\s*([\\d.]+),\\s*([\\d.]+)(?:,\\s*([\\d.]+))?/);
+    const x = Math.max(0, Math.floor(it.l)), y = Math.max(0, Math.floor(it.t));
+    const w = Math.min(img.width, Math.ceil(it.r)) - x, h = Math.min(img.height, Math.ceil(it.b)) - y;
+    if (!m || w < 1 || h < 1 || parseFloat(m[4] ?? 1) < 0.5) continue;
+    const d = ctx.getImageData(x, y, w, h).data, ls = [];
+    for (let i = 0; i < d.length; i += 4 * 7) ls.push(lum(d[i], d[i + 1], d[i + 2]));
+    ls.sort((p, q) => p - q);
+    const bg = ls[Math.floor(ls.length / 2)], fg = lum(+m[1], +m[2], +m[3]);
+    const ratio = (Math.max(bg, fg) + 0.05) / (Math.min(bg, fg) + 0.05);
+    if (ratio < min) out.push({name: it.name, ratio});
+  }
+  return out;
+}"""
 
 
-def contrast_problems(items: list[dict], clean_png: bytes) -> list[str]:
-    """Text color vs the median pixel behind each text box. `clean_png` is the slide rendered with the text hidden,
-    so what is under the letters is exactly what was there. ponytail: optional; skipped without Pillow."""
-    try:
-        import io
-        import re
-        from PIL import Image
-    except ImportError:
-        return []
-    im = getattr(Image, "open")(io.BytesIO(clean_png)).convert("RGB")
-    out = []
-    for it in items:
-        m = re.match(r"rgba?\(([\d.]+),\s*([\d.]+),\s*([\d.]+)(?:,\s*([\d.]+))?", it["color"])
-        box = tuple(max(0, int(v)) for v in (it["l"], it["t"], it["r"], it["b"]))
-        if not m or box[2] <= box[0] or box[3] <= box[1] or float(m.group(4) or 1) < 0.5:
-            continue
-        small = im.crop(box).resize((24, 24))
-        px = sorted(_lum(small.getpixel((x, y))) for x in range(24) for y in range(24))
-        bg, fg = px[len(px) // 2], _lum([float(m.group(i)) for i in (1, 2, 3)])
-        ratio = (max(bg, fg) + 0.05) / (min(bg, fg) + 0.05)
-        if ratio < MIN_CONTRAST:
-            out.append(f'"{it["name"]}": el texto casi no se lee sobre el fondo (contraste {ratio:.1f}:1, mínimo {MIN_CONTRAST:g}:1)')
-    return out
+def contrast_problems(page, items: list[dict]) -> list[str]:
+    """The slide is re-shot with its text hidden, so what is under the letters is exactly what was there."""
+    import base64
+    page.add_style_tag(content=CLEAN_CSS)
+    png = base64.b64encode(page.screenshot(clip={"x": 0, "y": 0, "width": W, "height": H})).decode()
+    bad = page.evaluate(CONTRAST_JS, {"png": png, "items": items, "min": MIN_CONTRAST})
+    return [f'"{b["name"]}": el texto casi no se lee sobre el fondo (contraste {b["ratio"]:.1f}:1, mínimo {MIN_CONTRAST:g}:1)'
+            for b in bad]
 
 
 class QCError(RuntimeError):
@@ -500,8 +507,7 @@ def render_png(html_paths: list[Path]) -> list[Path]:
                 png.unlink(missing_ok=True)
                 continue
             page.screenshot(path=str(png), clip={"x": 0, "y": 0, "width": W, "height": H})
-            page.add_style_tag(content=CLEAN_CSS)
-            probs = contrast_problems(qc["items"], page.screenshot(clip={"x": 0, "y": 0, "width": W, "height": H}))
+            probs = contrast_problems(page, qc["items"])
             if probs:
                 failed[p.name] = probs
                 png.unlink(missing_ok=True)

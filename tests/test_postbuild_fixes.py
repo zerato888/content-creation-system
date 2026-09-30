@@ -603,15 +603,20 @@ def test_update_leaves_hooks_the_person_already_wired(tmp_path):
 
 
 def test_contrast_flags_unreadable_text_only():
-    import io
-    from PIL import Image
+    pw = pytest.importorskip("playwright.sync_api")
     sys.path.insert(0, str(Path(__file__).resolve().parents[1] / "engines" / "carousel"))
     import carousel
-    buf = io.BytesIO()
-    Image.new("RGB", (200, 100), (230, 240, 245)).save(buf, "PNG")  # near-white background
-    box = {"l": 10, "t": 10, "r": 190, "b": 90}
-    bad = carousel.contrast_problems([{**box, "name": "sub", "color": "rgb(170, 220, 240)"}], buf.getvalue())
-    ok = carousel.contrast_problems([{**box, "name": "sub", "color": "rgb(20, 20, 20)"}], buf.getvalue())
+    with pw.sync_playwright() as p:
+        try:
+            browser = p.chromium.launch()
+        except pw.Error:
+            pytest.skip("Chromium no instalado")
+        page = browser.new_page(viewport={"width": carousel.W, "height": carousel.H})
+        page.set_content("<body style='margin:0;background:#e6f0f5'></body>")
+        box = {"l": 10, "t": 10, "r": 190, "b": 90}
+        bad = carousel.contrast_problems(page, [{**box, "name": "sub", "color": "rgb(170, 220, 240)"}])
+        ok = carousel.contrast_problems(page, [{**box, "name": "sub", "color": "rgb(20, 20, 20)"}])
+        browser.close()
     assert len(bad) == 1 and "sub" in bad[0] and ok == []
 
 
