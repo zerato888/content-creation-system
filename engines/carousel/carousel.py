@@ -409,9 +409,8 @@ CLEAN_CSS = "*{color:transparent!important;-webkit-text-fill-color:transparent!i
 
 # Runs in the page (no Pillow needed): text color vs the median pixel behind each text box.
 CONTRAST_JS = """async ({png, items, min}) => {
-  const img = new Image();
-  img.src = 'data:image/png;base64,' + png;
-  await img.decode();
+  // a Blob, not a data: URL: the slide page blocks every non-file request
+  const img = await createImageBitmap(new Blob([Uint8Array.from(atob(png), c => c.charCodeAt(0))], {type: 'image/png'}));
   const cv = document.createElement('canvas');
   cv.width = img.width; cv.height = img.height;
   const ctx = cv.getContext('2d', {willReadFrequently: true});
