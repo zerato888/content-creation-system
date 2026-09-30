@@ -2,6 +2,7 @@
  "files": {
   ".github/workflows/ci.yml": "9c50645737c97ffd10701d15b88fbbfb18760fc53e6a3cb9a9000acb6cb69b35",
   ".gitignore": "660b68e94f510740484d2f91dd298e0a716d665277a78883806161a7eda8cc4b",
+  ".gitleaks.toml": "c36ec8d2c972e0a3fb1c8ead1d94aed72279299217d2e468fc4e45c406fd8c4f",
   "LICENSE": "104a7c1f8200144175a87fcbf75b34c5a93e297dba39a81d3ea40afd9eed7856",
   "LICENSE-CODE": "6c253c759a78359ac65730b96e1193c1a570a3927d136d5998c29e7286482ce5",
   "LICENSE-CONTENT": "269e650ed9a2ac96885afe6268ea1d686df1db1c9f18f0fa65a1d28827643537",
@@ -575,7 +576,7 @@
   "tests/test_tools_creative.py": "d8b431b09e2fb947075e32cf7298213a738c0153c1de0332efc283112c622c86",
   "tests/test_wiki_course.py": "052f541bca870c2157ed4de43b2a63cde4d9ede05e4e23529f9de37cdc6c99a3",
   "tools/guard-allowlist.json": "5fd8133e4e4d1b0c3216297f655af8747551345040aa195165e97e1d12c2cbf9",
-  "tools/guard.py": "196b73ad1e05d08ef0638b612ce8567029b11ded2c6103733f29513b6cfa825a",
+  "tools/guard.py": "515074d2e8dcbae6d5e67d404405e7de05bea5967585d0fe8496819daece42a7",
   "tools/lock_deps.py": "9c2eac34b1b53f2a67f1d1b341a58f910ba58cabbc112c3e672316018553e59d"
  }
 }
